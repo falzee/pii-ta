@@ -1,38 +1,116 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;700&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Source Sans 3', sans-serif;
+  letter-spacing: 0.5px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
+body {
+  font-family: 'Source Sans 3', sans-serif;
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
 }
-
-.App-header {
-  background-color: #282c34;
+/* Log/Reg */
+.container-page {
+  width: 100%;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  padding: 10px;
 }
 
-.App-link {
-  color: #61dafb;
+.auth-container{
+ width: auto;
+ padding: 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.auth-item{
+  margin: 1rem auto 1rem;
+  border-radius: 0;
+  border: solid 1px #dedede !important;
+  padding: 0.7rem 0.7rem;
+  margin-top: 1.2rem;
+  background-color: #fff;
+}
+.input-login{
+  border: none;
+  font-family:inherit;
+}
+.auth-container h1{
+  text-align: center;
+  font-size: 35px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+.ant-btn-primary {
+  background-color: #ed7623;
+  border: none;
+}
+.ant-btn-primary:hover {
+  background-color: #ed7623;
+}
+.auth-container button {
+  width: 20%;
+  background-color: #ed7623;
+  border-color: #ed7623;
+  border-radius: 0;
+  font-size: 13px;
+  padding: 1.2rem 3.5rem;
+  text-align: center;
+  display: flex;
+  justify-content: center; /* Centers horizontally */
+  align-items: center;
+  margin: 2rem auto ;
+  box-shadow: 0px 5px 10px 2px rgba(0, 0, 0, 0.28) !important;
+}
+.auth-container button:hover{
+  background-color: #ed7623 !important;
+  border-color: none !important;
+  box-shadow: 0px 6px 11px 2px rgba(0, 0, 0, 0.38) !important;
+}
+
+
+.bottom-auth{
+  text-align: center;
+  font-weight: normal;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  color: #666;
+}
+.bottom-auth p{
+  font-size: 14px;
+  margin-bottom: 2.5rem;
+  position: absolute;
+  bottom: 0;
+}
+.bottom-auth a{
+  color: #484a4b;
+}
+.bottom-auth a:hover{
+  color: #666;
+}
+
+.ant-checkbox-group-item {
+  display: block;
+  margin-right: 0;
+}
+@media only screen and (max-width: 1600px) {
+  /* For tablets: */
+  .auth-container {
+    width: 430px;
   }
-  to {
-    transform: rotate(360deg);
-  }
+  
+}
+@media only screen and (max-height: 500px) {
+  .auth-container{
+    height: 100%;
+    padding: 0;
+    font-size: 10px;
+   }
+
+  
 }
