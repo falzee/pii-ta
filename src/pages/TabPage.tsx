@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Tabs } from 'antd';
+import { Tabs, TabsProps } from 'antd';
 import FirstTabForm from '../components/FormOne';
 import SecondTabForm from '../components/FormTwo';
 import ThirdTabForm from '../components/FormThree';
@@ -15,6 +15,23 @@ const MultiTabFormPage: React.FC = () => {
   const handleTabChange = (tabKey: string) => {
     setActiveTab(tabKey);
   };
+  const items: TabsProps['items'] = [
+    {
+      key: 'first',
+      label: 'I.3',
+      children: <FirstTabForm />,
+    },
+    {
+      key: 'second',
+      label: 'I.4',
+      children: 'Content of Tab Pane 2',
+    },
+    {
+      key: 'third',
+      label: 'I.5',
+      children: <ThirdTabForm />,
+    },
+  ];
 
   return (
     <div style={{ maxHeight: '900px'}}>
@@ -22,19 +39,18 @@ const MultiTabFormPage: React.FC = () => {
         <h2>FAIP</h2>
         </Header>
       <div className = 'formPage' style={{padding: '0 2rem', maxHeight: '900px' ,overflow: 'auto'}}>
-        <Tabs activeKey={activeTab} onChange={handleTabChange}>
-          <TabPane tab="I.3" key="first">
+        <Tabs activeKey={activeTab} onChange={handleTabChange} items={items} />
+          {/* <TabPane tab="I.3" key="first">
               <FirstTabForm />
           </TabPane>
           <TabPane tab="I.4" key="second">
-            {/* <SecondTabForm /> */}
+
           </TabPane>
           <TabPane tab="I.5" key="third">
             <h1 style={{marginBottom:'10px'}}>I.3 Organisasi Profesi & Organisasi Lainnya Yang Dimasuki <span style={{color:'blue'}}>(W1)</span></h1>
             <ThirdTabForm />
-          </TabPane>
+          </TabPane> */}
           {/* Add more TabPane for additional tabs */}
-        </Tabs>
       </div>
     </div>
     

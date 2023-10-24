@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import React, { useEffect, useState } from 'react';
 import {
   MenuFoldOutlined,
@@ -13,21 +11,18 @@ import { Layout, Menu, Button, theme, Popover } from 'antd';
 import logoPii from '../images/logo-pii.png';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../hooks/reduxHooks';
+import { removeToken, reset } from '../app/authSlice';
 const { Header, Sider, Content } = Layout;
-
-
-const content = (
-  <div>
-    <Link to='./login'><Button>Logout</Button></Link>
-  </div>
-);
 
 const Layouting: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const navigate = useNavigate();
   let location = useLocation();
+  const [isSwap, setIsSwap] = useState(false);
 
   const [current, setCurrent] = useState(location.pathname);
+
     //or simply use const [current, setCurrent] = useState(location.pathname)        
 
   useEffect(() => {
@@ -55,11 +50,21 @@ const Layouting: React.FC = () => {
         setCollapsed(false);
       }
     };
+    const swapLogo = () => {
+      if (window.innerWidth > 500) {
+        setIsSwap(true);
+      } else {
+        setIsSwap(false);
+      }
+    };
 
     window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', swapLogo);
+    swapLogo()
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', swapLogo);
     };
   }, []);
 
@@ -67,6 +72,19 @@ const Layouting: React.FC = () => {
     token: { colorBgContainer },
   } = theme.useToken();
 
+  const dispatch = useAppDispatch();
+
+  const handleButtonClick = () => {
+    // Dispatch an action for reducerA
+    dispatch(reset()); 
+    dispatch(removeToken());
+  };
+  
+  const content = (
+    <div>
+      <Link to='./login' ><Button className='btn-logout' style={{ borderRadius:'0' }} onClick={handleButtonClick}>Logout</Button></Link>
+    </div>
+  );
   // css margin  
   // w,x,y,z =>top,right,bottom left
   // x,y,z =>top,(l+r),bottom
@@ -78,25 +96,57 @@ const Layouting: React.FC = () => {
           zIndex: 1,
           width: '100%',
           alignItems: 'center' }}>
-          <div className="logo-sider"  css={{ height:'64px',backgroundColor:'colorBgContainer',display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',cursor: 'pointer'}} onClick={toHome}>        
-            <img src={logoPii} alt="logo pii" css={css` margin:10px` } />
-          </div>
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
+            {isSwap ?
+              <>
+                <div className="logo-sider"  style={{ height:'64px',backgroundColor:'colorBgContainer',display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',cursor: 'pointer'}} onClick={toHome}>        
+                  <img src={logoPii} alt="logo pii" style={ {margin:'10px'} } />
+                </div>
+              
+                <Button
+                  type="text"
+                  icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                  onClick={() => setCollapsed(!collapsed)}
 
-            style={{
-              fontSize: '16px',
-              width: 64,
-              height: 64,
-              color: 'white'
-            }}
-          />
-          <Popover placement="bottomRight" content={content} trigger="click">
-            <UserOutlined css={{marginLeft:'auto',marginRight:'20px',color:'white',fontSize:'130%',cursor: 'pointer'}} />
+                  style={{
+                    fontSize: '16px',
+                    width: 64,
+                    height: 64,
+                    color: 'white'
+                  }}
+                />
+              </>
+            :
+            <>
+              <Button
+                type="text"
+                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                onClick={() => setCollapsed(!collapsed)}
+
+                style={{
+                  fontSize: '16px',
+                  width: 64,
+                  height: 64,
+                  color: 'white'
+                }}
+              />
+
+              <div className="logo-sider"  style={{ height:'64px',
+                  backgroundColor:'colorBgContainer',
+                  justifyContent: 'center',
+                  marginLeft:'auto',
+                  alignItems: 'center',
+                  cursor: 'pointer'}} onClick={toHome}>        
+                <img src={logoPii} alt="logo pii" style={ {margin:'10px'} } />
+              </div>
+            
+            </>
+
+            }
+          
+          <Popover placement="bottomRight"  content={content} trigger="click">
+            <UserOutlined style={{marginLeft:'auto',marginRight:'20px',color:'white',fontSize:'130%',cursor: 'pointer'}} />
           </Popover>
         </Header>
       
@@ -117,7 +167,7 @@ const Layouting: React.FC = () => {
         
         <Menu
           theme="dark"
-          style={{ backgroundColor:'#201f2b'}}
+          style={{ backgroundColor:'#201f2b' }}
           mode="inline"
           selectedKeys={[current]}
           // onClick={handleMenuClick}
@@ -141,7 +191,7 @@ const Layouting: React.FC = () => {
             {
               key: '/login',
               icon: <LogoutOutlined />,
-              label: (<Link to='./login'>Logout</Link>),
+              label: (<Link to='./login' onClick={handleButtonClick}>Logout</Link>),
             },
           ]}
         />
@@ -165,8 +215,7 @@ const Layouting: React.FC = () => {
             overflow: 'initial',
             margin: '0 0 0 176px'
           }}
-        >
-          
+        >  
              <Outlet />
         </Content>
         }

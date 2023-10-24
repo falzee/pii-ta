@@ -1,4 +1,3 @@
-/** @jsxImportSource @emotion/react */
 import { Button, Space, Tag, theme } from 'antd';
 import { Header } from 'antd/es/layout/layout'
 import Table, { ColumnsType } from 'antd/es/table';
@@ -104,22 +103,22 @@ const Faip = ( ) => {
   return (
     <div>
       {/* header tambahin underline sama shadow(opsional) */}
-        <Header style={{ padding: '0 2rem', background: colorBgContainer ,borderBottom: '1px solid #D3D3D3'}}>
+        <Header style={{ padding: '0 2rem', background: '#ffffff' ,borderBottom: '1px solid #D3D3D3'}}>
           <h2>FAIP</h2>
         </Header>
-        <div className='home-page' css={{padding:'2rem',background:'#e4e3e3'}}>
+        <div className='home-page' style={{padding:'2rem',background:'#e4e3e3'}}>
           {/* h2 bukan bug itu buat simbol */}
-            <h2 css={{ marginBottom: '1rem' }}>Anda dapat melakukan Pengisian Formulir Aplikasi Insinyur Profesional &#40;FAIP&#41; </h2>
+            <h2 style={{ marginBottom: '1rem' }}>Anda dapat melakukan Pengisian Formulir Aplikasi Insinyur Profesional &#40;FAIP&#41; </h2>
             <p>Klik Button dibawah ini dan ikuti prosesnya.</p>
-            <Link to='/faip/formulir'>
-              <Button type="primary" size='large' css={{ marginTop:'3rem' }} >
+            <Link className='btn-faip' to='/faip/formulir'>
+              <Button type="primary" size='large' style={{ marginTop:'3rem',borderRadius:'0' }} >
               Buat FAIP Baru
               </Button>
             </Link>
         </div>
         {/* tabel masih contoh */}
-        <div css={{padding:'2rem 8rem'}}>
-          <Table columns={columns} dataSource={data} bordered />
+        <div style={{margin:'1rem 1.5rem' ,maxHeight: '420px', overflowY: 'auto'}}>
+          <Table columns={columns} dataSource={data} bordered size="small"/>
         </div>
         
     </div>
