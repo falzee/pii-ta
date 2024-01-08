@@ -17,6 +17,7 @@ import ErrorPage from './pages/ErrorPage';
 
 function App() {
   const {isLogin} = useAppSelector((state)=> state.auth.isLogin)
+
   const router = createBrowserRouter(
       createRoutesFromElements(
         <>
@@ -26,7 +27,7 @@ function App() {
           <Route element={<Home/> } path="home"/>
           <Route element={<User/> } path="user"/>
           <Route element={<Faip/> } path="faip"/>
-            <Route element={<TabPage/>} path="faip/formulir"/>
+            <Route element={<TabPage/>} path="faip/formulir" />
           {/* <Route element={<About/>} path="/about"/>
          */}
         </Route>
@@ -34,30 +35,7 @@ function App() {
         </>
       )
   );
-  // <Routes>
-  // {isLogin && 
-  //   <>
-  //   <Route element={<Login/>} path="/login"/>
-  //   <Route element={<Register/>} path="/register"/>
-  //   <Route element={<Layouting />}>
-  //       <Route element={<Home/>} path="/"/>
-  //       <Route element={<Home/>} path="/home"/>
-  //       <Route element={<Tcrud/>} path="/crud"/>
-  //       <Route element={<About/>} path="/about"/>
-  //       <Route element={<ErrorPage/>} path="*"/>
-  //   </Route>
-  //   </>           
-  //   //Tcrud is final crud
-  //   }
-  //   {!isLogin && 
-  //   <>
-  //     <Route element={<Login/>} path="/"/>
-  //     <Route element={<Login/>} path="/login"/>
-  //     <Route element={<Register/>} path="/register"/>
-  //     <Route element={<ErrorPage/>} path="*"/>
-  //   </>            
-  //   }
-  //   </Routes>
+  
 
   return (
     <ConfigProvider
@@ -105,3 +83,28 @@ export default App;
         //     }
         // </Routes>
         // </BrowserRouter>
+
+        // <Routes>
+  // {isLogin && 
+  //   <>
+  //   <Route element={<Login/>} path="/login"/>
+  //   <Route element={<Register/>} path="/register"/>
+  //   <Route element={<Layouting />}>
+  //       <Route element={<Home/>} path="/"/>
+  //       <Route element={<Home/>} path="/home"/>
+  //       <Route element={<Tcrud/>} path="/crud"/>
+  //       <Route element={<About/>} path="/about"/>
+  //       <Route element={<ErrorPage/>} path="*"/>
+  //   </Route>
+  //   </>           
+  //   //Tcrud is final crud
+  //   }
+  //   {!isLogin && 
+  //   <>
+  //     <Route element={<Login/>} path="/"/>
+  //     <Route element={<Login/>} path="/login"/>
+  //     <Route element={<Register/>} path="/register"/>
+  //     <Route element={<ErrorPage/>} path="*"/>
+  //   </>            
+  //   }
+  //   </Routes>

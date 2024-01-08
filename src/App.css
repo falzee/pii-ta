@@ -46,23 +46,28 @@ body {
   border: none;
   font-family:inherit;
 }
+.input-pass-login{
+  border: none;
+  font-family:inherit;
+}
 .auth-container h1{
   text-align: center;
   font-size: 35px;
   font-weight: bold;
   margin-bottom: 30px;
 }
+
 .ant-btn-primary {
-  background-color: #ed7623;
+  background-color: #6b7aa1;
   border: none;
 }
 .ant-btn-primary :hover{
-  background-color: none;
+  background-color: #7e90be !important;
 }
 .auth-container button {
   width: 20%;
-  background-color: #ed7623;
-  border-color: #ed7623;
+  background-color: #6b7aa1;
+  border-color: #505c79;
   border-radius: 0;
   font-size: 13px;
   padding: 1.2rem 3.5rem;
@@ -74,20 +79,22 @@ body {
   box-shadow: 0px 5px 10px 2px rgba(0, 0, 0, 0.28) !important;
 }
 .auth-container button:hover{
-  background-color: #ed7623 !important;
+  background-color: #7e90be !important;
   border-color: none !important;
-  box-shadow: 0px 6px 11px 2px rgba(0, 0, 0, 0.38) !important;
+  box-shadow: 0px 5px 11px 2px rgba(0, 0, 0, 0.28) !important;
 }
 
 .ant-menu-item-selected {
-  background-color: #ed7623 !important;
+  background-color: #8AA2E1 !important;
   border-radius: 0 !important;
 
 }
-.btn-faip :hover{
-  background-color: #e3a05c !important;
+.link-hover :hover{
+  background-color: #7e90be !important;
 }
-
+.btn-home :hover{
+  background-color: #7e90be !important;
+}
 
 .bottom-auth{
   text-align: center;

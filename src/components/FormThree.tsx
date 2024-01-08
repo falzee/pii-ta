@@ -21,7 +21,7 @@ interface Section {
   
 const choicesData: Section[]= [
   {
-    label: 'W.1.1. - Mengembangkan dan mewujudkan tanggungjawab kecendekiaan dan   kepedulian profesi keinsinyuran kepada bangsa, negara dan komunitas internasional',
+    label: 'W.1.1. - Mengembangkan dan mewujudkan tanggungjawab kecendekiaan dan kepedulian profesi keinsinyuran kepada bangsa, negara dan komunitas internasional',
     value: 'W.1.1.',
     children: [
       { label: 'W.1.1.1. - Menyadari tanggungjawab kecendekiaan Insinyur Profesional bagi memahami dan menjunjung falsafah dan nilai Pancasila sebagai  falsafah dasar masyarakat bangsa Indonesia', value: 'W.1.1.1' },
@@ -164,7 +164,11 @@ const Formulir: React.FC = () => {
       }));
       
       // Now you can send formData to your backend for processing
-      console.log('Form Data:', formData);
+      const formDataJson = JSON.stringify(formData, (key, value) => {
+        // Include properties with undefined values
+        return value === undefined ? null : value;
+      });
+      console.log('Form Data:', formDataJson);
       
       // ... your form submission logic ...
     };
@@ -215,7 +219,7 @@ const Formulir: React.FC = () => {
           dataIndex: 'namaOrganisasi',
           key: 'namaOrganisasi',
           render: (text: string, record: TableRow) => (
-            <Form.Item name={`name${record.key}`} initialValue={text} style={{width:'200px'}}>
+            <Form.Item name={`namaOrganisasi${record.key}`} initialValue={text} style={{width:'200px'}}>
               <Input />
             </Form.Item>
           ),

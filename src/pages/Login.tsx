@@ -88,7 +88,7 @@ const Login = () => {
 return (
     <div className='container-page' 
     style={{ 
-        backgroundImage: `url(${background})` ,
+        // backgroundImage: `url(${background})` ,
         backgroundSize: 'cover',
         backgroundRepeat:'no-repeat',
         backgroundPosition:'center',
@@ -112,16 +112,16 @@ return (
             color: "#212529",
             textAlign: 'center'
         }}>
-            <h4 style={{
+            <h2 style={{
                 marginBottom: '.5rem',
                 fontWeight: '500',
                 lineHeight: '1',
-                fontSize: '1.2rem'}}>Sign In</h4>
-            <h4 style={{
+                fontSize: '1.2rem'}}>Sign In</h2>
+            {/* <h4 style={{
                 fontWeight: '300',
                 lineHeight:'2',
                 fontSize: '0.85rem'
-            }}>Silakan isi (Nomor KTA atau Email) & Password untuk masuk</h4>
+            }}>Silakan isi (Nomor KTA atau Email) & Password untuk masuk</h4> */}
         </div>
         
         <Form

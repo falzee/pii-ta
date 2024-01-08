@@ -110,7 +110,7 @@ const Faip = ( ) => {
           {/* h2 bukan bug itu buat simbol */}
             <h2 style={{ marginBottom: '1rem' }}>Anda dapat melakukan Pengisian Formulir Aplikasi Insinyur Profesional &#40;FAIP&#41; </h2>
             <p>Klik Button dibawah ini dan ikuti prosesnya.</p>
-            <Link className='btn-faip' to='/faip/formulir'>
+            <Link className='link-hover' to='/faip/formulir'>
               <Button type="primary" size='large' style={{ marginTop:'3rem',borderRadius:'0' }} >
               Buat FAIP Baru
               </Button>
