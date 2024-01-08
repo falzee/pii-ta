@@ -1,6 +1,6 @@
 import { Button, Form, Input,message } from 'antd'
 import background from '../images/bg-ta-login.jpg';
-import logoHome from '../images/logo-pii-login.png';
+import logoHome from '../images/logo-elektro-login.png';
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import useDocumentTitle from '../hooks/useDocumentTitle';
@@ -166,7 +166,7 @@ return (
             ]}
             >
 
-            <Input.Password bordered={false} className='input-login' placeholder="Password" />
+            <Input.Password bordered={false} className='input-pass-login' placeholder="Password" />
             
             </Form.Item>
 
@@ -176,9 +176,9 @@ return (
                 </Button>
             </Form.Item>
         </Form>
-            <div className='bottom-auth'>
+            {/* <div className='bottom-auth'>
                 <p>Belum memiliki akun ? - <a>Silakan Daftar Disini</a></p>
-            </div>
+            </div> */}
         </div>
     </div>
     )
