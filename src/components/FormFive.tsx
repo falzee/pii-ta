@@ -5,7 +5,7 @@ import { DeleteOutlined, MinusCircleOutlined, PlusOutlined, UploadOutlined } fro
 import TextArea from 'antd/es/input/TextArea';
 import { nanoid } from 'nanoid';
 import { ColumnsType } from 'antd/es/table';
-import { dataWsatu } from '../data/SectionFormData'
+import { dataPsepuluh,dataWempat,dataWdua } from '../data/SectionFormData'
 
 
   //rules
@@ -13,43 +13,72 @@ import { dataWsatu } from '../data/SectionFormData'
   // i4 W1 maks 6
   // i5 W2 maks 5,W4 maks 5,P10 maks 5
   // i6 W1 maks 6,W4 maks 5,P10 maks 5
-  
 
-  //punya column
   interface TableRow {
     key: any;
-    namaOrganisasi: string;
-    jenis: string;
+    namaPendidikanTeknik: string;
+    
+    penyelenggara: string;
+    
     kotaAsal: string;
+    
     provinsiAsal: string;
+    
     negaraAsal: string;
+    
     bulan: string;
     tahun: string;
     bulanMulai: string;
     tahunMulai: string;
     masihAnggota : boolean;
-    jabatanOrganisasi: string;
-    tingkatanOrganisasi: string;
-    kegiatanOrganisasi: string;
-    uraianTugas: string;
+    
+    tingkatanMateriPelatihan: string;
+    
+    jamPendidikanTeknik: string;
+    
+    uraianSingkatAktifitas: string;
+    
     klaimKompetensi: string[];
-  }
+    }
+  //punya column
+  // interface TableRow {
+  //   key: any;
+  //   namaOrganisasi: string;
+  //   jenis: string;
+  //   kotaAsal: string;
+  //   provinsiAsal: string;
+  //   negaraAsal: string;
+  //   bulan: string;
+  //   tahun: string;
+  //   bulanMulai: string;
+  //   tahunMulai: string;
+  //   masihAnggota : boolean;
+  //   jabatanOrganisasi: string;
+  //   tingkatanOrganisasi: string;
+  //   kegiatanOrganisasi: string;
+  //   uraianTugas: string;
+  //   klaimKompetensi: string[];
+  // }
 
-const Formulir: React.FC = () => {
+const FormulirLima: React.FC = () => {
 //kumpulan state
     const [dataSource, setDataSource] = useState<TableRow[]>([]);//data tabel
     const [selectedChoices, setSelectedChoices] = useState<{ [key: number]: string[] }>({});//pilihan checbox
+    const [selectedChoicesTwo, setSelectedChoicesTwo] = useState<{ [key: number]: string[] }>({});//pilihan checbox
+    const [selectedChoicesThree, setSelectedChoicesThree] = useState<{ [key: number]: string[] }>({});//pilihan checbox
+
     // const [rowNumbers, setRowNumbers] = useState<number>(1);//penomeran client side
     // const [showAdditionalFields, setShowAdditionalFields] = useState<boolean>(false);
     const [form] = Form.useForm();
 //kumpulan fungsi
     const formRef = React.createRef<FormInstance>();//
-  
+
+
     const handleAddRow = () => { //fungsi nambah baris 
         const newRow: TableRow = {
           key: nanoid(),//gk perlu //gk jadi deng ternyata perlu
-          namaOrganisasi: '',
-          jenis: '',
+          namaPendidikanTeknik: '',
+          penyelenggara: '',
           kotaAsal: '',
           provinsiAsal: '',
           negaraAsal: '',
@@ -58,10 +87,9 @@ const Formulir: React.FC = () => {
           bulanMulai: '',
           tahunMulai: '',
           masihAnggota : false,
-          jabatanOrganisasi: '',
-          tingkatanOrganisasi: '',
-          kegiatanOrganisasi: '',
-          uraianTugas: '',
+          tingkatanMateriPelatihan: '',
+          jamPendidikanTeknik: '',
+          uraianSingkatAktifitas: '',
           klaimKompetensi: [],
         };
         setDataSource([...dataSource, newRow]);
@@ -82,21 +110,22 @@ const Formulir: React.FC = () => {
     const onFinish = (values: any) => { //fungsi submit form //NEED API POST
       const formData = dataSource.map(row => ({
         ...row,
-        namaOrganisasi : values[`namaOrganisasi${row.key}`],
-        jenis: values[`jenis${row.key}`],
-        kotaAsal: values[`kotaAsal${row.key}`],
-        provinsiAsal: values[`provinsiAsal${row.key}`],
-        negaraAsal: values[`negaraAsal${row.key}`],
-        bulan: values[`bulan${row.key}`],
-        tahun: values[`tahun${row.key}`],
-        bulanMulai: values[`bulanMulai${row.key}`],
-        tahunMulai: values[`tahunMulai${row.key}`],
-        masihAnggota : values[`masihAnggota${row.key}`],
-        jabatanOrganisasi: values[`jabatanOrganisasi${row.key}`],
-        tingkatanOrganisasi: values[`tingkatanOrganisasi${row.key}`],
-        kegiatanOrganisasi: values[`kegiatanOrganisasi${row.key}`],
-        uraianTugas: values[`uraianTugas${row.key}`],
-        klaimKompetensi: selectedChoices[row.key] || [],
+        namaPendidikanTeknik : values[`namaPendidikanTeknik${row.key}`] ,
+        penyelenggara: values[`penyelenggara${row.key}`] ,
+        kotaAsal: values[`kotaAsal${row.key}`] ,
+        provinsiAsal: values[`provinsiAsal${row.key}`] ,
+        negaraAsal: values[`negaraAsal${row.key}`] ,
+        bulan: values[`bulan${row.key}`] ,
+        tahun: values[`tahun${row.key}`] ,
+        bulanMulai: values[`bulanMulai${row.key}`] ,
+        tahunMulai: values[`tahunMulai${row.key}`] ,
+        masihAnggota : values[`masihAnggota${row.key}`] ,
+        tingkatanMateriPelatihan: values[`tingkatanMateriPelatihan${row.key}`] ,
+        jamPendidikanTeknik: values[`jamPendidikanTeknik${row.key}`] ,
+        uraianSingkatAktifitas: values[`uraianSingkatAktifitas${row.key}`] ,
+        klaimKompetensiWdua: selectedChoices[row.key] || [],
+        klaimKompetensiWempat: selectedChoicesTwo[row.key] || [],
+        klaimKompetensiPsepuluh: selectedChoicesThree[row.key] || [],
       }));
       
       // Now you can send formData to your backend for processing
@@ -113,7 +142,7 @@ const Formulir: React.FC = () => {
     const handleChoiceChange = (recordKey: number, choiceValue: string, checked: boolean) => { //fungsi yg berhubungan dgn checbox klaim kompetensi
       const currentRowChoices = selectedChoices[recordKey] || [];
       console.log(currentRowChoices);
-      if (checked && currentRowChoices.length < 13) {
+      if (checked && currentRowChoices.length < 5) {
         const updatedRowChoices = [...currentRowChoices, choiceValue];
           setSelectedChoices({
             ...selectedChoices,
@@ -127,7 +156,48 @@ const Formulir: React.FC = () => {
           });
       }else {
           // Show alert if more than 3 choices selected
-          alert('Harap Memilih Tidak Lebih Dari 13 Klaim Kompetensi W1');
+          alert('Harap Memilih Tidak Lebih Dari 5 Klaim Kompetensi W2');
+      }
+    };
+    const handleChoiceChangeTwo = (recordKey: number, choiceValue: string, checkedTwo: boolean) => { //fungsi yg berhubungan dgn checbox klaim kompetensi
+      const currentRowChoices = selectedChoicesTwo[recordKey] || [];
+      console.log(currentRowChoices);
+      if (checkedTwo && currentRowChoices.length < 5) {
+        const updatedRowChoices = [...currentRowChoices, choiceValue];
+        setSelectedChoicesTwo({
+            ...selectedChoicesTwo,
+            [recordKey]: updatedRowChoices,
+          });
+      } else if (!checkedTwo) {
+        const updatedRowChoices = currentRowChoices.filter(choice => choice !== choiceValue);
+        setSelectedChoicesTwo({
+            ...selectedChoicesTwo,
+            [recordKey]: updatedRowChoices,
+          });
+      }else {
+          // Show alert if more than 3 choices selected
+          alert('Harap Memilih Tidak Lebih Dari 5 Klaim Kompetensi W4');
+      }
+    };
+
+    const handleChoiceChangeThree = (recordKey: number, choiceValue: string, checkedThree: boolean) => { //fungsi yg berhubungan dgn checbox klaim kompetensi
+      const currentRowChoices = selectedChoicesThree[recordKey] || [];
+      console.log(currentRowChoices);
+      if (checkedThree && currentRowChoices.length < 5) {
+        const updatedRowChoices = [...currentRowChoices, choiceValue];
+        setSelectedChoicesThree({
+            ...selectedChoicesThree,
+            [recordKey]: updatedRowChoices,
+          });
+      } else if (!checkedThree) {
+        const updatedRowChoices = currentRowChoices.filter(choice => choice !== choiceValue);
+        setSelectedChoicesThree({
+            ...selectedChoicesThree,
+            [recordKey]: updatedRowChoices,
+          });
+      }else {
+          // Show alert if more than 3 choices selected
+          alert('Harap Memilih Tidak Lebih Dari 5 Klaim Kompetensi P10');
       }
     };
     //   setShowAdditionalFields(e.target.checked);
@@ -151,26 +221,22 @@ const Formulir: React.FC = () => {
             align: 'center' as const,
           },
         {
-          title: 'Nama Organisasi',
-          dataIndex: 'namaOrganisasi',
-          key: 'namaOrganisasi',
+          title: 'NAMA PENDIDIKAN/PELATIHAN TEKNIK',
+          dataIndex: 'namaPendidikanTeknik',
+          key: 'namaPendidikanTeknik',
           render: (text: string, record: TableRow) => (
-            <Form.Item name={`namaOrganisasi${record.key}`} initialValue={text} style={{width:'200px'}}>
+            <Form.Item name={`namaPendidikanTeknik${record.key}`} initialValue={text} style={{width:'200px'}}>
               <Input />
             </Form.Item>
           ),
         },
         {
-          title: 'Jenis',
-          dataIndex: 'jenis',
-          key: 'jenis',
+          title: 'PENYELENGGARA',
+          dataIndex: 'penyelenggara',
+          key: 'penyelenggara',
           render: (text: string, record: TableRow) => (
-            <Form.Item name={`jenis${record.key}`} initialValue={undefined} >
-              <Select placeholder="--Choose--" style={{ width: 280 }} >
-                <Select.Option value="jenis1">Organisasi PII</Select.Option>
-                <Select.Option value="jenis2">Organisasi Keinsinyuran Non PII</Select.Option>
-                <Select.Option value="jenis3">Organisasi Non Keinsinyuran</Select.Option>
-              </Select>
+            <Form.Item name={`penyelenggara${record.key}`} initialValue={text} style={{width:'200px'}}>
+              <Input />
             </Form.Item>
           ),
         },
@@ -205,9 +271,9 @@ const Formulir: React.FC = () => {
             ),
           },
           {
-            title: 'Perioda',
-            dataIndex: 'perioda',
-            key: 'perioda',
+            title: 'BULAN / TAHUN',
+            dataIndex: 'bulanTahun',
+            key: 'bulanTahun',
             render: (text: string, record: TableRow, index: number) => (
                 <div>
                     {record.masihAnggota  ? (
@@ -280,59 +346,62 @@ const Formulir: React.FC = () => {
                 </div>
                 ),
           },
+          // html entitites
+          // Left square bracket [: &#91; or &lsqb;
+          // Right square bracket ]: &#93; or &rsqb;
+          // Left curly bracket {: &#123; or &lcub;
+          // Right curly bracket }: &#125; or &rcub;
+          // Left parenthesis (: &#40; or &lpar;
+          // Right parenthesis ): &#41; or &rpar;
+          // Comma ,: &comma; or &#44;
+          // Greater than >: &gt; or &#62;
+          // Less than <: &lt; or &#60;
+          // Asterisk *: &ast; or &#42;
+          // At sign @: &commat; or &#64;
+          // Underscore _: &lowbar; or &#95;
+          // Plus +: &plus; or &#43;
+          // Equal =: &equals; or &#61;
+          // Ampersand &: &amp; or &#38;
+          // Dollar $: &dollar; or &#36;
+          // Hash #: &num; or &#35;
+          // Exclamation mark !: &excl; or &#33;
+          // (-) is &hyphen; or &#45;
           {
-            title: 'Jabatan Dalam Organisasi',
-            dataIndex: 'jabatanOrganisasi',
-            key: 'jabatanOrganisasi',
+            title: 'Pada tingkatan apa materi Pendidikan/Pelatihan Teknik yang Anda Ikuti',
+            dataIndex: 'tingkatanMateriPelatihan',
+            key: 'tingkatanMateriPelatihan',
             render: (text: string, record: TableRow, index: number) => (
-              <Form.Item name={`jabatanOrganisasi${record.key}`} initialValue={undefined} >
-                <Select placeholder="--Choose--" style={{ width: 280 }}>
-                  <Select.Option value="jabatan1">Anggota biasa</Select.Option>
-                  <Select.Option value="jabatan2">Anggota pengurus</Select.Option>
-                  <Select.Option value="jabatan3">Pimpinan</Select.Option>
-                </Select>
-              </Form.Item>
+                <div>
+                  <Form.Item name={`tingkatanMateriPelatihan${record.key}`} initialValue={undefined}>
+                    <Select placeholder="--Choose--" style={{ width: 280 }}>
+                      <Select.Option value="dasar">Tingkat Dasar &#40;Fundamental&#41;</Select.Option>
+                      <Select.Option value="lanjutan">Tingkat Lanjutan &#40;Advanced&#41;</Select.Option>
+                    </Select>
+                  </Form.Item>
+                </div>
+                ),
+          },
+          {
+            title: 'Berapa jam Anda mengikuti Pendidikan/Pelatihan Teknik ?',
+            dataIndex: 'jamPendidikanTeknik',
+            key: 'jamPendidikanTeknik',
+            render: (text: string, record: TableRow, index: number) => (
+              <Form.Item name={`jenisLembagaPenghargaan${record.key}`} initialValue={undefined} >
+              <Select placeholder="--Choose--" style={{ width: 280 }}>
+                <Select.Option value="kurang36jam">Lama pendidikan s/d 36 Jam</Select.Option>
+                <Select.Option value="kurang100jam">Lama pendidikan 36 &#45; 100 Jam</Select.Option>
+                <Select.Option value="kurang240jam">Lama pendidikan 100 &#45; 240 Jam</Select.Option>
+                <Select.Option value="lebih240jam">&#62; dari 240 Jam</Select.Option>
+              </Select>
+            </Form.Item>
             ),
           },
           {
-            title: 'Tingkatan Organisasi',
-            dataIndex: 'tingkatanOrganisasi',
-            key: 'tingkatanOrganisasi',
+            title: 'Uraian Singkat Aktifitas',
+            dataIndex: 'uraianSingkatAktifitas',
+            key: 'uraianSingkatAktifitas',
             render: (text: string, record: TableRow, index: number) => (
-                <Form.Item name={`tingkatanOrganisasi${record.key}`} initialValue={undefined}>
-                <Select placeholder="--Choose--" style={{ width: 280 }}>
-                  <Select.Option value="tingkatan1">Organisasi lokal (bukan Nasional)</Select.Option>
-                  <Select.Option value="tingkatan2">Organisasi Nasional</Select.Option>
-                  <Select.Option value="tingkatan3">Organisasi Regional</Select.Option>
-                  <Select.Option value="tingkatan4">Organisasi Internasional</Select.Option>
-                </Select>
-              </Form.Item>
-            ),
-          },
-          {
-            title: 'Lingkup Kegiatan Organisasi',
-            dataIndex: 'kegiatanOrganisasi',
-            key: 'kegiatanOrganisasi',
-            render: (text: string, record: TableRow, index: number) => (
-                <Form.Item name={`kegiatanOrganisasi${record.key}`} initialValue={undefined}>
-                <Select placeholder="--Choose--" style={{ width: 280 }}>
-                  <Select.Option value="kegiatan1">Asosiasi Profesi</Select.Option>
-                  <Select.Option value="kegiatan2">Lembaga Pemerintah</Select.Option>
-                  <Select.Option value="kegiatan3">Lembaga Pendidikan</Select.Option>
-                  <Select.Option value="kegiatan4">Badan Usaha Milik Negara</Select.Option>
-                  <Select.Option value="kegiatan6">Badan Usaha Swasta</Select.Option>
-                  <Select.Option value="kegiatan7">Organisasi Kemasyarakatan</Select.Option>
-                  <Select.Option value="kegiatan8">Lain-lain</Select.Option>
-                </Select>
-              </Form.Item>
-            ),
-          },
-          {
-            title: 'Uraian Singkat Tugas dan Tanggung Jawab Profesional sesuai NSPK',
-            dataIndex: 'uraianTugas',
-            key: 'uraianTugas',
-            render: (text: string, record: TableRow, index: number) => (
-              <Form.Item name={`uraianTugas${record.key}`} initialValue={text} style={{width:'250px'}}>
+              <Form.Item name={`uraianSingkatAktifitas${record.key}`} initialValue={text} style={{width:'250px'}}>
                 <TextArea rows={4} />
               </Form.Item>
             ),
@@ -345,19 +414,51 @@ const Formulir: React.FC = () => {
           <div style={{ height: '150px', overflowY: 'scroll',border:'1px solid #dddddd',padding:'5px' }}>
             <Form.Item name={`klaimKompetensi${record.key}`} initialValue={text} style={{width:'1000px',fontSize:'14px'}} >
               <div style={{ display: 'flex', flexDirection: 'column'}}>
-                {dataWsatu.map(section => (
+                {dataWdua.map(section => (
                 <div key={section.value} >
                   <span style={{fontWeight:'bold'}}>{section.label}</span>
-                  {section.children.map((subSection) => (
-                  <div key={subSection.value} style={{borderBottom:'1px solid #dddddd',borderTop:'1px solid #dddddd'}}>
-                    <Checkbox
-                      value={subSection.value}
-                      checked={(selectedChoices[record.key] || []).includes(subSection.value)}
-                      onChange={(e : any) => handleChoiceChange(record.key, subSection.value, e.target.checked)}
-                    >
-                      {subSection.label}
-                    </Checkbox>
-                  </div>
+                    {section.children.map((subSection) => (
+                      <div key={subSection.value} style={{borderBottom:'1px solid #dddddd',borderTop:'1px solid #dddddd'}}>
+                        <Checkbox
+                          value={subSection.value}
+                          checked={(selectedChoices[record.key] || []).includes(subSection.value)}
+                          onChange={(e : any) => handleChoiceChange(record.key, subSection.value, e.target.checked)}
+                        >
+                          {subSection.label}
+                        </Checkbox>
+                      </div>
+                  ))}
+                </div>
+              ))}
+                {dataWempat.map(section => (
+                <div key={section.value} >
+                  <span style={{fontWeight:'bold'}}>{section.label}</span>
+                    {section.children.map((subSection) => (
+                      <div key={subSection.value} style={{borderBottom:'1px solid #dddddd',borderTop:'1px solid #dddddd'}}>
+                        <Checkbox
+                          value={subSection.value}
+                          checked={(selectedChoicesTwo[record.key] || []).includes(subSection.value)}
+                          onChange={(e : any) => handleChoiceChangeTwo(record.key, subSection.value, e.target.checked)}
+                        >
+                          {subSection.label}
+                        </Checkbox>
+                      </div>
+                ))}
+                </div>
+              ))}
+              {dataPsepuluh.map(section => (
+                <div key={section.value} >
+                  <span style={{fontWeight:'bold'}}>{section.label}</span>
+                    {section.children.map((subSection) => (
+                      <div key={subSection.value} style={{borderBottom:'1px solid #dddddd',borderTop:'1px solid #dddddd'}}>
+                        <Checkbox
+                          value={subSection.value}
+                          checked={(selectedChoicesThree[record.key] || []).includes(subSection.value)}
+                          onChange={(e : any) => handleChoiceChangeThree(record.key, subSection.value, e.target.checked)}
+                        >
+                          {subSection.label}
+                        </Checkbox>
+                      </div>
                 ))}
                 </div>
               ))}
@@ -380,10 +481,10 @@ const Formulir: React.FC = () => {
     return (
     <div>
         <div className='container-form'>
-            <h3 className='headerform' style={{marginBottom:'10px'}}>I.3 Organisasi Profesi & Organisasi Lainnya Yang Dimasuki <span style={{color:'blue'}}>(W1)</span></h3>
-            <Button className="addFormButton" type="primary" onClick={handleAddRow} style={{marginBottom:'10px'}}>
-                + Add Row
-            </Button>
+          <h3 className='headerform' style={{marginBottom:'10px'}}>I.5 Pendidikan/Pelatihan Teknik/Manajemen <span style={{color:'blue'}}>(W2,W4,P10)</span></h3>
+          <Button className="addFormButton" type="primary" onClick={handleAddRow} style={{marginBottom:'10px'}}>
+            + Add Row
+          </Button>
             <Form ref={formRef} onFinish={onFinish} >
                 <div style={{ maxHeight: '420px', overflowY: 'auto', }}>
                     <Table dataSource={dataSource} columns={columns} pagination={false} rowKey={(record) => record.key} size="small" style={{maxHeight: '400px', margin: '-8px', padding: '8px' }}/>
@@ -399,4 +500,4 @@ const Formulir: React.FC = () => {
     );
   };
 
-  export default Formulir;
+  export default FormulirLima;

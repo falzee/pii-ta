@@ -47,7 +47,7 @@ export const postLogIn = createAsyncThunk(
   "auth/postLogIn",
   async (users: User, {rejectWithValue}) => {
             try{
-                const response = await axios.post("https://reqres.in/api/login", {
+                const response = await axios.post("http://localhost:8000/auth/login", {
                     email: users.email,
                     password: users.password
                 })
@@ -91,7 +91,7 @@ export const postReg = createAsyncThunk(
     "auth/postReg",
     async (users: User) => {
         return axios
-            .post("https://reqres.in/api/register", {
+            .post("http://localhost:8000/auth/register", {
             email: users.email,
             password: users.password
         })

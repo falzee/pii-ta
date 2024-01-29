@@ -24,13 +24,13 @@ const Login = () => {
     //   }
     // };
 
-    const validateEmail = (rule: any, value: string, callback: Function) => {
+    const validateEmail = (rule: any, value: string) => {
       const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i; // Your custom email regex
   
       if (!regex.test(value)) {
-        callback('Please enter a valid email address');
+        return Promise.reject('Please enter a valid email address');
       } else {
-        callback();
+        return Promise.resolve();
       }
     };
 
@@ -105,7 +105,6 @@ return (
         style={{
             background: 'rgba(255, 255, 255, 0.7)',
             padding: '10px',
-            marginTop: '2rem',
             fontSize: "13px",
             fontWeight: 400,
             lineHeight: 2,
@@ -113,10 +112,10 @@ return (
             textAlign: 'center'
         }}>
             <h2 style={{
-                marginBottom: '.5rem',
                 fontWeight: '500',
+                marginBottom:'1rem',
                 lineHeight: '1',
-                fontSize: '1.2rem'}}>Sign In</h2>
+                fontSize: '2rem'}}>Login</h2>
             {/* <h4 style={{
                 fontWeight: '300',
                 lineHeight:'2',
@@ -144,13 +143,14 @@ return (
               {
                 required: true,
                 message: '',
+                
               },
               {
                 validator: validateEmail, // Custom validation rule
               },
             ]}
             >
-            <Input bordered={false} className='input-login' placeholder="No. KTA atau Email Anda" />
+            <Input bordered={true} className='input-login-page' placeholder="No. KTA atau Email Anda" />
             </Form.Item>
 
             <Form.Item
@@ -166,7 +166,7 @@ return (
             ]}
             >
 
-            <Input.Password bordered={false} className='input-pass-login' placeholder="Password" />
+            <Input.Password bordered={true} className='input-login-page' placeholder="Password" />
             
             </Form.Item>
 

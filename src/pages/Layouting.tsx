@@ -41,6 +41,10 @@ const Layouting: React.FC = () => {
   const toHome = () => {
     navigate("./")
   };
+  const toggleSider = () => {
+    setCollapsed(!collapsed);
+  };
+
 
   // useEffect(() => {
   //   const handleResize = () => {
@@ -91,10 +95,7 @@ const Layouting: React.FC = () => {
   // y,z =>(t+b),(l+r)
   return (
     <Layout style={{minHeight: '100vh'}} >
-      
-      
-      <Layout>
-      <Sider trigger={null}  collapsible collapsed={collapsed} collapsedWidth={0} 
+      <Sider trigger={null}  collapsible collapsed={collapsed} onCollapse={() => setCollapsed(!collapsed)} collapsedWidth={0} 
       style={{ 
           backgroundColor:'#11324D',
           overflow: 'auto',
@@ -129,7 +130,7 @@ const Layouting: React.FC = () => {
             {
               key: '/faip',
               icon: <UnorderedListOutlined />,
-              label: (<Link to='./faip'>FAIP</Link>),
+              label: (<Link to='./faip/mahasiswa'>FAIP</Link>),
               
             },
             {
@@ -140,7 +141,7 @@ const Layouting: React.FC = () => {
           ]}
         />
       </Sider>
-      
+      <div className={`transparent-layer ${collapsed ? 'collapsed' : ''}`} onClick={toggleSider}></div>
       <Layout >
       <Header style={{ padding: 0, backgroundColor:'#11324D',display:'flex',position: 'sticky',
           top: 0,
@@ -263,7 +264,6 @@ const Layouting: React.FC = () => {
         </Content>
         } */}
       
-        </Layout>
       </Layout>
 
     </Layout>

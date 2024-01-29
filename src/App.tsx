@@ -14,23 +14,41 @@ import TabPage from './pages/TabPage';
 import { useAppSelector } from './hooks/reduxHooks';
 import ProtectedRoute from './pages/PRoute';
 import ErrorPage from './pages/ErrorPage';
+import NilaiMhs from './pages/NilaiMhs';
+import Unauth from './pages/Unauth';
+import FaipMhs from './pages/FaipMhs';
+import FaipDosen from './pages/FaipDosen';
 
 function App() {
-  const {isLogin} = useAppSelector((state)=> state.auth.isLogin)
 
   const router = createBrowserRouter(
       createRoutesFromElements(
         <>
         <Route element={<Login/>} path="/login"/>
-        <Route element={<ProtectedRoute><Layouting /></ProtectedRoute>} >
+        <Route element={<ProtectedRoute allowedRoles={['dosen','mahasiswa','admin']}><Layouting /></ProtectedRoute>} >
           <Route element={<Home/> } path="/" />
           <Route element={<Home/> } path="home"/>
           <Route element={<User/> } path="user"/>
-          <Route element={<Faip/> } path="faip"/>
-            <Route element={<TabPage/>} path="faip/formulir" />
+          
+          <Route element={<Unauth/> } path="unauthorized"/>
+          <Route element={<Faip/> } path="faip/mahasiswa"/>
+            <Route element={<TabPage/> } path="faip/mahasiswa/formulir"/>
+            {/* <Route element={<TabPage/>} path="faip/formulir" /> */}
           {/* <Route element={<About/>} path="/about"/>
          */}
         </Route>
+        {/* <Route element={<ProtectedRoute allowedRoles={['mahasiswa']}><Layouting /></ProtectedRoute>} >
+            <Route element={<FaipMhs /> } path="faip/mahasiswa/"/>
+            <Route element={<NilaiMhs/>} path="faip/mahasiswa/nilai" />
+            <Route element={<TabPage/>} path="faip/mahasiswa/formulir" />
+
+        </Route>
+        <Route element={<ProtectedRoute allowedRoles={['dosen']}><Layouting /></ProtectedRoute>} >
+          <Route element={<FaipDosen /> } path="faip"/>
+            <Route element={<NilaiMhs/>} path="faip/nilai" />
+            <Route element={<TabPage/>} path="faip/formulir" />
+
+        </Route> */}
         <Route element={<ErrorPage/>} path="*"/> 
         </>
       )

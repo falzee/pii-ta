@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Tabs, TabsProps } from 'antd';
-import FirstTabForm from '../components/FormOne';
-import SecondTabForm from '../components/FormTwo';
-import ThirdTabForm from '../components/FormThree';
+import FirstTabForm from '../components/FormThree';
+import SecondTabForm from '../components/FormFour';
+import ThirdTabForm from '../components/FormFive';
+import FourthTabForm from '../components/FormSix';
 import { Header } from 'antd/es/layout/layout';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 
@@ -10,7 +11,7 @@ const { TabPane } = Tabs;
 
 const MultiTabFormPage: React.FC = () => {
   useDocumentTitle('PII TA | Formulir');
-  const [activeTab, setActiveTab] = useState('third'); // Set the default active tab
+  const [activeTab, setActiveTab] = useState('first'); // Set the default active tab
 
   const handleTabChange = (tabKey: string) => {
     setActiveTab(tabKey);
@@ -24,12 +25,17 @@ const MultiTabFormPage: React.FC = () => {
     {
       key: 'second',
       label: 'I.4',
-      children: 'Content of Tab Pane 2',
+      children: <SecondTabForm />,
     },
     {
       key: 'third',
       label: 'I.5',
       children: <ThirdTabForm />,
+    },
+    {
+      key: 'fourth',
+      label: 'I.6',
+      children: <FourthTabForm />,
     },
   ];
 
@@ -40,16 +46,22 @@ const MultiTabFormPage: React.FC = () => {
         </Header>
       <div className = 'formPage' style={{padding: '0 2rem', maxHeight: '900px' ,overflow: 'auto'}}>
         <Tabs activeKey={activeTab} onChange={handleTabChange} items={items} />
-          {/* <TabPane tab="I.3" key="first">
-              <FirstTabForm />
+          <TabPane tab="I.3" key="first">
+            <h1 className='headerform' style={{marginBottom:'0'}}>I.3 Organisasi Profesi & Organisasi Lainnya Yang Dimasuki <span style={{color:'blue'}}>(W1)</span></h1>
+            <FirstTabForm />
           </TabPane>
           <TabPane tab="I.4" key="second">
-
+            <h1 style={{marginBottom:'10px'}}>I.4 <span style={{color:'blue'}}>(W1)</span></h1>
+            <SecondTabForm />
           </TabPane>
           <TabPane tab="I.5" key="third">
-            <h1 style={{marginBottom:'10px'}}>I.3 Organisasi Profesi & Organisasi Lainnya Yang Dimasuki <span style={{color:'blue'}}>(W1)</span></h1>
+            <h1 style={{marginBottom:'10px'}}>I.5 <span style={{color:'blue'}}>(W1,W4,P10)</span></h1>
             <ThirdTabForm />
-          </TabPane> */}
+          </TabPane>
+          <TabPane tab="I.6" key="fourth">
+            <h1 style={{marginBottom:'10px'}}>I.6 <span style={{color:'blue'}}>(W1,W4,P10)</span></h1>
+            <FourthTabForm />
+          </TabPane>
           {/* Add more TabPane for additional tabs */}
       </div>
     </div>
