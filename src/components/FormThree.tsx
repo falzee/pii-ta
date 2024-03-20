@@ -97,6 +97,7 @@ const Formulir: React.FC = () => {
         kegiatanOrganisasi: values[`kegiatanOrganisasi${row.key}`],
         uraianTugas: values[`uraianTugas${row.key}`],
         klaimKompetensi: selectedChoices[row.key] || [],
+        jumlahKlaimKompetensi: selectedChoices[row.key].length,//test this first
       }));
       
       // Now you can send formData to your backend for processing

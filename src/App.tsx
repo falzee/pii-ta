@@ -25,7 +25,7 @@ function App() {
       createRoutesFromElements(
         <>
         <Route element={<Login/>} path="/login"/>
-        <Route element={<ProtectedRoute allowedRoles={['dosen','mahasiswa','admin']}><Layouting /></ProtectedRoute>} >
+        <Route element={<ProtectedRoute><Layouting /></ProtectedRoute>} >
           <Route element={<Home/> } path="/" />
           <Route element={<Home/> } path="home"/>
           <Route element={<User/> } path="user"/>
