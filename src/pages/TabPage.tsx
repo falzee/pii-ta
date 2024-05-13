@@ -11,6 +11,7 @@ const { TabPane } = Tabs;
 
 const MultiTabFormPage: React.FC = () => {
   useDocumentTitle('PII TA | Formulir');
+  
   const [activeTab, setActiveTab] = useState('first'); // Set the default active tab
 
   const handleTabChange = (tabKey: string) => {

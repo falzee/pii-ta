@@ -65,6 +65,7 @@ body {
 .ant-layout {
   position: relative;
 }
+
 .transparent-layer {
   position: absolute;
   left: 0;
@@ -81,12 +82,29 @@ body {
   opacity: 0;
   pointer-events: none;
 }
+
+/* antd btn primary */
+.ant-btn:hover{
+  color: #7e90be !important;
+  border-color: #7e90be !important;
+}
+.ant-btn-dangerous:hover{
+  color: #ff7875 !important;
+  border-color: #ff7875 !important; 
+}
+/* antd btn primary */
 .ant-btn-primary {
   background-color: #6b7aa1;
   border: none;
 }
-.ant-btn-primary :hover{
+.ant-btn-primary:hover{
+  color: white !important;
   background-color: #7e90be !important;
+}
+.ant-btn-primary.ant-btn-dangerous:hover {
+  color: white !important;
+  background-color: #ff7875 !important; /* Hover background color */
+  border-color: none; /* Hover border color */
 }
 .auth-container button {
   width: 20%;
@@ -113,9 +131,31 @@ body {
   border-radius: 0 !important;
 
 }
-.link-hover :hover{
+/* .link-hover :hover{
   background-color: #7e90be !important;
+} */
+
+.list-form {
+  border: 2px solid #11324d;
+  margin: 1rem 0;
+  padding: 1rem;
+  color: #11324d;
 }
+
+.list-form:hover {
+  border-color: #7dadcd;
+}
+
+/* .list-form.hovered {
+  border-color: #7dadcd;
+} */
+.list-form-item {
+  color: inherit;
+}
+.list-form-item.hovered {
+  color: #7dadcd;
+}
+
 .btn-home :hover{
   background-color: #7e90be !important;
 }

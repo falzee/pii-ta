@@ -1,78 +1,133 @@
 import { Button, Descriptions, DescriptionsProps, theme } from 'antd'
 import { Header } from 'antd/es/layout/layout'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import useDocumentTitle from '../hooks/useDocumentTitle'
 import Table, { ColumnsType } from 'antd/es/table'
+import axios from 'axios'
+import { jwtDecode } from "jwt-decode";
+import { UserOutlined } from '@ant-design/icons'
 
-type Props = {}
+interface Item {
+  key: string;
+  label: string;
+  children: any;
+}
 
-const items: DescriptionsProps['items'] = [
-  // TODO Fetch dr backend
-  {
-    key: '1',
-    label: 'Nama',
-    children: 'Erik Kababan',
-  },
-  {
-    key: '2',
-    label: 'Gelar',
-    children: 'S.T.',
-  },
-  {
-    key: '3',
-    label: 'Jenis Kelamin',
-    children: 'Pria',
-  },
-  {
-    key: '4',
-    label: 'Tempat & Tanggal Lahir',
-    children: 'Johannesburgh, 30 September 1965',
-  },
-  {
-    key: '5',
-    label: 'KTP atau Passport',
-    children: '30903899079884',
-  },
-  {
-    key: '7',
-    label: 'Email',
-    children: 'erikkababan@mail.com',
-  },
-  {
-    key: '8',
-    label: 'Nomor Ponsel',
-    children: '+123456789',
-  },
-  {
-    key: '9',
-    label: 'Alamat Rumah',
-    children: 'Jl.kesana no.169',
-  },
-  {
-    key: '10',
-    label: 'Website',
-    children: 'https:/linkedin.com/erik',
-  },
-  {
-    key: '11',
-    label: 'Deskripsi',
-    children: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vel ex ex. Sed rhoncus eleifend nunc. Maecenas ac ligula a ex bibendum faucibus convallis et tellus. Duis sit amet porta metus, ultricies luctus metus. Pellentesque eleifend metus ut dui varius, a vulputate arcu aliquam. Phasellus sapien tellus, pellentesque porttitor sem. ',
-  },
-];
-const User = (props: Props) => {
+const User = () => {
   useDocumentTitle('PII TA | User');
+  const [userData, setUserData] = useState(null);
+  const [items, setItems] = useState<Item[]>([]);
+
+  useEffect(() => {
+    // Fetch user data when component mounts
+    fetchUserData();
+  }, []);
+
+  const fetchUserData = async () => {
+    try {
+      const token = localStorage.getItem('jwtToken');
+
+      if (token) {
+        // Decode the token to extract user ID
+        const decodedToken: any = jwtDecode(token);
+        const userId = decodedToken.nomerInduk;
+
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+        // Make API request with user ID
+        const response = await axios.get(`http://localhost:8000/user/profile/${userId}`,config);
+        // console.log("response:"+response)
+
+        const userData = response.data;
+        // console.log("userdata:"+ userData.nama)
+        setUserData(userData);
+        // Update the items with fetched data
+        setItems([
+          {
+            key: '1',
+            label: 'Nama',
+            children: userData.data.nama,
+          },
+          {
+            key: '2',
+            label: 'Gelar',
+            children: userData.data.gelar,
+          },
+          {
+            key: '3',
+            label: 'Jenis Kelamin',
+            children: userData.data.jenis_kelamin,
+          },
+          {
+            key: '4',
+            label: 'Tempat & Tanggal Lahir',
+            children: userData.data.tempat_lahir + ", " + userData.data.tanggal_lahir,
+          },
+          {
+            key: '5',
+            label: 'KTP atau Passport',
+            children: userData.data.nomor_identifikasi,
+          },
+          {
+            key: '7',
+            label: 'Email',
+            children: userData.data.email,
+          },
+          {
+            key: '8',
+            label: 'Nomor Ponsel',
+            children: userData.data.nomor_ponsel,
+          },
+          {
+            key: '9',
+            label: 'Alamat Rumah',
+            children: userData.data.alamat,
+          },
+          {
+            key: '10',
+            label: 'Website',
+            children: userData.data.website !== null ? userData.data.website : "-",
+          },
+          {
+            key: '11',
+            label: 'Deskripsi',
+            children: userData.data.deskripsi !== null ? userData.data.deskripsi : "-",
+          },
+          // Add more items as needed
+        ]);
+      } else {
+        console.error('JWT token not found');
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
+
 
   return (
-    <div>
-        <Header style={{ padding: '0 2rem', background: '#ffffff' ,borderBottom: '1px solid #D3D3D3'}}>
+    <div style={{}}>
+        {/* <Header style={{ padding: '0 2rem', background: '#ffffff' ,borderBottom: '1px solid #D3D3D3'}}>
         <h2>User</h2>
-        </Header>
-        <div className='home-page' style={{padding:'2rem'}}>
+        </Header> */}
+        <div className='home-page' style={{padding:'1rem', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
           {/* h2 bukan bug itu buat simbol */}
-            <h2 style={{ marginBottom: '1rem' }}>Profil Data Pribadi</h2>
-            <div style={{}}>
-            <Descriptions bordered items={items} column={1} labelStyle={{width:'140px'}} size='middle' />
+          {/*  
+            css margin  
+            w,x,y,z =>top,right,bottom left
+            x,y,z =>top,(l+r),bottom
+            y,z =>(t+b),(l+r) 
+          */}
+            <h2 style={{ margin: '0 0 1rem',textAlign: 'left',width:'100%',maxWidth:'800px' }}>Profil Data Pribadi</h2>
+            <div style={{ width: '100%',maxWidth:'800px' }}>
+            {userData ? (
+              <Descriptions bordered items={items} column={1} labelStyle={{width:'140px'}} size='middle' />
+              ) : (
+              <p>Loading...</p>
+            )}
             </div>
         </div>
     </div>
@@ -80,3 +135,35 @@ const User = (props: Props) => {
 }
 
 export default User
+
+// const UserDetails = () => {
+//   const [userData, setUserData] = useState(null);
+
+//   useEffect(() => {
+//     // Fetch user data when component mounts
+//     fetchUserData();
+//   }, []);
+
+//   const fetchUserData = async () => {
+//     try {
+//       const response = await fetch('https://your-api-endpoint.com/user');
+//       if (!response.ok) {
+//         throw new Error('Failed to fetch user data');
+//       }
+//       const userData = await response.json();
+//       setUserData(userData);
+//     } catch (error) {
+//       console.error('Error fetching user data:', error);
+//     }
+//   };
+
+//   const mergedItems = userData ? [
+//     ...predefinedItems,
+//     // Add fetched data as Description Items
+//     {
+//       key: '3',
+//       label: 'Email',
+//       children: userData.email,
+//     },
+//     // Add more Description Items as needed
+//   ] : predefinedItems;

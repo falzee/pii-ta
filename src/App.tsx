@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Login from './pages/Login';
 import Home from './pages/Home';
-import Faip from './pages/Faip';
+import FaipMhs from './pages/FaipMhs';
 import { start } from 'repl';
 import { css } from '@emotion/react'
 import Layouting from './pages/Layouting';
@@ -16,7 +16,8 @@ import ProtectedRoute from './pages/PRoute';
 import ErrorPage from './pages/ErrorPage';
 import NilaiMhs from './pages/NilaiMhs';
 import Unauth from './pages/Unauth';
-import FaipMhs from './pages/FaipMhs';
+import UnderConstruct from './pages/underConstruct';
+import FormMhs from './pages/FormMhs';
 import FaipDosen from './pages/FaipDosen';
 
 function App() {
@@ -25,30 +26,30 @@ function App() {
       createRoutesFromElements(
         <>
         <Route element={<Login/>} path="/login"/>
-        <Route element={<ProtectedRoute><Layouting /></ProtectedRoute>} >
+        <Route element={<ProtectedRoute allowedRoles={['dosen','mahasiswa','admin']}><Layouting /></ProtectedRoute>} >
           <Route element={<Home/> } path="/" />
           <Route element={<Home/> } path="home"/>
           <Route element={<User/> } path="user"/>
           
           <Route element={<Unauth/> } path="unauthorized"/>
-          <Route element={<Faip/> } path="faip/mahasiswa"/>
-            <Route element={<TabPage/> } path="faip/mahasiswa/formulir"/>
+          {/* <Route element={<Faip/> } path="faip/mahasiswa"/>
+            <Route element={<TabPage/> } path="faip/mahasiswa/formulir"/> */}
             {/* <Route element={<TabPage/>} path="faip/formulir" /> */}
           {/* <Route element={<About/>} path="/about"/>
          */}
         </Route>
-        {/* <Route element={<ProtectedRoute allowedRoles={['mahasiswa']}><Layouting /></ProtectedRoute>} >
-            <Route element={<FaipMhs /> } path="faip/mahasiswa/"/>
-            <Route element={<NilaiMhs/>} path="faip/mahasiswa/nilai" />
-            <Route element={<TabPage/>} path="faip/mahasiswa/formulir" />
-
+        <Route element={<ProtectedRoute allowedRoles={['mahasiswa']}><Layouting /></ProtectedRoute>} >
+            <Route element={<FormMhs/> } path="form/mahasiswa/"/>
+              {/* <Route element={<NilaiMhs/>} path="form/mahasiswa/nilai" /> */}
+              <Route element={<FaipMhs/>} path="form/mahasiswa/faip" />
+              <Route element={<TabPage/>} path="form/mahasiswa/faip/id" />
         </Route>
         <Route element={<ProtectedRoute allowedRoles={['dosen']}><Layouting /></ProtectedRoute>} >
-          <Route element={<FaipDosen /> } path="faip"/>
-            <Route element={<NilaiMhs/>} path="faip/nilai" />
-            <Route element={<TabPage/>} path="faip/formulir" />
-
-        </Route> */}
+          <Route element={<UnderConstruct /> } path="form/dosen"/>
+          {/* <Route element={<FaipDosen /> } path="form/dosen"/>
+            <Route element={<NilaiMhs/>} path="form/dosen/nilai" />
+            <Route element={<TabPage/>} path="form/dosen/formulir" /> */}
+        </Route>
         <Route element={<ErrorPage/>} path="*"/> 
         </>
       )

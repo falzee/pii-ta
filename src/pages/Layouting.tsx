@@ -7,12 +7,13 @@ import {
   UserOutlined,
   LogoutOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, Button, theme, Popover } from 'antd';
+import { Layout, Menu, Button, theme, Popover, MenuProps } from 'antd';
 import logoElektro from '../images/logo-elektro-300.png';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../hooks/reduxHooks';
 import { removeToken, reset } from '../app/authSlice';
+import { jwtDecode } from 'jwt-decode';
 const { Header, Sider, Content } = Layout;
 
 const Layouting: React.FC = () => {
@@ -22,7 +23,101 @@ const Layouting: React.FC = () => {
   // const [isSwap, setIsSwap] = useState(false);
 
   const [current, setCurrent] = useState(location.pathname);
+  const [role, setRole] = useState(''); // State to store the user's role
 
+  useEffect(() => {
+    // Retrieve JWT token from localStorage
+    const token = localStorage.getItem('jwtToken');
+
+    if (token) {
+      // Parse the JWT token to get the payload
+      const decodedToken: any = jwtDecode(token);
+
+      setRole(decodedToken.roles);
+    }
+  }, []); // This effect runs only once on component mount
+
+  const handleButtonClick = () => {
+    // Dispatch an action for reducerA
+    dispatch(reset()); 
+    dispatch(removeToken());
+  };
+
+  type MenuItem = Required<MenuProps>['items'][number];
+  
+  const itemsMahasiswa: MenuItem[] = [
+    {
+      key: '/',
+      icon: <HomeOutlined />,
+      label: (<Link to='./'>Beranda</Link>),
+      // roles:  ['mahasiswa']
+    },
+    {
+      key: '/user',
+      icon: <UserOutlined />,
+      label: (<Link to='./user'>User</Link>), 
+    },
+    {
+      key: '/form',
+      icon: <UnorderedListOutlined />,
+      label: (<Link to='./form/mahasiswa'>Form - mahasiswa</Link>),
+      
+    },
+    {
+      key: '/login',
+      icon: <LogoutOutlined />,
+      label: (<Link to='./login' onClick={handleButtonClick}>Logout</Link>),
+    },
+  ]
+  const itemsDosen: MenuItem[] = [
+    {
+      key: '/',
+      icon: <HomeOutlined />,
+      label: (<Link to='./'>Beranda</Link>),
+      // roles:  ['mahasiswa']
+    },
+    {
+      key: '/user',
+      icon: <UserOutlined />,
+      label: (<Link to='./user'>User</Link>), 
+    },
+    {
+      key: '/form',
+      icon: <UnorderedListOutlined />,
+      label: (<Link to='./form/dosen'>Form - dosen</Link>),
+      
+    },
+    {
+      key: '/login',
+      icon: <LogoutOutlined />,
+      label: (<Link to='./login' onClick={handleButtonClick}>Logout</Link>),
+    },
+  ]
+  const itemsAdmin: MenuItem[] = [
+    {
+      key: '/',
+      icon: <HomeOutlined />,
+      label: (<Link to='./'>Beranda</Link>),
+      // roles:  ['mahasiswa']
+    },
+    {
+      key: '/user',
+      icon: <UserOutlined />,
+      label: (<Link to='./user'>User</Link>), 
+    },
+    {
+      key: '/login',
+      icon: <LogoutOutlined />,
+      label: (<Link to='./login' onClick={handleButtonClick}>Logout</Link>),
+    },
+  ]
+  // const getItem = (role:string) => { 
+  //   return (role === 'mahasiswa') ? itemsMahasiswa :
+  //   (role === 'dosen') ? itemsDosen :
+  //   (role === 'admin') ? itemsAdmin :
+  //   handleButtonClick;
+  // }
+    
     //or simply use const [current, setCurrent] = useState(location.pathname)        
 
   useEffect(() => {
@@ -78,11 +173,7 @@ const Layouting: React.FC = () => {
 
   const dispatch = useAppDispatch();
 
-  const handleButtonClick = () => {
-    // Dispatch an action for reducerA
-    dispatch(reset()); 
-    dispatch(removeToken());
-  };
+
   
   const content = (
     <div>
@@ -107,8 +198,7 @@ const Layouting: React.FC = () => {
           zIndex : 9999,
           boxShadow:'2px 0 6px rgba(0, 21, 41, 0.35)'
       }} 
-      width={176} >
-        
+      width={200} >
         
         <Menu
           theme="dark"
@@ -116,29 +206,7 @@ const Layouting: React.FC = () => {
           mode="inline"
           selectedKeys={[current]}
           // onClick={handleMenuClick}
-          items={[
-            {
-              key: '/',
-              icon: <HomeOutlined />,
-              label: (<Link to='./'>Beranda</Link>),
-            },
-            {
-              key: '/user',
-              icon: <UserOutlined />,
-              label: (<Link to='./user'>User</Link>), 
-            },
-            {
-              key: '/faip',
-              icon: <UnorderedListOutlined />,
-              label: (<Link to='./faip/mahasiswa'>FAIP</Link>),
-              
-            },
-            {
-              key: '/login',
-              icon: <LogoutOutlined />,
-              label: (<Link to='./login' onClick={handleButtonClick}>Logout</Link>),
-            },
-          ]}
+          items={(role === 'mahasiswa') ? itemsMahasiswa : (role === 'dosen') ? itemsDosen : itemsAdmin }
         />
       </Sider>
       <div className={`transparent-layer ${collapsed ? 'collapsed' : ''}`} onClick={toggleSider}></div>
@@ -148,61 +216,6 @@ const Layouting: React.FC = () => {
           zIndex: 1,
           width: '100%',
           alignItems: 'center' }}>
-            {/* {isSwap ?
-              <>
-                <div className="logo-sider"  style={{ height:'64px',backgroundColor:'colorBgContainer',display: 'flex',
-                    width:'176px',
-                    justifyContent: 'center',
-                    alignItems: 'center',cursor: 'pointer'}} onClick={toHome}>        
-                  <img src={logoElektro} alt="logo elektro" style={ {marginLeft:'15px',width: 'auto',
-                    maxWidth: '100%',
-                    objectFit: 'cover'} } />
-                </div>
-              
-                <Button
-                  type="text"
-                  icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                  onClick={() => setCollapsed(!collapsed)}
-
-                  style={{
-                    fontSize: '16px',
-                    width: 64,
-                    height: 64,
-                    color: 'white'
-                  }}
-                />
-              </>
-            :
-            <>
-              <Button
-                type="text"
-                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                onClick={() => setCollapsed(!collapsed)}
-
-                style={{
-                  fontSize: '16px',
-                  width: 64,
-                  height: 64,
-                  color: 'white'
-                }}
-              />
-
-              <div className="logo-sider"  style={{ height:'64px',
-                  width:'176px',
-                  backgroundColor:'colorBgContainer',
-                  justifyContent: 'center',
-                  marginLeft:'auto',
-                  alignItems: 'center',
-                  cursor: 'pointer'}} onClick={toHome}>        
-                <img src={logoElektro} alt="logo elektro" style={ {marginTop:'10px',
-                  width: 'auto',
-                  maxWidth: '100%',
-                  objectFit: 'cover'} } />
-              </div>
-            
-            </>
-
-            } */}
           <Button
                 type="text"
                 icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -242,27 +255,6 @@ const Layouting: React.FC = () => {
         >
           <Outlet />
         </Content>
-        {/* {collapsed 
-        ? (<Content
-          style={{
-            minHeight: 280,
-            background: colorBgContainer,
-            overflow: 'initial',
-          }}
-        >
-             <Outlet />
-        </Content>)
-         : <Content
-          style={{
-            minHeight: 280,
-            background: colorBgContainer,
-            overflow: 'initial',
-            margin: '0 0 0 176px'
-          }}
-        >  
-             <Outlet />
-        </Content>
-        } */}
       
       </Layout>
 

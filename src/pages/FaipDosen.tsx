@@ -22,7 +22,7 @@ const FaipDosen = ( ) => {
         <div className='home-page' style={{padding:'2rem',background:'#d7d1c9'}}>
           {/* h2 bukan bug itu buat simbol */}
             <h2 style={{ margin: '1rem 0' }}>Klik tombol dibawah untuk mengecek nilai!</h2>
-            <Link className='link-hover' to='/faip/nilai'>
+            <Link className='link-hover' to='/form/nilai'>
               <Button type="primary" size='large' style={{ margin: '1rem 0',borderRadius:'0' }} >
                 Cek Penilaian
               </Button>

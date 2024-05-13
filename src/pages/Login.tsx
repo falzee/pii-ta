@@ -24,15 +24,15 @@ const Login = () => {
     //   }
     // };
 
-    const validateEmail = (rule: any, value: string) => {
-      const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i; // Your custom email regex
+    // const validateEmail = (rule: any, value: string) => {
+    //   const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i; // Your custom email regex
   
-      if (!regex.test(value)) {
-        return Promise.reject('Please enter a valid email address');
-      } else {
-        return Promise.resolve();
-      }
-    };
+    //   if (!regex.test(value)) {
+    //     return Promise.reject('Please enter a valid email address');
+    //   } else {
+    //     return Promise.resolve();
+    //   }
+    // };
 
     const successMessage = () => {
       message.success('Successfully Logged in');
@@ -57,8 +57,15 @@ const Login = () => {
 
     const onFinish = (values:any) => {
       form.validateFields()
-			.then((values:any) => {
-			  dispatch(postLogIn(values));  
+			.then(() => {
+        const { emailOrId, password } = values;
+        const loginCredentials = {
+          // Use optional chaining (?.) to handle undefined emailOrId
+          email: emailOrId?.includes('@') ? emailOrId : undefined,
+          nomerInduk: emailOrId?.includes('@') ? undefined : emailOrId,
+          password
+        };
+			  dispatch(postLogIn(loginCredentials));  
 			})
 			.catch((error) => {
         console.error('Error fetching data :', error); 
@@ -138,16 +145,16 @@ return (
           
             <Form.Item
             className='auth-item'
-            name="email"
+            name="emailOrId"
             rules={[
               {
                 required: true,
                 message: '',
                 
               },
-              {
-                validator: validateEmail, // Custom validation rule
-              },
+              // {
+              //   validator: validateEmail, // Custom validation rule
+              // },
             ]}
             >
             <Input bordered={true} className='input-login-page' placeholder="No. KTA atau Email Anda" />
@@ -171,7 +178,7 @@ return (
             </Form.Item>
 
             <Form.Item>
-                <Button className="button-login" type='primary' htmlType="submit" onClick={onFinish} >
+                <Button className="button-login" type='primary' htmlType="submit" >
                     Sign In
                 </Button>
             </Form.Item>

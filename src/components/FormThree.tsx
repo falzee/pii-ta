@@ -33,6 +33,7 @@ import { dataWsatu } from '../data/SectionFormData'
     kegiatanOrganisasi: string;
     uraianTugas: string;
     klaimKompetensi: string[];
+    // jumlahKlaimWSatu: number;
   }
 
 const Formulir: React.FC = () => {
@@ -63,6 +64,7 @@ const Formulir: React.FC = () => {
           kegiatanOrganisasi: '',
           uraianTugas: '',
           klaimKompetensi: [],
+          // jumlahKlaimWSatu: 0,
         };
         setDataSource([...dataSource, newRow]);
         // setRowNumbers(rowNumbers + 1); 
@@ -71,14 +73,14 @@ const Formulir: React.FC = () => {
     const handleDeleteRow = (key: any) => { //fungsi hapus baris  //NEED API DELETE
       const updatedDataSource = dataSource.filter(row => row.key !== key);
       setDataSource(updatedDataSource);
-        // const updatedRowNumbers = updatedDataSource.map(row => row.id).splice(-1,1,);
-        // console.log(updatedRowNumbers)
-        // const updatedNumbers = updatedRowNumbers.splice(-1, 1) ;
-      
-        // console.log(updatedRowNumbers)
-        //buggg
     };
-    
+    // const updatedRowNumbers = updatedDataSource.map(row => row.id).splice(-1,1,);
+    // console.log(updatedRowNumbers)
+    // const updatedNumbers = updatedRowNumbers.splice(-1, 1) ;
+  
+    // console.log(updatedRowNumbers)
+    //buggg
+
     const onFinish = (values: any) => { //fungsi submit form //NEED API POST
       const formData = dataSource.map(row => ({
         ...row,
@@ -96,8 +98,7 @@ const Formulir: React.FC = () => {
         tingkatanOrganisasi: values[`tingkatanOrganisasi${row.key}`],
         kegiatanOrganisasi: values[`kegiatanOrganisasi${row.key}`],
         uraianTugas: values[`uraianTugas${row.key}`],
-        klaimKompetensi: selectedChoices[row.key] || [],
-        jumlahKlaimKompetensi: selectedChoices[row.key].length,//test this first
+        klaimKompetensiWSatu: selectedChoices[row.key] || [],
       }));
       
       // Now you can send formData to your backend for processing
