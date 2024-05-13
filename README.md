@@ -4,6 +4,6 @@
 [Link Tutorial](https://www.youtube.com/watch?v=zuyH4QUuTZk)
 
 ## 2nd Langkah2 kloning
-Buat langkah2 bisa cek link [Link PDF](https://drive.google.com/file/d/10Vjw0wlKLuKvYm0hiKKygA2Pqa7qCoy0/view?usp=sharing)
+Buat langkah2 bisa cek link [Link PDF](https://drive.google.com/file/d/1PfDMXzRHJWWD_7vFxGt0NvwxtksIUvK5/view?usp=sharing)
  ,Error atau ada pertanyaan bisa kontak langsung
 
