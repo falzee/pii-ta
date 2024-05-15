@@ -1,5 +1,5 @@
 # Langkah2 kloning ke lokal device
-# PATCH NOTE SEKARANG BRANCH v0.1 BUKAN MASTER
+# PATCH NOTE SEKARANG BRANCH v0.11 BUKAN MASTER
 
 ## 1st setup nodejs dan vscode (+ekstensi yg perlu)
 [Link Tutorial](https://www.youtube.com/watch?v=zuyH4QUuTZk)
