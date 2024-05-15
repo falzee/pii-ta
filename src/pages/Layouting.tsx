@@ -167,9 +167,7 @@ const Layouting: React.FC = () => {
   //   };
   // }, []);
 
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+
 
   const dispatch = useAppDispatch();
 
@@ -217,6 +215,7 @@ const Layouting: React.FC = () => {
           width: '100%',
           alignItems: 'center' }}>
           <Button
+                className='btn-menu-collapse'
                 type="text"
                 icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
                 onClick={() => setCollapsed(!collapsed)}
@@ -225,7 +224,8 @@ const Layouting: React.FC = () => {
                   fontSize: '16px',
                   width: 64,
                   height: 64,
-                  color: 'white'
+                  color: 'white',
+                  cursor:'pointer'
                 }}
               />
 
@@ -249,7 +249,6 @@ const Layouting: React.FC = () => {
         <Content
           style={{
             minHeight: 280,
-            background: colorBgContainer,
             overflow: 'initial',
           }}
         >

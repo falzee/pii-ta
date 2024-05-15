@@ -6,7 +6,7 @@ import FaipMhs from './pages/FaipMhs';
 import { start } from 'repl';
 import { css } from '@emotion/react'
 import Layouting from './pages/Layouting';
-import { ConfigProvider } from 'antd';
+import { ConfigProvider, App } from 'antd';
 import { Route, RouterProvider, createBrowserRouter,createRoutesFromElements,Navigate, BrowserRouter, Routes } from 'react-router-dom';
 import FormOne from './components/FormOne';
 import User from './pages/User';
@@ -20,7 +20,7 @@ import UnderConstruct from './pages/underConstruct';
 import FormMhs from './pages/FormMhs';
 import FaipDosen from './pages/FaipDosen';
 
-function App() {
+function mainApp() {
 
   const router = createBrowserRouter(
       createRoutesFromElements(
@@ -42,7 +42,7 @@ function App() {
             <Route element={<FormMhs/> } path="form/mahasiswa/"/>
               {/* <Route element={<NilaiMhs/>} path="form/mahasiswa/nilai" /> */}
               <Route element={<FaipMhs/>} path="form/mahasiswa/faip" />
-              <Route element={<TabPage/>} path="form/mahasiswa/faip/id" />
+              <Route element={<TabPage/>} path="form/mahasiswa/faip/edit/:formId" />
         </Route>
         <Route element={<ProtectedRoute allowedRoles={['dosen']}><Layouting /></ProtectedRoute>} >
           <Route element={<UnderConstruct /> } path="form/dosen"/>
@@ -56,24 +56,17 @@ function App() {
   );
   
 
+  
   return (
-    <ConfigProvider
-      // theme={{
-      //   token: {
-      //     colorPrimary: '#ed7623',
-      //     colorPrimaryBorder:'none',
-      //     borderRadius: 0
-      //   },
-      // }}
-    >
-      <div className="App">
-        <RouterProvider router={router}/>
-      </div>
-    </ConfigProvider>
+      <App>
+        <div className="App">
+          <RouterProvider router={router} />
+        </div>
+      </App>
   );
 }
 
-export default App;
+export default mainApp;
 
         // <BrowserRouter>
         // <Routes>

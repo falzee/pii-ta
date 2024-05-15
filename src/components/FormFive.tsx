@@ -69,7 +69,7 @@ const FormulirLima: React.FC = () => {
 
     // const [rowNumbers, setRowNumbers] = useState<number>(1);//penomeran client side
     // const [showAdditionalFields, setShowAdditionalFields] = useState<boolean>(false);
-    const [form] = Form.useForm();
+    // const [form] = Form.useForm();
 //kumpulan fungsi
     const formRef = React.createRef<FormInstance>();//
 
@@ -481,7 +481,7 @@ const FormulirLima: React.FC = () => {
     return (
     <div>
         <div className='container-form'>
-          <h3 className='headerform' style={{marginBottom:'10px'}}>I.5 Pendidikan/Pelatihan Teknik/Manajemen <span style={{color:'blue'}}>(W2,W4,P10)</span></h3>
+          <h3 className='headerform' style={{marginBottom:'10px'}}>I.5 Pendidikan/Pelatihan Teknik/Manajemen <span style={{color:'#6b7aa1'}}>(W2,W4,P10)</span></h3>
           <Button className="addFormButton" type="primary" onClick={handleAddRow} style={{marginBottom:'10px'}}>
             + Add Row
           </Button>

@@ -481,7 +481,7 @@ const FormulirEnam: React.FC = () => {
     return (
     <div>
         <div className='container-form'>
-          <h3 className='headerform' style={{marginBottom:'10px'}}>I.6 Sertifikat Kompetensi dan Bidang Lainnya (yang Relevan) Yang Diikuti  <span style={{color:'blue'}}>(W1,W4,P10)</span></h3>
+          <h3 className='headerform' style={{marginBottom:'10px'}}>I.6 Sertifikat Kompetensi dan Bidang Lainnya (yang Relevan) Yang Diikuti  <span style={{color:'#6b7aa1'}}>(W1,W4,P10)</span></h3>
           <Button className="addFormButton" type="primary" onClick={handleAddRow} style={{marginBottom:'10px'}}>
             + Add Row
           </Button>

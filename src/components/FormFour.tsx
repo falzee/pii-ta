@@ -305,7 +305,7 @@ interface TableRow {
     return (
     <div>
         <div className='container-form'>
-            <h3 className='headerform' style={{marginBottom:'10px'}}>I.4 Tanda Penghargaan Yang Diterima (kerja tanpa pamrih) <span style={{color:'blue'}}>(W1)</span></h3>
+            <h3 className='headerform' style={{marginBottom:'10px'}}>I.4 Tanda Penghargaan Yang Diterima (kerja tanpa pamrih) <span style={{color:'#6b7aa1'}}>(W1)</span></h3>
             <Button className="addFormButton" type="primary" onClick={handleAddRow} style={{marginBottom:'10px'}}>
                 + Add Row
             </Button>

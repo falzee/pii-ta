@@ -82,16 +82,20 @@ body {
   opacity: 0;
   pointer-events: none;
 }
-
+.btn-menu-collapse:hover{
+  color: none !important;
+  border-color: none !important;
+}
 /* antd btn primary */
 .ant-btn:hover{
-  color: #7e90be !important;
-  border-color: #7e90be !important;
+  color: #7e90be ;
+  /* border-color: #7e90be ; */
 }
 .ant-btn-dangerous:hover{
   color: #ff7875 !important;
   border-color: #ff7875 !important; 
 }
+
 /* antd btn primary */
 .ant-btn-primary {
   background-color: #6b7aa1;
@@ -146,9 +150,20 @@ body {
   border-color: #7dadcd;
 }
 
+/* faip mhs */
+.form-item-row{
+  margin-bottom: 5px;
+}
+.ant-table-thead .ant-table-cell {
+  background-color: #c2d0c1cd !important;
+  border-color: #c2d0c193 !important;
+  border-radius: 0 !important;
+}
+
 /* .list-form.hovered {
   border-color: #7dadcd;
 } */
+
 .list-form-item {
   color: inherit;
 }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, Form,Input, Button, Select, Upload, Checkbox, Divider, Space } from 'antd';
+import { Table, Form,Input, Button, Select, Upload, Checkbox, Divider, Space, ConfigProvider } from 'antd';
 import { FormInstance } from 'antd/lib/form';
 import { DeleteOutlined, MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
@@ -34,17 +34,44 @@ import { dataWsatu } from '../data/SectionFormData'
     uraianTugas: string;
     klaimKompetensi: string[];
     // jumlahKlaimWSatu: number;
+    klaimKompetensiWSatu?: string[]
   }
 
 const Formulir: React.FC = () => {
 //kumpulan state
-    const [dataSource, setDataSource] = useState<TableRow[]>([]);//data tabel
-    const [selectedChoices, setSelectedChoices] = useState<{ [key: number]: string[] }>({});//pilihan checbox
+
+    const [dataSource, setDataSource] = useState<TableRow[]>([
+      {"key":"HGsQaJKrMKrMjLWQYDSFn",
+      "namaOrganisasi":"testing1",
+      "jenis":"jenis1",
+      "kotaAsal":"testing1",
+      "provinsiAsal":"testing1",
+      "negaraAsal":"testing1",
+      "bulan":"Januari",
+      "tahun":"",
+      "bulanMulai":"Februari",
+      "tahunMulai":"2018",
+      "masihAnggota":true,
+      "jabatanOrganisasi":"jabatan1",
+      "tingkatanOrganisasi":"tingkatan2",
+      "kegiatanOrganisasi":"kegiatan1",
+      "uraianTugas":"",
+      "klaimKompetensi":[],
+      "klaimKompetensiWSatu":["W.1.1.1","W.1.1.2","W.1.1.3","W.1.1.4","W.1.1.5","W.1.2.3","W.1.2.4","W.1.2.7","W.1.2.8","W.1.2.5","W.1.2.1","W.1.3.6","W.1.4.3"]},
+    {"key":"s-OdRU7olVC70aqBwWvPo","namaOrganisasi":"testing2","jenis":"jenis2","kotaAsal":"testing2","provinsiAsal":"testing2","negaraAsal":"testing2","bulan":"Mei","tahun":"1424","bulanMulai":"Januari","tahunMulai":"13132","masihAnggota":false,"jabatanOrganisasi":"jabatan1","tingkatanOrganisasi":"","kegiatanOrganisasi":"","uraianTugas":"","klaimKompetensi":[],"klaimKompetensiWSatu":[]}]);//data tabel
+    const [selectedChoices, setSelectedChoices] = useState<{ [key: string]: string[] }>({
+      "HGsQaJKrMKrMjLWQYDSFn": ["W.1.1.1", "W.1.1.2", "W.1.1.3", "W.1.1.4", "W.1.1.5", "W.1.2.3", "W.1.2.4", "W.1.2.7", "W.1.2.8", "W.1.2.5", "W.1.2.1", "W.1.3.6", "W.1.4.3"],
+      "s-OdRU7olVC70aqBwWvPo": ["W.1.1.3", "W.1.1.4"]
+    });   
+    console.log("SELECTED CHOICE: "+ Object.entries(selectedChoices))
+    // const [data, setdata] = useState();
     // const [rowNumbers, setRowNumbers] = useState<number>(1);//penomeran client side
     // const [showAdditionalFields, setShowAdditionalFields] = useState<boolean>(false);
     const [form] = Form.useForm();
 //kumpulan fungsi
     const formRef = React.createRef<FormInstance>();//
+    //API = const response = await axios.post(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&ft=i3`,{},config);
+
   
     const handleAddRow = () => { //fungsi nambah baris 
         const newRow: TableRow = {
@@ -112,7 +139,7 @@ const Formulir: React.FC = () => {
     };
     // const handleCheckboxChange = (e:any) => {
 
-    const handleChoiceChange = (recordKey: number, choiceValue: string, checked: boolean) => { //fungsi yg berhubungan dgn checbox klaim kompetensi
+    const handleChoiceChange = (recordKey: string, choiceValue: string, checked: boolean) => { //fungsi yg berhubungan dgn checbox klaim kompetensi
       const currentRowChoices = selectedChoices[recordKey] || [];
       console.log(currentRowChoices);
       if (checked && currentRowChoices.length < 13) {
@@ -149,7 +176,7 @@ const Formulir: React.FC = () => {
             dataIndex: 'visualNumber', // This doesn't have to correspond to any data field
             key: 'visualNumber',
             render: (text: string, record: TableRow, index: number) => (<span style={{fontWeight:'bold'}}>{`${index + 1}`}</span>), // Render the row index + 1,
-            width: 22,
+            width: 50,
             align: 'center' as const,
           },
         {
@@ -167,7 +194,7 @@ const Formulir: React.FC = () => {
           dataIndex: 'jenis',
           key: 'jenis',
           render: (text: string, record: TableRow) => (
-            <Form.Item name={`jenis${record.key}`} initialValue={undefined} >
+            <Form.Item name={`jenis${record.key}`} initialValue={text || undefined} >
               <Select placeholder="--Choose--" style={{ width: 280 }} >
                 <Select.Option value="jenis1">Organisasi PII</Select.Option>
                 <Select.Option value="jenis2">Organisasi Keinsinyuran Non PII</Select.Option>
@@ -210,12 +237,13 @@ const Formulir: React.FC = () => {
             title: 'Perioda',
             dataIndex: 'perioda',
             key: 'perioda',
+            width: 50,
             render: (text: string, record: TableRow, index: number) => (
                 <div>
                     {record.masihAnggota  ? (
                     <>
-                    <Form.Item name={`bulanMulai${record.key}`} initialValue={undefined}>
-                      <Select placeholder="--Bulan--" style={{ width: 150 }}>
+                    <Form.Item className='form-item-row' name={`bulanMulai${record.key}`} initialValue={record.bulanMulai || undefined}>
+                      <Select placeholder="--Bulan Mulai--" style={{ width: 150 }}>
                         <Select.Option value="Januari">Januari</Select.Option>
                         <Select.Option value="Februari">Februari</Select.Option>
                         <Select.Option value="Maret">Maret</Select.Option>
@@ -230,11 +258,31 @@ const Formulir: React.FC = () => {
                         <Select.Option value="Desember">Desember</Select.Option>
                       </Select>
                     </Form.Item>
-                    <Form.Item name={`tahunMulai${record.key}`} initialValue={text}>
-                        <Input placeholder='--Tahun--' />
+                    <Form.Item className='form-item-row' name={`tahunMulai${record.key}`} initialValue={record.tahunMulai || undefined}>
+                        <Input placeholder='--Tahun Mulai--' />
                     </Form.Item></>)
                     :(<>
-                    <Form.Item name={`bulanMulai${record.key}`} initialValue={undefined}>
+                    <Form.Item className='form-item-row' name={`bulanMulai${record.key}`} initialValue={record.bulanMulai || undefined}>
+                      <Select placeholder="--Bulan Mulai--" style={{ width: 150 }}>
+                      <Select.Option value="Januari">Januari</Select.Option>
+                        <Select.Option value="Februari">Februari</Select.Option>
+                        <Select.Option value="Maret">Maret</Select.Option>
+                        <Select.Option value="April">April</Select.Option>
+                        <Select.Option value="Mei">Mei</Select.Option>
+                        <Select.Option value="Juni">Juni</Select.Option>
+                        <Select.Option value="Juli">Juli</Select.Option>
+                        <Select.Option value="Agustus">Agustus</Select.Option>
+                        <Select.Option value="September">September</Select.Option>
+                        <Select.Option value="Oktober">Oktober</Select.Option>
+                        <Select.Option value="November">November</Select.Option>
+                        <Select.Option value="Desember">Desember</Select.Option>
+                      </Select>
+                    </Form.Item>
+                    <Form.Item className='form-item-row' name={`tahunMulai${record.key}`} initialValue={record.tahunMulai || undefined}>
+                        <Input placeholder='--Tahun Mulai--' />
+                    </Form.Item>
+                    <Divider style={{ margin:'5px 0'}} plain>s/d</Divider>
+                    <Form.Item className='form-item-row' name={`bulan${record.key}`} initialValue={record.bulan || undefined}>
                       <Select placeholder="--Bulan--" style={{ width: 150 }}>
                       <Select.Option value="Januari">Januari</Select.Option>
                         <Select.Option value="Februari">Februari</Select.Option>
@@ -250,33 +298,13 @@ const Formulir: React.FC = () => {
                         <Select.Option value="Desember">Desember</Select.Option>
                       </Select>
                     </Form.Item>
-                    <Form.Item name={`tahunMulai${record.key}`} initialValue={text}>
-                        <Input placeholder='--Tahun--' />
-                    </Form.Item>
-                    <Divider plain>s/d</Divider>
-                    <Form.Item name={`bulan${record.key}`} initialValue={undefined}>
-                      <Select placeholder="--Bulan--" style={{ width: 150 }}>
-                      <Select.Option value="Januari">Januari</Select.Option>
-                        <Select.Option value="Februari">Februari</Select.Option>
-                        <Select.Option value="Maret">Maret</Select.Option>
-                        <Select.Option value="April">April</Select.Option>
-                        <Select.Option value="Mei">Mei</Select.Option>
-                        <Select.Option value="Juni">Juni</Select.Option>
-                        <Select.Option value="Juli">Juli</Select.Option>
-                        <Select.Option value="Agustus">Agustus</Select.Option>
-                        <Select.Option value="September">September</Select.Option>
-                        <Select.Option value="Oktober">Oktober</Select.Option>
-                        <Select.Option value="November">November</Select.Option>
-                        <Select.Option value="Desember">Desember</Select.Option>
-                      </Select>
-                    </Form.Item>
-                    <Form.Item name={`tahun${record.key}`} initialValue={text}>
+                    <Form.Item className='form-item-row' name={`tahun${record.key}`} initialValue={record.tahun}>
                         <Input placeholder='--Tahun--' />
                     </Form.Item>
                     </>)}
                     
                     {/* <Checkbox onChange={handleCheckboxChange}>Masih Menjadi Anggota</Checkbox> */}
-                    <Form.Item name={`masihAnggota${record.key}`} valuePropName="checked" initialValue={false}>
+                    <Form.Item name={`masihAnggota${record.key}`} valuePropName="checked" initialValue={record.masihAnggota}>
                       <Checkbox checked={record.masihAnggota} onChange={(e: any) => handleCheckboxChange(record.key, e.target.checked)}>Masih Menjadi Anggota</Checkbox>
                     </Form.Item>
                 </div>
@@ -287,7 +315,7 @@ const Formulir: React.FC = () => {
             dataIndex: 'jabatanOrganisasi',
             key: 'jabatanOrganisasi',
             render: (text: string, record: TableRow, index: number) => (
-              <Form.Item name={`jabatanOrganisasi${record.key}`} initialValue={undefined} >
+              <Form.Item name={`jabatanOrganisasi${record.key}`} initialValue={text || undefined} >
                 <Select placeholder="--Choose--" style={{ width: 280 }}>
                   <Select.Option value="jabatan1">Anggota biasa</Select.Option>
                   <Select.Option value="jabatan2">Anggota pengurus</Select.Option>
@@ -301,7 +329,7 @@ const Formulir: React.FC = () => {
             dataIndex: 'tingkatanOrganisasi',
             key: 'tingkatanOrganisasi',
             render: (text: string, record: TableRow, index: number) => (
-                <Form.Item name={`tingkatanOrganisasi${record.key}`} initialValue={undefined}>
+                <Form.Item name={`tingkatanOrganisasi${record.key}`} initialValue={text  || undefined}>
                 <Select placeholder="--Choose--" style={{ width: 280 }}>
                   <Select.Option value="tingkatan1">Organisasi lokal (bukan Nasional)</Select.Option>
                   <Select.Option value="tingkatan2">Organisasi Nasional</Select.Option>
@@ -316,7 +344,7 @@ const Formulir: React.FC = () => {
             dataIndex: 'kegiatanOrganisasi',
             key: 'kegiatanOrganisasi',
             render: (text: string, record: TableRow, index: number) => (
-                <Form.Item name={`kegiatanOrganisasi${record.key}`} initialValue={undefined}>
+                <Form.Item name={`kegiatanOrganisasi${record.key}`} initialValue={text  || undefined}>
                 <Select placeholder="--Choose--" style={{ width: 280 }}>
                   <Select.Option value="kegiatan1">Asosiasi Profesi</Select.Option>
                   <Select.Option value="kegiatan2">Lembaga Pemerintah</Select.Option>
@@ -345,7 +373,7 @@ const Formulir: React.FC = () => {
           key: 'klaimKompetensi',
           render: (text: string[], record: TableRow) => (
           <div style={{ height: '150px', overflowY: 'scroll',border:'1px solid #dddddd',padding:'5px' }}>
-            <Form.Item name={`klaimKompetensi${record.key}`} initialValue={text} style={{width:'1000px',fontSize:'14px'}} >
+            <Form.Item name={`klaimKompetensi${record.key}`} initialValue={record.klaimKompetensiWSatu} style={{width:'1000px',fontSize:'14px'}} >
               <div style={{ display: 'flex', flexDirection: 'column'}}>
                 {dataWsatu.map(section => (
                 <div key={section.value} >
@@ -373,31 +401,54 @@ const Formulir: React.FC = () => {
           dataIndex: 'actions',
           key: 'actions',
           render: (text: string, record: TableRow) => (
-            <Button onClick={() => handleDeleteRow(record.key)} danger><DeleteOutlined /> x</Button>
+            <Button onClick={() => handleDeleteRow(record.key)} type='primary' danger><DeleteOutlined /> x</Button>
           ),
         },
       ];
     
     //struktur komponen
     return (
+    <ConfigProvider
+      theme={{
+        components: {
+          Table: {
+            headerBorderRadius: 4,
+          },
+          Checkbox: {
+            colorPrimary: '#6b7aa1',
+            colorPrimaryHover: '#7e90be',
+          },
+        },
+      }}
+    >
     <div>
         <div className='container-form'>
-            <h3 className='headerform' style={{marginBottom:'10px'}}>I.3 Organisasi Profesi & Organisasi Lainnya Yang Dimasuki <span style={{color:'blue'}}>(W1)</span></h3>
+            <h3 className='headerform' style={{marginBottom:'10px'}}>I.3 Organisasi Profesi & Organisasi Lainnya Yang Dimasuki <span style={{color:'#6b7aa1'}}>(W1)</span></h3>
             <Button className="addFormButton" type="primary" onClick={handleAddRow} style={{marginBottom:'10px'}}>
                 + Add Row
             </Button>
             <Form ref={formRef} onFinish={onFinish} >
-                <div style={{ maxHeight: '420px', overflowY: 'auto', }}>
-                    <Table dataSource={dataSource} columns={columns} pagination={false} rowKey={(record) => record.key} size="small" style={{maxHeight: '400px', margin: '-8px', padding: '8px' }}/>
-                </div>
+              <div style={{ overflowY: 'hidden', overflowX: 'auto' }}>
+                <Table
+                  dataSource={dataSource}
+                  columns={columns}
+                  pagination={false}
+                  rowKey={(record) => record.key}
+                  size="small"
+                  scroll={{ y: 400, x: 'max-content' }} // Adjust x as needed
+                  bordered
+                />
+              </div>
                 <p style={{margin:'10px 0'}}>*&#41; KOMPETENSI: Isi dengan nomor Uraian Kegiatan Kompetensi yang Anda anggap persyaratannya telah terpenuhi dengan aktifitas Anda di sini</p>
-                <Button className="saveFormButton" type="primary" htmlType="submit" style={{margin:'10px auto',display: "flex", justifyContent: "center" }}>
+                <Button className="saveFormButton" type="primary" htmlType="submit" style={{margin:'20px auto',display: "flex", justifyContent: "center" }}>
                     {/* <Button type="primary" htmlType="submit" disabled={totalSelected !== 3}> */}
                     Save & Continue
                 </Button>
             </Form>
         </div>
     </div>
+    </ConfigProvider>
+
     );
   };
 
