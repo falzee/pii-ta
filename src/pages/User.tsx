@@ -100,10 +100,10 @@ const User = () => {
           // Add more items as needed
         ]);
       } else {
-        console.error('JWT token not found');
+        console.error('user not found');
       }
     } catch (error) {
-      console.error('Error fetching user data:', error);
+      console.error('Error fetching user data');
     }
   };
 

@@ -1,30 +1,63 @@
 import React, { useEffect, useState } from 'react';
 import { ConfigProvider, Tabs, TabsProps } from 'antd';
-import FirstTabForm from '../components/FormThree';
-import SecondTabForm from '../components/FormFour';
-import ThirdTabForm from '../components/FormFive';
-import FourthTabForm from '../components/FormSix';
+import ThirdTabForm from '../components/FormThree';
+import FourthTabForm from '../components/FormFour';
+import FifthTabForm from '../components/FormFive';
+import SixthTabForm from '../components/FormSix';
+import SeventhTabFrom from '../components/FormTwoOne';
+// FirstTabForm FirstTabForm ThirdTabForm FourthTabForm
 import { Header } from 'antd/es/layout/layout';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router';
+import { useLocation } from 'react-router-dom';
 
 const { TabPane } = Tabs;
 
 const MultiTabFormPage: React.FC = () => {
   useDocumentTitle('PII TA | Formulir');
   const navigate = useNavigate();
-
+  const location = useLocation();
   const { formId } = useParams<{ formId: string | undefined }>();
-  const [activeTab, setActiveTab] = useState('first'); // Set the default active tab
+  const [activeTab, setActiveTab] = useState('third'); // Set the default active tab
   const [redirecting, setRedirecting] = useState(true); // New state for redirection
-  console.log("0 FORM ID:"+ formId)
+  // console.log("0 FORM ID:"+ formId)
+
 
   useEffect(() => {
-    // Retrieve JWT token from localStorage
     fetchUserData(formId);
   }, [formId]);
+
+  useEffect(() => {
+    // Load the saved tab from local storage or default to 'first'
+    const savedTab = localStorage.getItem('activeTab');
+    if (savedTab) {
+      setActiveTab(savedTab);
+    }
+  }, []);
+
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      localStorage.setItem('activeTab', activeTab);
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, [activeTab]);
+
+  useEffect(() => {
+    const clearActiveTabOnNavigation = () => {
+      localStorage.removeItem('activeTab');
+    };
+
+    return () => {
+      clearActiveTabOnNavigation();
+    };
+  }, [location]);
 
   const fetchUserData = async (formId: string | undefined) => {
     try {
@@ -34,7 +67,7 @@ const MultiTabFormPage: React.FC = () => {
         // Decode the token to extract user ID
         const decodedToken: any = jwtDecode(token);
         const userId = decodedToken.nomerInduk;
-        console.log("1 uid:"+ userId)
+        // console.log("1 uid:"+ userId)
 
         const config = {
           headers: {
@@ -43,13 +76,13 @@ const MultiTabFormPage: React.FC = () => {
         };
         // Make API request with user ID
         const response = await axios.get(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&ft=info`,config);
-        console.log("2 response:"+ response)
+        // console.log("2 response:"+ response)
 
         // if response no 
 
         const userData = response.data;
-        console.log("3 uid:"+ userData.data.student_id)
-        console.log("4 pid:"+ userData.data.pid)
+        // console.log("3 uid:"+ userData.data.student_id)
+        // console.log("4 pid:"+ userData.data.pid)
 
         if (formId !== userData.data.pid) {
           // setRedirecting(true); 
@@ -66,10 +99,10 @@ const MultiTabFormPage: React.FC = () => {
         // Update the items with fetched data
 
       } else {
-        console.error('JWT token not found');
+        console.error('User not found');
       }
     } catch (error) {
-      console.log('Error fetching user data:', error); 
+      console.error('Error fetching user data'); 
   // navigate("/unauthorized", { replace: true });
     }
   };
@@ -89,28 +122,34 @@ const MultiTabFormPage: React.FC = () => {
 
   const handleTabChange = (tabKey: string) => {
     setActiveTab(tabKey);
+    localStorage.setItem('activeTab', tabKey);
   };
 
   const items: TabsProps['items'] = [
     {
-      key: 'first',
-      label: 'I.3',
-      children: <FirstTabForm />,
-    },
-    {
-      key: 'second',
-      label: 'I.4',
-      children: <SecondTabForm />,
-    },
-    {
       key: 'third',
-      label: 'I.5',
+      label: 'I.3',
       children: <ThirdTabForm />,
     },
     {
       key: 'fourth',
-      label: 'I.6',
+      label: 'I.4',
       children: <FourthTabForm />,
+    },
+    {
+      key: 'fifth',
+      label: 'I.5',
+      children: <FifthTabForm />,
+    },
+    {
+      key: 'sixth',
+      label: 'I.6',
+      children: <SixthTabForm />,
+    },
+    {
+      key: 'seventh',
+      label: 'II.1',
+      children: <SeventhTabFrom />,
     },
   ];
   // css margin  
@@ -141,18 +180,21 @@ const MultiTabFormPage: React.FC = () => {
 
       <div className = 'formPage' style={{padding: '0 2rem',overflow: 'hidden'}}>
         <Tabs activeKey={activeTab} onChange={handleTabChange} items={items} />
-          <TabPane tab="I.3" key="first">
-            <FirstTabForm />
-          </TabPane>
-          <TabPane tab="I.4" key="second">
-            <SecondTabForm />
-          </TabPane>
-          <TabPane tab="I.5" key="third">
+          {/* <TabPane tab="I.3" key="third">
             <ThirdTabForm />
           </TabPane>
-          <TabPane tab="I.6" key="fourth">
+          <TabPane tab="I.4" key="fourth">
             <FourthTabForm />
           </TabPane>
+          <TabPane tab="I.5" key="fifth">
+            <FifthTabForm />
+          </TabPane>
+          <TabPane tab="I.6" key="sixth">
+            <SixthTabForm />
+          </TabPane>
+          <TabPane tab="II.1" key="seventh">
+            <SeventhTabForm />
+          </TabPane> */}
           </div> 
         </>}
       

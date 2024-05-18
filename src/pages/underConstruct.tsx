@@ -14,7 +14,10 @@ const unauthorized = () => {
           background:'#d7d1c9',
     }}
     >
-      <img src={oops} style={{width:'500px'}} alt="oops" />
+      <img src={oops} style={{width: '600px',
+        maxWidth: '100%',
+        objectFit: 'cover',
+        padding:'0 2rem'}} alt="oops" />
       <Typography.Title  level={2}  style={{ padding:'1rem',margin:'0' }}>
         UNDER CONSTRUCTION...
       </Typography.Title> 

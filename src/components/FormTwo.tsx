@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
-import { Table, Form,Input, Button, Select, Upload, Checkbox, Divider, Space } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Table, Form,Input, Button, Select, Upload, Checkbox, Divider, Space, ConfigProvider, Modal } from 'antd';
 import { FormInstance } from 'antd/lib/form';
 import { DeleteOutlined, MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
 import { nanoid } from 'nanoid';
 import { ColumnsType } from 'antd/es/table';
+import { dataWsatu } from '../data/SectionFormData'
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
+import { useParams } from 'react-router';
 
 
 //punya multiple choice

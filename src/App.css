@@ -32,7 +32,7 @@ body {
 
 .auth-container{
  width: auto;
- padding: 2rem;
+ padding: 0.5rem;
 }
 
 /* .auth-item{
@@ -114,7 +114,7 @@ body {
   width: 20%;
   background-color: #6b7aa1;
   border-color: #505c79;
-  border-radius: 0;
+  border-radius: 3px;
   font-size: 13px;
   padding: 1.2rem 3.5rem;
   text-align: center;
@@ -139,16 +139,16 @@ body {
   background-color: #7e90be !important;
 } */
 
-.list-form {
+/* .list-form {
   border: 2px solid #11324d;
   margin: 1rem 0;
   padding: 1rem;
   color: #11324d;
-}
+} */
 
-.list-form:hover {
+/* .list-form:hover {
   border-color: #7dadcd;
-}
+} */
 
 /* faip mhs */
 .form-item-row{
@@ -164,12 +164,12 @@ body {
   border-color: #7dadcd;
 } */
 
-.list-form-item {
+/* .list-form-item {
   color: inherit;
 }
 .list-form-item.hovered {
   color: #7dadcd;
-}
+} */
 
 .btn-home :hover{
   background-color: #7e90be !important;
@@ -204,7 +204,7 @@ body {
 @media only screen and (max-width: 1600px) {
   /* For tablets: */
   .auth-container {
-    width: 430px;
+    width: 400px;
   }
   
 }

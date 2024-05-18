@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
-import { Table, Form,Input, Button, Select, Upload, Checkbox, Divider, Space, ConfigProvider } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Table, Form,Input, Button, Select, Upload, Checkbox, Divider, Space, ConfigProvider, Modal } from 'antd';
 import { FormInstance } from 'antd/lib/form';
 import { DeleteOutlined, MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
 import { nanoid } from 'nanoid';
 import { ColumnsType } from 'antd/es/table';
 import { dataWsatu } from '../data/SectionFormData'
+import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
+import { useParams } from 'react-router';
 
 
   //rules
@@ -34,45 +37,61 @@ import { dataWsatu } from '../data/SectionFormData'
     uraianTugas: string;
     klaimKompetensi: string[];
     // jumlahKlaimWSatu: number;
-    klaimKompetensiWSatu?: string[]
+    klaimKompetensiWSatu?: string[];
   }
 
 const Formulir: React.FC = () => {
 //kumpulan state
-
-    const [dataSource, setDataSource] = useState<TableRow[]>([
-      {"key":"HGsQaJKrMKrMjLWQYDSFn",
-      "namaOrganisasi":"testing1",
-      "jenis":"jenis1",
-      "kotaAsal":"testing1",
-      "provinsiAsal":"testing1",
-      "negaraAsal":"testing1",
-      "bulan":"Januari",
-      "tahun":"",
-      "bulanMulai":"Februari",
-      "tahunMulai":"2018",
-      "masihAnggota":true,
-      "jabatanOrganisasi":"jabatan1",
-      "tingkatanOrganisasi":"tingkatan2",
-      "kegiatanOrganisasi":"kegiatan1",
-      "uraianTugas":"",
-      "klaimKompetensi":[],
-      "klaimKompetensiWSatu":["W.1.1.1","W.1.1.2","W.1.1.3","W.1.1.4","W.1.1.5","W.1.2.3","W.1.2.4","W.1.2.7","W.1.2.8","W.1.2.5","W.1.2.1","W.1.3.6","W.1.4.3"]},
-    {"key":"s-OdRU7olVC70aqBwWvPo","namaOrganisasi":"testing2","jenis":"jenis2","kotaAsal":"testing2","provinsiAsal":"testing2","negaraAsal":"testing2","bulan":"Mei","tahun":"1424","bulanMulai":"Januari","tahunMulai":"13132","masihAnggota":false,"jabatanOrganisasi":"jabatan1","tingkatanOrganisasi":"","kegiatanOrganisasi":"","uraianTugas":"","klaimKompetensi":[],"klaimKompetensiWSatu":[]}]);//data tabel
+    const { formId } = useParams<{ formId: string | undefined }>();
+    const [dataSource, setDataSource] = useState<TableRow[]>([  ]);//data tabel
     const [selectedChoices, setSelectedChoices] = useState<{ [key: string]: string[] }>({
-      "HGsQaJKrMKrMjLWQYDSFn": ["W.1.1.1", "W.1.1.2", "W.1.1.3", "W.1.1.4", "W.1.1.5", "W.1.2.3", "W.1.2.4", "W.1.2.7", "W.1.2.8", "W.1.2.5", "W.1.2.1", "W.1.3.6", "W.1.4.3"],
-      "s-OdRU7olVC70aqBwWvPo": ["W.1.1.3", "W.1.1.4"]
+      // "HGsQaJKrMKrMjLWQYDSFn": ["W.1.1.1", "W.1.1.2", "W.1.1.3", "W.1.1.4", "W.1.1.5", "W.1.2.3", "W.1.2.4", "W.1.2.7", "W.1.2.8", "W.1.2.5", "W.1.2.1", "W.1.3.6", "W.1.4.3"],
+      // "s-OdRU7olVC70aqBwWvPo": ["W.1.1.3", "W.1.1.4"]
     });   
-    console.log("SELECTED CHOICE: "+ Object.entries(selectedChoices))
+    // console.log("SELECTED CHOICE: "+ Object.entries(selectedChoices))
     // const [data, setdata] = useState();
     // const [rowNumbers, setRowNumbers] = useState<number>(1);//penomeran client side
     // const [showAdditionalFields, setShowAdditionalFields] = useState<boolean>(false);
     const [form] = Form.useForm();
 //kumpulan fungsi
     const formRef = React.createRef<FormInstance>();//
-    //API = const response = await axios.post(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&ft=i3`,{},config);
+    //API = const response = await axios.get(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&ft=i3`,config);
 
-  
+    useEffect(() => {
+      // Retrieve JWT token from localStorage
+      fetchFaipData();
+    }, []);
+    
+    const fetchFaipData = async () => {
+      try {
+        const token = localStorage.getItem('jwtToken');
+    
+        if (token) {
+          // Decode the token to extract user ID
+          const decodedToken: any = jwtDecode(token);
+          const userId = decodedToken.nomerInduk;
+          const config = {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          };
+          // Make API request with user ID
+          const response = await axios.get(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&ft=i3`,config)
+          const userData = response.data;
+          setDataSource(userData.data.form_i_tiga)
+          const newSelectedChoices: { [key: string]: string[] } = {};
+          userData.data.form_i_tiga.forEach((item: any) => {
+            newSelectedChoices[item.key] = item.klaimKompetensiWSatu;
+          });
+          setSelectedChoices(newSelectedChoices);
+    
+        } else {
+          console.error('User not found');
+        }
+      } catch (error) {
+        console.error('Error fetching data'); 
+      }
+    };
     const handleAddRow = () => { //fungsi nambah baris 
         const newRow: TableRow = {
           key: nanoid(),//gk perlu //gk jadi deng ternyata perlu
@@ -97,10 +116,7 @@ const Formulir: React.FC = () => {
         // setRowNumbers(rowNumbers + 1); 
       };
       
-    const handleDeleteRow = (key: any) => { //fungsi hapus baris  //NEED API DELETE
-      const updatedDataSource = dataSource.filter(row => row.key !== key);
-      setDataSource(updatedDataSource);
-    };
+
     // const updatedRowNumbers = updatedDataSource.map(row => row.id).splice(-1,1,);
     // console.log(updatedRowNumbers)
     // const updatedNumbers = updatedRowNumbers.splice(-1, 1) ;
@@ -108,32 +124,51 @@ const Formulir: React.FC = () => {
     // console.log(updatedRowNumbers)
     //buggg
 
-    const onFinish = (values: any) => { //fungsi submit form //NEED API POST
-      const formData = dataSource.map(row => ({
-        ...row,
-        namaOrganisasi : values[`namaOrganisasi${row.key}`],
-        jenis: values[`jenis${row.key}`],
-        kotaAsal: values[`kotaAsal${row.key}`],
-        provinsiAsal: values[`provinsiAsal${row.key}`],
-        negaraAsal: values[`negaraAsal${row.key}`],
-        bulan: values[`bulan${row.key}`],
-        tahun: values[`tahun${row.key}`],
-        bulanMulai: values[`bulanMulai${row.key}`],
-        tahunMulai: values[`tahunMulai${row.key}`],
-        masihAnggota : values[`masihAnggota${row.key}`],
-        jabatanOrganisasi: values[`jabatanOrganisasi${row.key}`],
-        tingkatanOrganisasi: values[`tingkatanOrganisasi${row.key}`],
-        kegiatanOrganisasi: values[`kegiatanOrganisasi${row.key}`],
-        uraianTugas: values[`uraianTugas${row.key}`],
-        klaimKompetensiWSatu: selectedChoices[row.key] || [],
-      }));
-      
-      // Now you can send formData to your backend for processing
-      const formDataJson = JSON.stringify(formData, (key, value) => {
-        // Include properties with undefined values
-        return value === undefined ? null : value;
-      });
-      console.log('Form Data:', formDataJson);
+    const onFinish = async (values: any) => { //fungsi submit form //NEED API POST
+
+      try{
+        const token = localStorage.getItem('jwtToken');
+        if (token) {
+          const decodedToken: any = jwtDecode(token);
+          const userId = decodedToken.nomerInduk;
+          const formData = dataSource.map(row => ({
+            ...row,
+            namaOrganisasi : values[`namaOrganisasi${row.key}`],
+            jenis: values[`jenis${row.key}`],
+            kotaAsal: values[`kotaAsal${row.key}`],
+            provinsiAsal: values[`provinsiAsal${row.key}`],
+            negaraAsal: values[`negaraAsal${row.key}`],
+            bulan: values[`bulan${row.key}`],
+            tahun: values[`tahun${row.key}`],
+            bulanMulai: values[`bulanMulai${row.key}`],
+            tahunMulai: values[`tahunMulai${row.key}`],
+            masihAnggota : values[`masihAnggota${row.key}`],
+            jabatanOrganisasi: values[`jabatanOrganisasi${row.key}`],
+            tingkatanOrganisasi: values[`tingkatanOrganisasi${row.key}`],
+            kegiatanOrganisasi: values[`kegiatanOrganisasi${row.key}`],
+            uraianTugas: values[`uraianTugas${row.key}`],
+            klaimKompetensiWSatu: selectedChoices[row.key] || [],
+          }));
+          
+          // Now you can send formData to your backend for processing
+          // console.log('Form Data:', formData);
+          const config = {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          };
+          const response = await axios.patch(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=i3`,formData,config);
+          // console.log("response add form:"+response)
+
+          // const userData = response.data;
+          // setStatus("new")
+        } else {
+          console.error('User not found');
+        }
+      }catch(error){
+        console.error('Error sending form');
+      }
+      window.location.reload();
       
       // ... your form submission logic ...
     };
@@ -141,7 +176,7 @@ const Formulir: React.FC = () => {
 
     const handleChoiceChange = (recordKey: string, choiceValue: string, checked: boolean) => { //fungsi yg berhubungan dgn checbox klaim kompetensi
       const currentRowChoices = selectedChoices[recordKey] || [];
-      console.log(currentRowChoices);
+      // console.log(currentRowChoices);
       if (checked && currentRowChoices.length < 13) {
         const updatedRowChoices = [...currentRowChoices, choiceValue];
           setSelectedChoices({
@@ -168,6 +203,43 @@ const Formulir: React.FC = () => {
         )
       );
     };
+
+    // const openModalDelete = (key: any) => { //fungsi hapus baris  //NEED API DELETE
+    //   // const updatedDataSource = dataSource.filter(row => row.key !== key);
+    //   // setDataSource(updatedDataSource);
+    //   setIsModalOpen(false);
+    // };
+    // const showModal = (record:any) => {
+    //   console.log(record);
+    //   setmodaldata(record);
+    //   setIsModalVisible(true);
+    //   };
+    // const deleteRowForm = async (record: TableRow) => {
+    //   try{
+    //     const token = localStorage.getItem('jwtToken');
+    //     if (token) {
+    //       const decodedToken: any = jwtDecode(token);
+    //       const userId = decodedToken.nomerInduk;
+    //       const config = {
+    //         headers: {
+    //           Authorization: `Bearer ${token}`
+    //         }
+    //       };
+    //       const response = await axios.patch(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=i3`,config);
+    //       console.log("response add form:"+response)
+    //       handleDeleteRow(record.key)
+
+    //       // const userData = response.data;
+    //       // setStatus("new")
+    //     } else {
+    //       console.error('JWT token not found');
+    //     }
+    //   }catch(error){
+    //     console.log('Error deleting row data form:', error);
+    //   }
+    //   setIsModalOpen(false);
+    //   // window.location.reload(); 
+    // };
     
 //kolom tabel
     const columns: ColumnsType<TableRow>= [
@@ -373,7 +445,7 @@ const Formulir: React.FC = () => {
           key: 'klaimKompetensi',
           render: (text: string[], record: TableRow) => (
           <div style={{ height: '150px', overflowY: 'scroll',border:'1px solid #dddddd',padding:'5px' }}>
-            <Form.Item name={`klaimKompetensi${record.key}`} initialValue={record.klaimKompetensiWSatu} style={{width:'1000px',fontSize:'14px'}} >
+            <Form.Item name={`klaimKompetensi${record.key}`} initialValue={text} style={{width:'1000px',fontSize:'14px'}} >
               <div style={{ display: 'flex', flexDirection: 'column'}}>
                 {dataWsatu.map(section => (
                 <div key={section.value} >
@@ -401,11 +473,45 @@ const Formulir: React.FC = () => {
           dataIndex: 'actions',
           key: 'actions',
           render: (text: string, record: TableRow) => (
-            <Button onClick={() => handleDeleteRow(record.key)} type='primary' danger><DeleteOutlined /> x</Button>
+            // <>
+            <Button onClick={() => openModalDelete(record)} type='primary' danger>
+              <DeleteOutlined />
+            </Button>
+            // <Button onClick={showModal} type='primary' danger><DeleteOutlined /> x</Button>
+            // {/* <Modal title="Hapus Formulir?" open={isModalOpen} onOk={deleteRowForm} onCancel={handleCancel} okText={'Hapus'} okType='danger' centered> */}
+            // <Modal title="Hapus data?" open={isModalOpen} onOk={() => handleDeleteRow(record.key)} onCancel={handleCancel} okText={'Hapus'} okType='danger' centered>
+            //   <p>Apakah anda yakin untuk menghapus data baris ini?</p>
+            //   <p style={{color:'red'}}>note. data yang dihapus tidak bisa dikembalikan</p>
+            // </Modal>
+            // </>
+            
           ),
         },
       ];
+      //modal logic
+      const handleDelete = (key: any) => {
+        const newData = dataSource.filter(item => item.key !== key);
+        setDataSource(newData);
+      };
+
+      const [isModalOpen, setIsModalOpen] = useState(false);
+      const [modaldata, setmodaldata] = useState<any>([]);
+      const openModalDelete = (record: any) => { //fungsi hapus baris  //NEED API DELETE
+        // const updatedDataSource = dataSource.filter(row => row.key !== key);
+        setmodaldata(record);
+        setIsModalOpen(true);
+      };
+      const handleDeleteRow = () => {
+        handleDelete(modaldata.key);
+        setIsModalOpen(false);
+        };
+      const showModal = () => {
+        setIsModalOpen(true);
+      };
     
+      const handleCancel = () => {
+        setIsModalOpen(false);
+      };
     //struktur komponen
     return (
     <ConfigProvider
@@ -418,7 +524,11 @@ const Formulir: React.FC = () => {
             colorPrimary: '#6b7aa1',
             colorPrimaryHover: '#7e90be',
           },
-        },
+          Input: {
+            activeBorderColor:'#7e90be',
+            hoverBorderColor:'#7e90be',
+          },
+        }
       }}
     >
     <div>
@@ -445,6 +555,10 @@ const Formulir: React.FC = () => {
                     Save & Continue
                 </Button>
             </Form>
+            <Modal title="Hapus data?" open={isModalOpen} onOk={handleDeleteRow} onCancel={handleCancel} okText={'Hapus'} okType='danger' centered>
+              {/* <p>Apakah anda yakin untuk menghapus data baris ini?</p> */}
+              <p style={{color:'#faad14'}}>Data baru benar-benar terhapus dengan menekan tombol "save and continue" di bagian bawah</p>
+            </Modal>
         </div>
     </div>
     </ConfigProvider>

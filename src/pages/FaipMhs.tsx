@@ -36,7 +36,7 @@ const Faip = ( ) => {
         const userId = decodedToken.nomerInduk;
         setNama(decodedToken.nama);
         setNim(decodedToken.nomerInduk);
-        console.log("nim mauk:" + nim)
+        // console.log("nim mauk:" + nim)
         const config = {
           headers: {
             Authorization: `Bearer ${token}`
@@ -45,7 +45,7 @@ const Faip = ( ) => {
         // Make API request with user ID
         const response = await axios.get(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&ft=info`,config);
         // const response = await axios.get(`http://localhost:8000/form-penilaian/mhs`,config);
-        console.log("response:"+response)
+        // console.log("response:"+response)
         // if response no 
 
         const userData = response.data;
@@ -59,10 +59,10 @@ const Faip = ( ) => {
         // Update the items with fetched data
 
       } else {
-        console.error('JWT token not found');
+        console.error('User not found');
       }
     } catch (error) {
-      console.log('Error fetching user data:', error);
+      console.error('Error getting user data');
       setLastUpdate('')
       setLastEdit('')
       setStatus('new')
@@ -90,15 +90,15 @@ const Faip = ( ) => {
           }
         };
         const response = await axios.delete(`http://localhost:8000/form-penilaian/mhs?uid=${nim}&pid=${pid}`,config);
-        console.log("response add form:"+response)
+        // console.log("response add form:"+response)
 
         // const userData = response.data;
         // setStatus("new")
       } else {
-        console.error('JWT token not found');
+        console.error('User not found');
       }
     }catch(error){
-      console.log('Error deleting form:', error);
+      console.error('Error deleting form');
     }
     setIsModalOpen(false);
     window.location.reload(); 
@@ -109,7 +109,7 @@ const Faip = ( ) => {
       const token = localStorage.getItem('jwtToken');
       const prefix = 'form-'; // Define your prefix here
       const pid = `${prefix}${nanoid()}`;       
-      console.log("token form:" + token);
+      // console.log("token form:" + token);
       
       if (token) {
         const config = {
@@ -117,21 +117,19 @@ const Faip = ( ) => {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json', // Ensure the Content-Type header is set
           }
-        };
-        console.log("config:", config);
-  
+        };  
         const response = await axios.post(`http://localhost:8000/form-penilaian/mhs?uid=${nim}&pid=${pid}`, {}, config);
-        console.log("response create form:" + response);
+        // console.log("response create form:" + response);
   
         // const userData = response.data;
         setStatus("edit");
-        navigate(`/form/mahasiswa/faip/edit/${pid}`, { replace: false });
+        navigate(`/form/m/faip/edit/${pid}`, { replace: false });
         
       } else {
-        console.error('JWT token not found');
+        console.error('User not found');
       }
     } catch (error) {
-      console.log('Form can\'t be created:', error);
+      console.error('Form can\'t be created');
     }
   };
 
@@ -161,7 +159,7 @@ const Faip = ( ) => {
         <>
         {/* edit to> edit in dynamic page with pid > submit/ delete get popup> reload (delete no reload only submit)> 
         if try change page get popup u sure? > only save if submit/delete so if sure just go away w/out save*/}
-        <Link className='link-hover' style={{margin:'0 0.5rem'}} to={`/form/mahasiswa/faip/edit/${pid}`}>
+        <Link className='link-hover' style={{margin:'0 0.5rem'}} to={`/form/m/faip/edit/${pid}`}>
           <Button type="primary" size='large' style={{ borderRadius:'3px' }} >
             <span style={{margin:'0 5px'}}><EditOutlined /></span> Edit
           </Button>

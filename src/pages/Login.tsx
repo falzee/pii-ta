@@ -1,4 +1,4 @@
-import { Button, Form, Input,message } from 'antd'
+import { App, Button, Form, Input,message } from 'antd'
 import background from '../images/bg-ta-login.jpg';
 import logoHome from '../images/logo-elektro-login.png';
 import React, { useEffect, useState } from 'react'
@@ -10,29 +10,12 @@ import { AppDispatch } from '../app/Store';
 
 const Login = () => {
     const [form] = Form.useForm();
+    const { message } = App.useApp();
     const navigate = useNavigate();
     const dispatch: AppDispatch = useAppDispatch();
     const {isLogin,error,loading} = useAppSelector((state)=> state.auth)
     const auth = useAppSelector((state)=> state.auth)
-    // const [serverConnection,setServerConnection] = useState(true);
 
-    // const validateExampleField = (rule: any, value: string, callback: Function) => {
-    //   if (value && value.length < 5) {
-    //     message.error('Example Field must be at least 5 characters long',1);
-    //   } else {
-    //     callback();
-    //   }
-    // };
-
-    // const validateEmail = (rule: any, value: string) => {
-    //   const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i; // Your custom email regex
-  
-    //   if (!regex.test(value)) {
-    //     return Promise.reject('Please enter a valid email address');
-    //   } else {
-    //     return Promise.resolve();
-    //   }
-    // };
 
     const successMessage = () => {
       message.success('Successfully Logged in');
@@ -68,7 +51,7 @@ const Login = () => {
 			  dispatch(postLogIn(loginCredentials));  
 			})
 			.catch((error) => {
-        console.error('Error fetching data :', error); 
+        console.error('Error fetching data'); 
       });
 
     };
@@ -192,3 +175,22 @@ return (
 }
 
 export default Login
+    // const [serverConnection,setServerConnection] = useState(true);
+
+    // const validateExampleField = (rule: any, value: string, callback: Function) => {
+    //   if (value && value.length < 5) {
+    //     message.error('Example Field must be at least 5 characters long',1);
+    //   } else {
+    //     callback();
+    //   }
+    // };
+
+    // const validateEmail = (rule: any, value: string) => {
+    //   const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i; // Your custom email regex
+  
+    //   if (!regex.test(value)) {
+    //     return Promise.reject('Please enter a valid email address');
+    //   } else {
+    //     return Promise.resolve();
+    //   }
+    // };

@@ -5,7 +5,7 @@ import oops from "../images/404pii.webp"
 const ErrorPage = () => {
   return (
     <div 
-        className='about-container' style={{ 
+        className='error-container' style={{ 
         display:'flex',
         flexDirection:'column',
         padding:'0',
@@ -17,9 +17,12 @@ const ErrorPage = () => {
         background:'#d7d1c9',
     }}
     >
-      <img src={oops} style={{width:'500px'}} alt="oops" />
-      <Typography.Title  level={2}  style={{ padding:'1rem',margin:'0' }}>
-        404 ERROR Page Not Found   
+      <img src={oops} style={{width: '600px',
+            maxWidth: '100%',
+            objectFit: 'cover',
+            padding:'0 2rem'}} alt="oops" />
+      <Typography.Title  level={2}  style={{ padding:'1rem 2rem 0',margin:'0' }}>
+        404 Page Not Found   
       </Typography.Title> 
     
     </div>

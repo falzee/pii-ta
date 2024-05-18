@@ -19,6 +19,7 @@ import Unauth from './pages/Unauth';
 import UnderConstruct from './pages/underConstruct';
 import FormMhs from './pages/FormMhs';
 import FaipDosen from './pages/FaipDosen';
+import FormDosen from './pages/FormDosen';
 
 function mainApp() {
 
@@ -39,13 +40,14 @@ function mainApp() {
          */}
         </Route>
         <Route element={<ProtectedRoute allowedRoles={['mahasiswa']}><Layouting /></ProtectedRoute>} >
-            <Route element={<FormMhs/> } path="form/mahasiswa/"/>
+            <Route element={<FormMhs/> } path="form/m/"/>
               {/* <Route element={<NilaiMhs/>} path="form/mahasiswa/nilai" /> */}
-              <Route element={<FaipMhs/>} path="form/mahasiswa/faip" />
-              <Route element={<TabPage/>} path="form/mahasiswa/faip/edit/:formId" />
+              <Route element={<FaipMhs/>} path="form/m/faip" />
+              <Route element={<TabPage/>} path="form/m/faip/edit/:formId" />
         </Route>
         <Route element={<ProtectedRoute allowedRoles={['dosen']}><Layouting /></ProtectedRoute>} >
-          <Route element={<UnderConstruct /> } path="form/dosen"/>
+          <Route element={<FormDosen /> } path="form/d/"/>
+          <Route element={<UnderConstruct /> } path="form/d/faip"/>
           {/* <Route element={<FaipDosen /> } path="form/dosen"/>
             <Route element={<NilaiMhs/>} path="form/dosen/nilai" />
             <Route element={<TabPage/>} path="form/dosen/formulir" /> */}

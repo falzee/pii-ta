@@ -60,7 +60,7 @@ const Layouting: React.FC = () => {
     {
       key: '/form',
       icon: <UnorderedListOutlined />,
-      label: (<Link to='./form/mahasiswa'>Form - mahasiswa</Link>),
+      label: (<Link to='./form/m'>Form - mahasiswa</Link>),
       
     },
     {
@@ -84,7 +84,7 @@ const Layouting: React.FC = () => {
     {
       key: '/form',
       icon: <UnorderedListOutlined />,
-      label: (<Link to='./form/dosen'>Form - dosen</Link>),
+      label: (<Link to='./form/d'>Form - dosen</Link>),
       
     },
     {

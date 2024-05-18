@@ -69,7 +69,7 @@ const ProtectedRoute = ({ children,allowedRoles }: Props) => {
           setLoading(false);
         }
       } catch (error) {
-        console.error('Authentication error:', error);
+        console.error('Authentication error');
         navigate("/error", { replace: true });
       }
     };

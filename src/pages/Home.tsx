@@ -31,7 +31,8 @@ const Home = ( ) => {
     alignItems: 'center',
     justifyContent: 'center',
     height: '100%',}}>
-        <div className='home-page' style={{padding:'2rem 2rem',
+        <div className='home-page' style={{
+        padding:'2rem 2rem',
         display: 'flex',  // Added flex properties for centering
         flexDirection: 'column',  // To stack child elements vertically
         alignItems: 'center',

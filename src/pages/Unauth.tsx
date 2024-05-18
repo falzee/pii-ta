@@ -14,9 +14,12 @@ const unauthorized = () => {
           background:'#d7d1c9',
     }}
     >
-      <img src={oops} style={{width:'500px'}} alt="oops" />
-      <Typography.Title  level={2}  style={{ padding:'1rem',margin:'0' }}>
-        403 FORBIDDEN 
+      <img src={oops} style={{width: '600px',
+        maxWidth: '100%',
+        objectFit: 'cover',
+        padding:'0 2rem'}} alt="oops" />
+      <Typography.Title  level={2}  style={{ padding:'1rem 2rem 0',margin:'0' }}>
+        403 Unauthorized
       </Typography.Title> 
     
     </div>
