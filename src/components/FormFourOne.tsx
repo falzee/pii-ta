@@ -6,7 +6,7 @@ import { DeleteOutlined, MinusCircleOutlined, PlusOutlined, UploadOutlined } fro
 import TextArea from 'antd/es/input/TextArea';
 import { nanoid } from 'nanoid';
 import { ColumnsType } from 'antd/es/table';
-import { dataWsatu } from '../data/SectionFormDataW'
+import { dataPlima } from '../data/SectionFormDataP'
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { useParams } from 'react-router';
@@ -21,31 +21,21 @@ import { useParams } from 'react-router';
 //four
 interface TableRow {
   key: any;
-  namaTandaPenghargaan: string;
-  
-  namaLembaga: string;
-  
-  kotaAsal: string;
-  
-  provinsiAsal: string;
-  
-  negaraAsal: string;
-  
-  bulanTerbit: string;
-  tahunTerbit: string;
-  
-  tingkatPenghargaan: string;
-  
-  jenisLembagaPenghargaan: string;
-  
+  namaPerguruan: string;
+  namaMataAjaran: string;
+  kota: string;
+  provinsi: string;
+  negara : string;
+  perioda: string;
+  jabatandiPerguruan: string;
+  jumlahWaktu: string;
   uraianSingkatAktifitas: string;
-  
   klaimKompetensi: string[];
-  klaimKompetensiWSatu?: string[]
+  klaimKompetensiPlima?: string[];
   }
   //punya column
   
-  const FormulirEmpat: React.FC = () => {
+const FormFourOne: React.FC = () => {
     //kumpulan state
     const { formId } = useParams<{ formId: string | undefined }>();
     const [dataSource, setDataSource] = useState<TableRow[]>([ ]);//data tabel
@@ -75,12 +65,12 @@ interface TableRow {
             }
           };
           // Make API request with user ID
-          const response = await axios.get(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&ft=i4`,config)
+          const response = await axios.get(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&ft=iv`,config)
           const userData = response.data;
-          setDataSource(userData.data.form_i_empat)
+          setDataSource(userData.data.form_iv)
           const newSelectedChoices: { [key: string]: string[] } = {};
-          userData.data.form_i_empat.forEach((item: any) => {
-            newSelectedChoices[item.key] = item.klaimKompetensiWSatu;
+          userData.data.form_iv.forEach((item: any) => {
+            newSelectedChoices[item.key] = item.klaimKompetensiPlima;
           });
           setSelectedChoices(newSelectedChoices);
     
@@ -94,15 +84,14 @@ interface TableRow {
     const handleAddRow = () => { //fungsi nambah baris 
         const newRow: TableRow = {
           key: nanoid(),//gk perlu //gk jadi deng ternyata perlu
-          namaTandaPenghargaan: '',
-          namaLembaga: '',
-          kotaAsal: '',
-          provinsiAsal: '',
-          negaraAsal: '',
-          bulanTerbit: '',
-          tahunTerbit: '',
-          tingkatPenghargaan: '',
-          jenisLembagaPenghargaan: '',
+          namaPerguruan: '',
+          namaMataAjaran: '',
+          kota: '',
+          provinsi: '',
+          negara: '',
+          perioda: '',
+          jabatandiPerguruan: '',
+          jumlahWaktu: '',
           uraianSingkatAktifitas: '',
           klaimKompetensi: [],
         };
@@ -122,17 +111,16 @@ interface TableRow {
           const userId = decodedToken.nomerInduk;
           const formData = dataSource.map(row => ({
             ...row,
-            namaTandaPenghargaan : values[`namaTandaPenghargaan${row.key}`],
-            namaLembaga: values[`namaLembaga${row.key}`],
-            kotaAsal: values[`kotaAsal${row.key}`],
-            provinsiAsal: values[`provinsiAsal${row.key}`] ,
-            negaraAsal: values[`negaraAsal${row.key}`] ,
-            bulanTerbit: values[`bulanTerbit${row.key}`] ,
-            tahunTerbit: values[`tahunTerbit${row.key}`] ,
-            tingkatPenghargaan: values[`tingkatPenghargaan${row.key}`] ,
-            jenisLembagaPenghargaan: values[`jenisLembagaPenghargaan${row.key}`],
+            namaPerguruan : values[`namaPerguruan${row.key}`],
+            namaMataAjaran: values[`namaMataAjaran${row.key}`],
+            kota: values[`kota${row.key}`],
+            provinsi: values[`provinsi${row.key}`] ,
+            negara: values[`negara${row.key}`] ,
+            perioda: values[`perioda${row.key}`] ,
+            jabatandiPerguruan: values[`jabatandiPerguruan${row.key}`] ,
+            jumlahWaktu: values[`jumlahWaktu${row.key}`] ,
             uraianSingkatAktifitas: values[`uraianSingkatAktifitas${row.key}`] ,
-            klaimKompetensiWSatu: selectedChoices[row.key] || [],
+            klaimKompetensiPlima: selectedChoices[row.key] || [],
           }));
           
           // Now you can send formData to your backend for processing
@@ -142,7 +130,7 @@ interface TableRow {
               Authorization: `Bearer ${token}`
             }
           };
-          const response = await axios.patch(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=i4`,formData,config);
+          const response = await axios.patch(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=iv`,formData,config);
           // console.log("response add form:"+response)
 
           // const userData = response.data;
@@ -174,7 +162,7 @@ interface TableRow {
           });
       }else {
           // Show alert if more than 3 choices selected
-          alert('Harap Memilih Tidak Lebih Dari 6 Klaim Kompetensi W1');
+          alert('Harap Memilih Tidak Lebih Dari 6 Klaim Kompetensi P5');
       }
     };
 
@@ -193,111 +181,95 @@ interface TableRow {
         fixed: 'left',
     },
         {
-          title: 'Nama Tanda Penghargaan',
-          dataIndex: 'namaTandaPenghargaan',
-          key: 'namaTandaPenghargaan',
+          title: 'Nama Perguruan Tinggi / Lembaga',
+          dataIndex: 'namaPerguruan',
+          key: 'namaPerguruan',
           render: (text: string, record: TableRow) => (
-            <Form.Item name={`namaTandaPenghargaan${record.key}`} initialValue={text} style={{width:'200px'}}>
+            <Form.Item name={`namaPerguruan${record.key}`} initialValue={text} style={{width:'200px'}}>
               <Input />
             </Form.Item>
           ),
         },
         {
-          title: 'Nama Lembaga yang Memberikan',
-          dataIndex: 'namaLembaga',
-          key: 'namaLembaga',
+          title: 'Nama Mata Ajaran dan Uraian Singkat yang Diajarkan / Dikembangkan',
+          dataIndex: 'namaMataAjaran',
+          key: 'namaMataAjaran',
           render: (text: string, record: TableRow) => (
-            <Form.Item name={`namaLembaga${record.key}`} initialValue={text} style={{width:'200px'}}>
+            <Form.Item name={`namaMataAjaran${record.key}`} initialValue={text} style={{width:'200px'}}>
               <Input />
             </Form.Item>
           ),
         },
         {
           title: 'Kota/Kabupaten',
-          dataIndex: 'kotaAsal',
-          key: 'kotaAsal',
+          dataIndex: 'kota',
+          key: 'kota',
           render: (text: string, record: TableRow) => (
-            <Form.Item name={`kotaAsal${record.key}`} initialValue={text} style={{width:'150px'}}>
+            <Form.Item name={`kota${record.key}`} initialValue={text} style={{width:'150px'}}>
               <Input />
             </Form.Item>
           ),
         },
         {
             title: 'Provinsi',
-            dataIndex: 'provinsiAsal',
-            key: 'provinsiAsal',
+            dataIndex: 'provinsi',
+            key: 'provinsi',
             render: (text: string, record: TableRow) => (
-              <Form.Item name={`provinsiAsal${record.key}`} initialValue={text} style={{width:'150px'}}>
+              <Form.Item name={`provinsi${record.key}`} initialValue={text} style={{width:'150px'}}>
                 <Input />
               </Form.Item>
             ),
           },
           {
             title: 'Negara',
-            dataIndex: 'negaraAsal',
-            key: 'negaraAsal',
+            dataIndex: 'negara',
+            key: 'negara',
             render: (text: string, record: TableRow, index: number) => (
-              <Form.Item name={`negaraAsal${record.key}`} initialValue={text} style={{width:'150px'}}>
+              <Form.Item name={`negara${record.key}`} initialValue={text} style={{width:'150px'}}>
                 <Input />
               </Form.Item>
             ),
           },
           {
-            title: 'Tanggal Terbit',
-            dataIndex: 'tanggalTerbit',
-            key: 'tanggalTerbit',
-            width: 50,
+            title: 'Perioda',
+            dataIndex: 'perioda',
+            key: 'perioda',
             render: (text: string, record: TableRow, index: number) => (
                 <div>
-                    <Form.Item className='form-item-row' name={`bulanTerbit${record.key}`} initialValue={record.bulanTerbit || undefined}>
-                      <Select placeholder="--Bulan--" style={{ width: 150 }}>
-                        <Select.Option value="Januari">Januari</Select.Option>
-                        <Select.Option value="Februari">Februari</Select.Option>
-                        <Select.Option value="Maret">Maret</Select.Option>
-                        <Select.Option value="April">April</Select.Option>
-                        <Select.Option value="Mei">Mei</Select.Option>
-                        <Select.Option value="Juni">Juni</Select.Option>
-                        <Select.Option value="Juli">Juli</Select.Option>
-                        <Select.Option value="Agustus">Agustus</Select.Option>
-                        <Select.Option value="September">September</Select.Option>
-                        <Select.Option value="Oktober">Oktober</Select.Option>
-                        <Select.Option value="November">November</Select.Option>
-                        <Select.Option value="Desember">Desember</Select.Option>
-                      </Select>
-                    </Form.Item>
-                    <Form.Item className='form-item-row' name={`tahunTerbit${record.key}`} initialValue={record.tahunTerbit || undefined}>
-                        <Input placeholder='--Tahun--' />
-                    </Form.Item>
-                </div>
-                ),
-          },
-          {
-            title: 'Tingkat Penghargaan yang Diterima',
-            dataIndex: 'tingkatPenghargaan',
-            key: 'tingkatPenghargaan',
-            render: (text: string, record: TableRow, index: number) => (
-                <div>
-                  <Form.Item name={`tingkatPenghargaan${record.key}`} initialValue={record.tingkatPenghargaan || undefined}>
+                  <Form.Item name={`perioda${record.key}`} initialValue={record.perioda || undefined}>
                     <Select placeholder="--Choose--" style={{ width: 280 }}>
-                      <Select.Option value="pemula">Tingkatan Muda/pemula</Select.Option>
-                      <Select.Option value="madya">Tingkatan Madya</Select.Option>
-                      <Select.Option value="utama">Tingkatan Utama</Select.Option>
+                      <Select.Option value="kurang9tahun">1 - 9 Tahun</Select.Option>
+                      <Select.Option value="kurang14tahun">10 - 14 Tahun</Select.Option>
+                      <Select.Option value="kurang19tahun">15 - 19 Tahun</Select.Option>
+                      <Select.Option value="lebih20tahun">&gt; 20 Tahun</Select.Option>
                     </Select>
                   </Form.Item>
                 </div>
                 ),
           },
           {
-            title: 'Penghargaan Diberikan oleh Lembaga',
-            dataIndex: 'jenisLembagaPenghargaan',
-            key: 'jenisLembagaPenghargaan',
+            title: 'Jabatan pada Perguruan Tinggi / Lembaga',
+            dataIndex: 'jabatandiPerguruan',
+            key: 'jabatandiPerguruan',
             render: (text: string, record: TableRow, index: number) => (
-              <Form.Item name={`jenisLembagaPenghargaan${record.key}`} initialValue={record.jenisLembagaPenghargaan || undefined} >
+              <Form.Item name={`jabatandiPerguruan${record.key}`} initialValue={record.jabatandiPerguruan || undefined} >
                 <Select placeholder="--Choose--" style={{ width: 280 }}>
-                  <Select.Option value="lokal">Penghargaan Lokal</Select.Option>
-                  <Select.Option value="nasional">Penghargaan Nasional</Select.Option>
-                  <Select.Option value="regional">Penghargaan Regional</Select.Option>
-                  <Select.Option value="internasional">Penghargaan Internasional</Select.Option>
+                  <Select.Option value="staff">Staff Pengajar</Select.Option>
+                  <Select.Option value="pimpinan">Pimpinan</Select.Option>
+                </Select>
+              </Form.Item>
+            ),
+          },
+          {
+            title: 'Jumlah Jam / SKS',
+            dataIndex: 'jumlahWaktu',
+            key: 'jumlahWaktu',
+            render: (text: string, record: TableRow, index: number) => (
+              <Form.Item name={`jumlahWaktu${record.key}`} initialValue={record.jumlahWaktu || undefined} >
+                <Select placeholder="--Choose--" style={{ width: 280 }}>
+                  <Select.Option value="1sks">1 SKS / 15 Jam</Select.Option>
+                  <Select.Option value="2sampai3sks">2-3 SKS / 45 Jam</Select.Option>
+                  <Select.Option value="4sks">4 SKS / 60 Jam</Select.Option>
                 </Select>
               </Form.Item>
             ),
@@ -320,7 +292,7 @@ interface TableRow {
           <div className='form-klaim-list'>
             <Form.Item name={`klaimKompetensi${record.key}`} initialValue={text} style={{width:'1000px',fontSize:'14px'}} >
               <div style={{ display: 'flex', flexDirection: 'column'}}>
-                {dataWsatu.map(section => (
+                {dataPlima.map(section => (
                 <div key={section.value} >
                   <span style={{fontWeight:'bold'}}>{section.label}</span>
                     {section.children.map((subSection) => (
@@ -408,7 +380,7 @@ interface TableRow {
   >
   <div>
       <div className='container-form'>
-          <h3 className='headerform' style={{marginBottom:'10px'}}>I.4 Tanda Penghargaan Yang Diterima (kerja tanpa pamrih) <span style={{color:'#6b7aa1'}}>(W1)</span></h3>
+          <h3 className='headerform' style={{marginBottom:'10px'}}>IV. Pengalaman Mengajar Pelajaran Keinsinyuran dan/atau Manajemen dan/atau Pengalaman Mengembangkan Pendidikan/Pelatihan Keinsinyuran dan/atau Manajemen <span style={{color:'#6b7aa1'}}>(P5)</span></h3>
             <Button className="addFormButton" type="primary" onClick={handleAddRow} style={{marginBottom:'10px'}}>
                 + Add Row
             </Button>
@@ -440,4 +412,4 @@ interface TableRow {
     );
   };
 
-  export default FormulirEmpat;
+  export default FormFourOne;

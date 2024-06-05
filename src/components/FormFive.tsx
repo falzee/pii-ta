@@ -8,7 +8,8 @@ import { ColumnsType } from 'antd/es/table';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { useParams } from 'react-router';
-import { dataPsepuluh,dataWempat,dataWdua } from '../data/SectionFormData'
+import { dataWempat,dataWdua } from '../data/SectionFormDataW'
+import { dataPsepuluh } from '../data/SectionFormDataP'
 
 
   //rules
@@ -16,7 +17,7 @@ import { dataPsepuluh,dataWempat,dataWdua } from '../data/SectionFormData'
   // i4 W1 maks 6
   // i5 W2 maks 5,W4 maks 5,P10 maks 5
   // i6 W1 maks 6,W4 maks 5,P10 maks 5
-
+// i5 CEK MASIH SALAH CHECKBOXNYA
   interface TableRow {
     key: any;
     namaPendidikanTeknik: string;
@@ -277,13 +278,14 @@ const FormulirLima: React.FC = () => {
 //kolom tabel
     const columns: ColumnsType<TableRow>= [
         {
-            title: 'No.', // Visual numbering
-            dataIndex: 'visualNumber', // This doesn't have to correspond to any data field
-            key: 'visualNumber',
-            render: (text: string, record: TableRow, index: number) => (<span style={{fontWeight:'bold'}}>{`${index + 1}`}</span>), // Render the row index + 1,
-            width: 50,
-            align: 'center' as const,
-          },
+          title: 'No.', // Visual numbering
+          dataIndex: 'visualNumber', // This doesn't have to correspond to any data field
+          key: 'visualNumber',
+          render: (text: string, record: TableRow, index: number) => (<span style={{fontWeight:'bold'}}>{`${index + 1}`}</span>), // Render the row index + 1,
+          width: 50,
+          align: 'center' as const,
+          fixed: 'left',
+        },
         {
           title: 'Nama Pendidikan/Pelatihan Teknik',
           dataIndex: 'namaPendidikanTeknik',
@@ -399,7 +401,7 @@ const FormulirLima: React.FC = () => {
                   <Select.Option value="Desember">Desember</Select.Option>
                 </Select>
               </Form.Item>
-              <Form.Item className='form-item-row' name={`tahun${record.key}`} initialValue={record.tahun}>
+              <Form.Item className='form-item-row' name={`tahun${record.key}`} initialValue={record.tahun || undefined}>
                   <Input placeholder='--Tahun--' />
               </Form.Item>
               </>)}
@@ -476,7 +478,7 @@ const FormulirLima: React.FC = () => {
           dataIndex: 'klaimKompetensi',
           key: 'klaimKompetensi',
           render: (text: string[], record: TableRow) => (
-          <div style={{ height: '150px', overflowY: 'scroll',border:'1px solid #dddddd',padding:'5px' }}>
+          <div className='form-klaim-list'>
             <Form.Item name={`klaimKompetensi${record.key}`} initialValue={text} style={{width:'1000px',fontSize:'14px'}} >
               <div style={{ display: 'flex', flexDirection: 'column'}}>
                 {dataWdua.map(section => (

@@ -21,15 +21,7 @@ import { useParams } from 'react-router';
   //punya column
   interface TableRow {
     key: any;
-    namaKualifikasiEtik: string;
-    lembaga: string;
-    alamat: string;
-    kota: string;
-    provinsi: string;
-    negara: string;
-    noTelp: string;
-    email: string;
-    hubungan: string;
+    pendapatEtik: string;
   }
 
 const FormulirDuaSatu: React.FC = () => {
@@ -60,9 +52,9 @@ const FormulirDuaSatu: React.FC = () => {
             }
           };
           // Make API request with user ID
-          const response = await axios.get(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&ft=ii1`,config)
+          const response = await axios.get(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&ft=ii2`,config)
           const userData = response.data;
-          setDataSource(userData.data.form_ii_satu)
+          setDataSource(userData.data.form_ii_dua)
     
         } else {
           console.error('User not found');
@@ -74,15 +66,7 @@ const FormulirDuaSatu: React.FC = () => {
     const handleAddRow = () => { //fungsi nambah baris 
         const newRow: TableRow = {
           key: nanoid(),//gk perlu //gk jadi deng ternyata perlu
-          namaKualifikasiEtik: '',
-          lembaga: '',
-          alamat: '',
-          kota: '',
-          provinsi: '',
-          negara: '',
-          noTelp: '',
-          email: '',
-          hubungan:'',
+          pendapatEtik: '',
         };
         setDataSource([...dataSource, newRow]);
         // setRowNumbers(rowNumbers + 1); 
@@ -106,15 +90,7 @@ const FormulirDuaSatu: React.FC = () => {
 
           const formData = dataSource.map(row => ({
             ...row,
-            namaKualifikasiEtik : values[`namaKualifikasiEtik${row.key}`],
-            lembaga: values[`lembaga${row.key}`],
-            alamat: values[`alamat${row.key}`],
-            kota: values[`kota${row.key}`],
-            provinsi: values[`provinsi${row.key}`],
-            negara: values[`negara${row.key}`],
-            noTelp: values[`noTelp${row.key}`],
-            email: values[`email${row.key}`],
-            hubungan: values[`hubungan${row.key}`],
+            pendapatEtik : values[`pendapatEtik${row.key}`],
           }));
           
           // Now you can send formData to your backend for processing
@@ -124,7 +100,7 @@ const FormulirDuaSatu: React.FC = () => {
               Authorization: `Bearer ${token}`
             }
           };
-          const response = await axios.patch(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=ii1`,formData,config);
+          const response = await axios.patch(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=ii2`,formData,config);
           // console.log("response add form:"+response)
 
           // const userData = response.data;
@@ -153,106 +129,20 @@ const FormulirDuaSatu: React.FC = () => {
           fixed: 'left',
         },
         {
-          title: 'Nama',
-          dataIndex: 'namaKualifikasiEtik',
-          key: 'namaKualifikasiEtik',
+          title: 'Isian Pendapat',
+          dataIndex: 'pendapatEtik',
+          key: 'pendapatEtik',
           render: (text: string, record: TableRow) => (
-            <Form.Item name={`namaKualifikasiEtik${record.key}`} initialValue={text} style={{width:'200px'}}>
-              <Input />
+            <Form.Item name={`pendapatEtik${record.key}`} initialValue={text} style={{}}>
+              <TextArea rows={5} />
             </Form.Item>
           ),
         },
-        {
-          title: 'Lembaga',
-          dataIndex: 'lembaga',
-          key: 'lembaga',
-          render: (text: string, record: TableRow) => (
-            <Form.Item name={`lembaga${record.key}`} initialValue={text} style={{width:'250px'}}>
-              <Input />
-            </Form.Item>
-          ),
-        },
-        {
-          title: 'Alamat',
-          dataIndex: 'alamat',
-          key: 'alamat',
-          render: (text: string, record: TableRow) => (
-            <Form.Item name={`alamat${record.key}`} initialValue={text} style={{width:'250px'}}>
-              <TextArea rows={4} />
-            </Form.Item>
-          ),
-        },
-        {
-            title: 'Kota / Kabupaten',
-            dataIndex: 'kota',
-            key: 'kota',
-            render: (text: string, record: TableRow) => (
-              <Form.Item name={`kota${record.key}`} initialValue={text} style={{width:'150px'}}>
-                <Input />
-              </Form.Item>
-            ),
-          },
-        {
-            title: 'Provinsi',
-            dataIndex: 'provinsi',
-            key: 'provinsi',
-            render: (text: string, record: TableRow) => (
-              <Form.Item name={`provinsi${record.key}`} initialValue={text} style={{width:'150px'}}>
-                <Input />
-              </Form.Item>
-            ),
-          },
-          {
-            title: 'Negara',
-            dataIndex: 'negara',
-            key: 'negara',
-            render: (text: string, record: TableRow, index: number) => (
-              <Form.Item name={`negara${record.key}`} initialValue={text} style={{width:'150px'}}>
-                <Input />
-              </Form.Item>
-            ),
-          },
-          {
-            title: 'No. Telp',
-            dataIndex: 'noTelp',
-            key: 'noTelp',
-            render: (text: string, record: TableRow, index: number) => (
-              <Form.Item name={`noTelp${record.key}`} initialValue={text} style={{width:'150px'}}>
-                <Input />
-              </Form.Item>
-            ),
-          },
-          {
-            title: 'Email',
-            dataIndex: 'email',
-            key: 'email',
-            render: (text: string, record: TableRow, index: number) => (
-              <Form.Item name={`email${record.key}`} initialValue={text} style={{width:'250px'}}>
-                <Input />
-              </Form.Item>
-            ),
-          },
-          {
-            title: 'Hubungan',
-            dataIndex: 'hubungan',
-            key: 'hubungan',
-            render: (text: string, record: TableRow, index: number) => (
-                <div>
-                  <Form.Item name={`hubungan${record.key}`} initialValue={record.hubungan || undefined}>
-                    <Select placeholder="--Choose--" style={{ width: 280 }}>
-                      <Select.Option value="atasan">Atasan</Select.Option>
-                      <Select.Option value="rekanKerja">Rekan kerja</Select.Option>
-                      <Select.Option value="rekanSeprofesi">Rekan Seprofesi</Select.Option>
-                      <Select.Option value="lainLain">Lain-lain</Select.Option>
-                    </Select>
-                  </Form.Item>
-                </div>
-                ),
-          },
         {
             title: 'Hapus',
             dataIndex: 'actions',
             key: 'actions',
+            align:'center',
             render: (text: string, record: TableRow) => (
             // <>
             <Button onClick={() => openModalDelete(record)} type='primary' danger>
@@ -306,8 +196,8 @@ const FormulirDuaSatu: React.FC = () => {
     >
     <div>
         <div className='container-form'>
-            <h2 className='headerform' style={{marginBottom:'10px',textAlign:'center'}}>II. KUALIFIKASI KODE ETIK INSINYUR INDONESIA dan ETIKA PROFESIONAL</h2>
-            <h3 className='headerform' style={{marginBottom:'10px'}}>II.1 Referensi Kode Etik dan Etika Profesi <span style={{color:'#6b7aa1'}}>(#)</span></h3>
+            <h3 className='headerform' style={{marginBottom:'10px'}}>II.2 Pengertian, Pendapat dan Pengalaman Sendiri  <span style={{color:'#6b7aa1'}}>(W1)</span></h3>
+            <p style={{marginBottom:'10px'}}>Tuliskan dengan kata-kata sendiri apa pengertian dan pendapat Anda tentang Kode Etik Insinyur serta pengalaman Anda tentang Etika Profesi</p>
             <Button className="addFormButton" type="primary" onClick={handleAddRow} style={{marginBottom:'10px'}}>
                 + Add Row
             </Button>

@@ -20,6 +20,7 @@ import UnderConstruct from './pages/underConstruct';
 import FormMhs from './pages/FormMhs';
 import FaipDosen from './pages/FaipDosen';
 import FormDosen from './pages/FormDosen';
+import FaipDosenNilai from './pages/FaipDosenNilai';
 
 function mainApp() {
 
@@ -47,7 +48,8 @@ function mainApp() {
         </Route>
         <Route element={<ProtectedRoute allowedRoles={['dosen']}><Layouting /></ProtectedRoute>} >
           <Route element={<FormDosen /> } path="form/d/"/>
-          <Route element={<UnderConstruct /> } path="form/d/faip"/>
+          <Route element={<FaipDosen /> } path="form/d/faip"/>
+          <Route element={<FaipDosenNilai /> } path="form/d/faip/id"/>
           {/* <Route element={<FaipDosen /> } path="form/dosen"/>
             <Route element={<NilaiMhs/>} path="form/dosen/nilai" />
             <Route element={<TabPage/>} path="form/dosen/formulir" /> */}

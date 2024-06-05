@@ -8,7 +8,8 @@ import { ColumnsType } from 'antd/es/table';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { useParams } from 'react-router';
-import { dataPsepuluh,dataWempat,dataWsatu } from '../data/SectionFormData'
+import { dataWempat,dataWsatu } from '../data/SectionFormDataW'
+import { dataPsepuluh } from '../data/SectionFormDataP'
 
 
   //rules
@@ -277,14 +278,15 @@ const { formId } = useParams<{ formId: string | undefined }>();
     
 //kolom tabel
     const columns: ColumnsType<TableRow>= [
-        {
-            title: 'No.', // Visual numbering
-            dataIndex: 'visualNumber', // This doesn't have to correspond to any data field
-            key: 'visualNumber',
-            render: (text: string, record: TableRow, index: number) => (<span style={{fontWeight:'bold'}}>{`${index + 1}`}</span>), // Render the row index + 1,
-            width: 50,
-            align: 'center' as const,
-          },
+      {
+        title: 'No.', // Visual numbering
+        dataIndex: 'visualNumber', // This doesn't have to correspond to any data field
+        key: 'visualNumber',
+        render: (text: string, record: TableRow, index: number) => (<span style={{fontWeight:'bold'}}>{`${index + 1}`}</span>), // Render the row index + 1,
+        width: 50,
+        align: 'center' as const,
+        fixed: 'left',
+    },
         {
           title: 'NAMA PENDIDIKAN/PELATIHAN',
           dataIndex: 'namaPendidikanPelatihan',
@@ -477,7 +479,7 @@ const { formId } = useParams<{ formId: string | undefined }>();
           dataIndex: 'klaimKompetensi',
           key: 'klaimKompetensi',
           render: (text: string[], record: TableRow) => (
-          <div style={{ height: '150px', overflowY: 'scroll',border:'1px solid #dddddd',padding:'5px' }}>
+          <div className='form-klaim-list'>
             <Form.Item name={`klaimKompetensi${record.key}`} initialValue={text} style={{width:'1000px',fontSize:'14px'}} >
               <div style={{ display: 'flex', flexDirection: 'column'}}>
                 {dataWsatu.map(section => (

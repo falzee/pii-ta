@@ -5,483 +5,384 @@ import { DeleteOutlined, MinusCircleOutlined, PlusOutlined, UploadOutlined } fro
 import TextArea from 'antd/es/input/TextArea';
 import { nanoid } from 'nanoid';
 import { ColumnsType } from 'antd/es/table';
-import { dataWsatu } from '../data/SectionFormData'
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { useParams } from 'react-router';
 
 
-//punya multiple choice
-interface SubSection {
-  label: string;
-  value: string;
-}
-    
-//punya multiple choice
-interface Section {
-    label: string;
-    value: string;
-    children: SubSection[];
-  }
+  //rules
+  // i3 W1 maks 13
+  // i4 W1 maks 6
+  // i5 W2 maks 5,W4 maks 5,P10 maks 5
+  // i6 W1 maks 6,W4 maks 5,P10 maks 5
   
-  const choicesData: Section[]= [
-    {
-    label: 'W.1.1. - Mengembangkan dan mewujudkan tanggungjawab kecendekiaan dan kepedulian profesi keinsinyuran kepada bangsa, negara dan komunitas internasional',
-    value: 'W.1.1.',
-    children: [
-      { label: 'W.1.1.1. - Menyadari tanggungjawab kecendekiaan Insinyur Profesional bagi memahami dan menjunjung falsafah dan nilai Pancasila sebagai  falsafah dasar masyarakat bangsa Indonesia', value: 'W.1.1.1' },
-      { label: 'W.1.1.2. - Menghayati dan senantiasa  berusaha mengamalkan nilai dan jiwa Pancasila dalam menjalankan profesi.', value: 'W.1.1.2' },
-      { label: 'W.1.1.3. - Berpedoman kepada konstitusi dan perundang-undangan yang berlaku di Negara Kesatuan Republik Indonesia dalam menjalankan profesi.', value: 'W.1.1.3' },
-      { label: 'W.1.1.4. - Menjunjung rasa kesetiakawanan nasional dan rasa kepedulian sosial dan berusaha mendorong kewirausahaan dan kesejahteraan masyarakat menuju cita-cita Bangsa dan Negara', value: 'W.1.1.4' },
-      { label: 'W.1.1.5. - Mengembangkan wawasan kebangsaan yang kuat dan dengan sadar menumbuhkan  kepercayaan  diri  membangun  kemandirian  nasional dalam profesinya dan dalam mengembangkan kerjasama di komunitas internasional.', value: 'W.1.1.5' },
-      // ... other sub-sections ...
-    ],
-  },
-  {
-    label:'W.1.2. - Menghayati serta mematuhi Kode Etik Insinyur Indonesia dan tatalaku profesi yang berlaku',
-    value: 'W.1.2.',
-    children: [
-        { label: 'W.1.2.1. -  Menempatkan tanggungjawab pada  kesejahteraan, kesehatan dan keselamatan masyarakat di atas tanggungjawabnya kepada profesi, kepada kepentingan golongan, atau kepada rekan sesama insinyur', value: 'W.1.2.1' },
-        { label: 'W.1.2.2. - Bertindak dengan menjunjung tinggi kehormatan, martabat dan nilai luhur profesi.', value: 'W.1.2.2' },
-        { label: 'W.1.2.3. - Melakukan pekerjaan, hanya dalam batasan kompetensinya.', value: 'W.1.2.3' },
-        { label: 'W.1.2.4. - Mengembangkan nama baik berdasarkan prestasi dan tidak bersaing secara curang.', value: 'W.1.2.4' },
-        { label: 'W.1.2.5. - Menerapkan kemampuan profesionalnya untuk kepentingan pemberi kerja keinsinyuran secara penuh amanah.', value: 'W.1.2.5' },
-        { label: 'W.1.2.6. - Memberikan keterangan, pendapat atau pernyataan secara obyektif berdasarkan  kebenaran dan dalam cakupan pengetahuannya.', value: 'W.1.2.6' },
-        { label: 'W.1.2.7. - Melakukan pengembangan kemampuan profesional secara berkelanjutan.', value: 'W.1.2.7' },
-        { label: 'W.1.2.8. - Secara aktif membantu dan mendorong rekan kerjanya untuk memajukan pengetahuan dan pengalaman mereka.', value: 'W.1.2.8' },
-        // ... other sub-sections ...
-      ],
-    },
-    {
-      label:'W.1.3. - Memahami, menerapkan, serta mengembangkan wawasan dan kaidah-kaidah kelestarian lingkungan',
-      value: 'W.1.3.',
-      children: [
-        { label: 'W.1.3.1. - Menyadari  bahwa saling ketergantungan dan keaneka-ragaman ekosistem adalah dasar bagi  kelangsungan hidup manusia.', value: 'W.1.3.1.' },
-        { label: 'W.1.3.2. - Menyadari keterbatasan daya dukung lingkungan hidup untuk menyerap perubahan yang dibuat manusia.', value: 'W.1.3.2.' },
-        { label: 'W.1.3.3. - Menggalakkan tindakan  keinsinyuran yang diperlukan untuk memperbaiki, mempertahankan dan memulihkan  lingkungan hidup.', value: 'W.1.3.3.' },
-        { label: 'W.1.3.4. - Menggalakkan  penggunaan  yang  bijaksana  atas  sumber-daya  tak  terbarukan  dengan  memperkecil  atau  mendaur-ulang  limbah  dan mengembangkan sumber-daya alternatif lain sejauh mungkin', value: 'W.1.3.4.' },
-        { label: 'W.1.3.5. - Berusaha  mencapai  tujuan pekerjaan keinsinyurannya dengan penggunaan bahan baku dan enerji secara hemat dan dengan menerapkan kaidah pengelolaan lingkungan berkelanjutan', value: 'W.1.3.5.' },
-        { label: 'W.1.3.6. - Memperhatikan keseluruhan dampak dari  siklus hidup produk dan proyek terhadap lingkungan hidup.', value: 'W.1.3.6.' },
-        { label: 'W.1.3.7. - Memperhitungkan pengaruh yang mungkin muncul dari tindakan keinsinyuran terhadap faktor budaya atau warisan sejarah.', value: 'W.1.3.7.' },
-        // ... other sub-sections ...
-      ],
-    },
-    {
-    label:'W.1.4. - Mengemban tanggungjawab profesional atas tindakan dan karyanya.',
-    value: 'W.1.4.',
-    children: [
-      { label: 'W.1.4.1. - Memperhitungkan risiko dan tanggung-gugat (liabilities) profesional, dan sanggup bertanggungjawab untuk itu', value: 'W.1.4.1..' },
-      { label: 'W.1.4.2. - Menerapkan dengan tepat persyaratan kesehatan dan keselamatan kerja (K-3).', value: 'W.1.4.2..' },
-      { label: 'W.1.4.3. - Menyelidiki kebutuhan keselamatan masyarakat dan bertindak untuk memecahkan masalah keselamatan yang mungkin timbul.', value: 'W.1.4.3..' },
-        { label: 'W.1.4.4. - Mengambil tindakan pencegahan yang tepat dalam menangani pekerjaan  yang berbahaya.', value: 'W.1.4.4..' },
-        { label: 'W.1.4.5. - Memperhatikan kaidah-kaidah pencegahan dan penanganan  bencana alam serta pemulihan akibatnya.', value: 'W.1.4.5..' },
-        // ... other sub-sections ...
-      ],
-    },
-    // ... other sections ...
-  ];
 
   //punya column
   interface TableRow {
-    id: any;
-    namaOrganisasi: string;
-    jenis: string;
-    kotaAsal: string;
-    provinsiAsal: string;
-    negaraAsal: string;
-    bulan: string;
-    tahun: string;
-    bulanMulai: string;
-    tahunMulai: string;
-    masihAnggota : boolean;
-    jabatanOrganisasi: string;
-    tingkatanOrganisasi: string;
-    kegiatanOrganisasi: string;
-    uraianTugas: string;
-    dokumenPendukung: any;
-    klaimKompetensi: string[];
+    key: any;
+    namaPerguruan: string;
+    tingkatPendidikan: string;
+    fakultas: string;
+    jurusan: string;
+    kotaPerguruan: string;
+    provinsi: string;
+    negara: string;
+    tahunLulus: string;
+    gelar: string;
+    judulTa: string;
+    uraianSingkat: string;
+    nilaiAkademikRata: string;
+    
   }
 
-const Formulir: React.FC = () => {
+  // nilaiAkademikRata
+const FormulirDua: React.FC = () => {
 //kumpulan state
-    const [dataSource, setDataSource] = useState<TableRow[]>([]);//data tabel
-    const [selectedChoices, setSelectedChoices] = useState<{ [id: number]: string[] }>({});//pilihan checbox
-    // const [rowNumbers, setRowNumbers] = useState<number>(1);//penomeran client side
-    // const [showAdditionalFields, setShowAdditionalFields] = useState<boolean>(false);
-    const [form] = Form.useForm();
+    const { formId } = useParams<{ formId: string | undefined }>();
+    const [dataSource, setDataSource] = useState<TableRow[]>([  ]);//data tabel
+    // const [form] = Form.useForm();
 //kumpulan fungsi
     const formRef = React.createRef<FormInstance>();//
-  
+    //API = const response = await axios.get(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&ft=i3`,config);
+
+    useEffect(() => {
+      // Retrieve JWT token from localStorage
+      fetchFaipData();
+    }, []);
+    
+    const fetchFaipData = async () => {
+      try {
+        const token = localStorage.getItem('jwtToken');
+    
+        if (token) {
+          // Decode the token to extract user ID
+          const decodedToken: any = jwtDecode(token);
+          const userId = decodedToken.nomerInduk;
+          const config = {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          };
+          // Make API request with user ID
+          const response = await axios.get(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&ft=i2`,config)
+          const userData = response.data;
+          setDataSource(userData.data.form_i_dua)
+    
+        } else {
+          console.error('User not found');
+        }
+      } catch (error) {
+        console.error('Error fetching data'); 
+      }
+    };
+
     const handleAddRow = () => { //fungsi nambah baris 
+
+      
         const newRow: TableRow = {
-          id: nanoid(),//gk perlu
-          namaOrganisasi: '',
-          jenis: '',
-          kotaAsal: '',
-          provinsiAsal: '',
-          negaraAsal: '',
-          bulan: '',
-          tahun: '',
-          bulanMulai: '',
-          tahunMulai: '',
-          masihAnggota : false,
-          jabatanOrganisasi: '',
-          tingkatanOrganisasi: '',
-          kegiatanOrganisasi: '',
-          uraianTugas: '',
-          dokumenPendukung: null,
-          klaimKompetensi: [],
+          key: nanoid(),//gk perlu //gk jadi deng ternyata perlu
+          namaPerguruan: '',
+          tingkatPendidikan: '',
+          fakultas: '',
+          jurusan: '',
+          kotaPerguruan: '',
+          provinsi: '',
+          negara: '',
+          tahunLulus: '',
+          gelar: '',
+          judulTa: '',
+          uraianSingkat: '',
+          nilaiAkademikRata: '',
         };
         setDataSource([...dataSource, newRow]);
         // setRowNumbers(rowNumbers + 1); 
       };
       
-      const handleDeleteRow = (id: any) => { //fungsi hapus baris  //NEED API 
-        const updatedDataSource = dataSource.filter(row => row.id !== id);
-        setDataSource(updatedDataSource);
-        // const updatedRowNumbers = updatedDataSource.map(row => row.id).splice(-1,1,);
-        // console.log(updatedRowNumbers)
-        // const updatedNumbers = updatedRowNumbers.splice(-1, 1) ;
-      
-        // console.log(updatedRowNumbers)
-        //buggg
-      };
-    
-      const handleChoiceChange = (recordKey: number, choiceValue: string, checked: boolean) => { //fungsi yg berhubungan dgn checbox klaim kompetensi
-        const currentRowChoices = selectedChoices[recordKey] || [];
-        console.log(currentRowChoices);
-        if (checked && currentRowChoices.length < 3) {
-          const updatedRowChoices = [...currentRowChoices, choiceValue];
-          setSelectedChoices({
-            ...selectedChoices,
-            [recordKey]: updatedRowChoices,
-          });
-        } else if (!checked) {
-          const updatedRowChoices = currentRowChoices.filter(choice => choice !== choiceValue);
-          setSelectedChoices({
-            ...selectedChoices,
-            [recordKey]: updatedRowChoices,
-          });
-        }else {
-          // Show alert if more than 3 choices selected
-          alert('Harap Memilih Tidak Lebih Dari 3 Klaim Kompetensi');
-        }
-      };
-    
+
+    // const updatedRowNumbers = updatedDataSource.map(row => row.id).splice(-1,1,);
+    // console.log(updatedRowNumbers)
+    // const updatedNumbers = updatedRowNumbers.splice(-1, 1) ;
   
-    const onFinish = (values: any) => { //fungsi submit form //NEED API 
-      const formData = dataSource.map(row => ({
-        ...row,
-        namaOrganisasi : values[`namaOrganisasi${row.id}`],
-        jenis: values[`jenis${row.id}`],
-        kotaAsal: values[`kotaAsal${row.id}`],
-        provinsiAsal: values[`provinsiAsal${row.id}`],
-        negaraAsal: values[`negaraAsal${row.id}`],
-        bulan: values[`bulan${row.id}`],
-        tahun: values[`tahun${row.id}`],
-        bulanMulai: values[`bulanMulai${row.id}`],
-        tahunMulai: values[`tahunMulai${row.id}`],
-        masihAnggota : values[`masihAnggota${row.id}`],
-        jabatanOrganisasi: values[`jabatanOrganisasi${row.id}`],
-        tingkatanOrganisasi: values[`tingkatanOrganisasi${row.id}`],
-        kegiatanOrganisasi: values[`kegiatanOrganisasi${row.id}`],
-        uraianTugas: values[`uraianTugas${row.id}`],
-        dokumenPendukung: values[`dokumenPendukung${row.id}`],
-        klaimKompetensi: selectedChoices[row.id] || [],
-      }));
+    // console.log(updatedRowNumbers)
+    //buggg
+
+    const onFinish = async (values: any) => { //fungsi submit form //NEED API POST
+
+      try{
+        const token = localStorage.getItem('jwtToken');
+        if (token) {
+          const decodedToken: any = jwtDecode(token);
+          const userId = decodedToken.nomerInduk;
+
+          const formData = dataSource.map(row => ({
+            ...row,
+            namaPerguruan : values[`namaPerguruan${row.key}`],
+            tingkatPendidikan: values[`tingkatPendidikan${row.key}`],
+            fakultas: values[`fakultas${row.key}`],
+            jurusan: values[`jurusan${row.key}`],
+            kotaPerguruan: values[`kotaPerguruan${row.key}`],
+            provinsi: values[`provinsi${row.key}`],
+            negara: values[`negara${row.key}`],
+            tahunLulus: values[`tahunLulus${row.key}`],
+            gelar: values[`gelar${row.key}`],
+            judulTa: values[`judulTa${row.key}`],
+            uraianSingkat: values[`uraianSingkat${row.key}`],
+            nilaiAkademikRata: values[`nilaiAkademikRata${row.key}`],
+          }));
+          
+          // Now you can send formData to your backend for processing
+          // console.log('Form Data:', formData);
+          const config = {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          };
+          const response = await axios.patch(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=i2`,formData,config);
+          // console.log("response add form:"+response)
+
+          // const userData = response.data;
+          // setStatus("new")
+        } else {
+          console.error('User not found');
+        }
+      }catch(error){
+        console.error('Error sending form');
+      }
+      window.location.reload();
       
-      // Now you can send formData to your backend for processing
-      console.log('Form Data:', formData);
-    
       // ... your form submission logic ...
     };
-    // const handleCheckboxChange = (e:any) => {
 
-    //   setShowAdditionalFields(e.target.checked);
-    // };
-    const handleCheckboxChange = (id: any, checked: boolean) => {
-      setDataSource((prevData) =>
-        prevData.map((record) =>
-          record.id === id ? { ...record, masihAnggota: checked } : record
-        )
-      );
-    };
+    
 //kolom tabel
     const columns: ColumnsType<TableRow>= [
-
-        // id dipake klo ada database tapi gk bakal ditampilin jadi cuman ditaruh di interface sama onfinish value => perlu bikin custom id pake nanoid lib
-        // {
-        //     title: 'ID', // Hidden column
-        //     dataIndex: 'id',
-        //     key: 'id',
-        //     render: () => null, // This will hide the column's content
-        // },
         {
-            title: 'No.', // Visual numbering
-            dataIndex: 'visualNumber', // This doesn't have to correspond to any data field
-            key: 'visualNumber',
-            render: (text: string, record: TableRow, index: number) => (<span style={{fontWeight:'bold'}}>{`${index + 1}`}</span>), // Render the row index + 1,
-            width: 22,
-            align: 'center' as const,
+          title: 'No.', // Visual numbering
+          dataIndex: 'visualNumber', // This doesn't have to correspond to any data field
+          key: 'visualNumber',
+          render: (text: string, record: TableRow, index: number) => (<span style={{fontWeight:'bold'}}>{`${index + 1}`}</span>), // Render the row index + 1,
+          width: 50,
+          align: 'center' as const,
+          fixed: 'left',
+        },
+        {
+          title: 'Nama',
+          dataIndex: 'namaPerguruan',
+          key: 'namaPerguruan',
+          render: (text: string, record: TableRow) => (
+            <Form.Item name={`namaPerguruan${record.key}`} initialValue={text} style={{width:'200px'}}>
+              <Input />
+            </Form.Item>
+          ),
+        },
+        {
+            title: 'Tingkkat Pendidikan',
+            dataIndex: 'tingkatPendidikan',
+            key: 'tingkatPendidikan',
+            render: (text: string, record: TableRow) => (
+                <div>
+                  <Form.Item name={`tingkatPendidikan${record.key}`} initialValue={record.tingkatPendidikan || undefined}>
+                    <Select placeholder="--Choose--" style={{ width: 100 }}>
+                      <Select.Option value="d3">D3</Select.Option>
+                      <Select.Option value="d4">D4</Select.Option>
+                      <Select.Option value="s1">S1</Select.Option>
+                      <Select.Option value="s2">S2</Select.Option>
+                      <Select.Option value="s3">S3</Select.Option>
+                      <Select.Option value="ir">Ir.</Select.Option>
+                    </Select>
+                  </Form.Item>
+                </div>
+            ),
           },
         {
-          title: 'Nama Organisasi',
-          dataIndex: 'namaOrganisasi',
-          key: 'namaOrganisasi',
+          title: 'Fakultas',
+          dataIndex: 'fakultas',
+          key: 'fakultas',
           render: (text: string, record: TableRow) => (
-            <Form.Item name={`name${record.id}`} initialValue={text} style={{width:'200px'}}>
+            <Form.Item name={`fakultas${record.key}`} initialValue={text} style={{width:'250px'}}>
               <Input />
             </Form.Item>
           ),
         },
         {
-          title: 'Jenis',
-          dataIndex: 'jenis',
-          key: 'jenis',
-          render: (text: string, record: TableRow) => (
-            <Form.Item name={`jenis${record.id}`} initialValue={undefined} >
-              <Select placeholder="--Choose--" style={{ width: 280 }} >
-                <Select.Option value="jenis1">Organisasi PII</Select.Option>
-                <Select.Option value="jenis2">Organisasi Keinsinyuran Non PII</Select.Option>
-                <Select.Option value="jenis3">Organisasi Non Keinsinyuran</Select.Option>
-              </Select>
-            </Form.Item>
-          ),
-        },
-        {
-          title: 'Kota/Kabupaten',
-          dataIndex: 'kotaAsal',
-          key: 'kotaAsal',
-          render: (text: string, record: TableRow) => (
-            <Form.Item name={`kotaAsal${record.id}`} initialValue={text} style={{width:'150px'}}>
-              <Input />
-            </Form.Item>
-          ),
-        },
-        {
-            title: 'Provinsi',
-            dataIndex: 'provinsiAsal',
-            key: 'provinsiAsal',
+            title: 'Jurusan',
+            dataIndex: 'jurusan',
+            key: 'jurusan',
             render: (text: string, record: TableRow) => (
-              <Form.Item name={`provinsiAsal${record.id}`} initialValue={text} style={{width:'150px'}}>
+              <Form.Item name={`jurusan${record.key}`} initialValue={text} style={{width:'150px'}}>
+                <Input />
+              </Form.Item>
+            ),
+          },
+        {
+            title: 'Kota /Kabupaten',
+            dataIndex: 'kotaPerguruan',
+            key: 'kotaPerguruan',
+            render: (text: string, record: TableRow) => (
+              <Form.Item name={`kotaPerguruan${record.key}`} initialValue={text} style={{width:'150px'}}>
+                <Input />
+              </Form.Item>
+            ),
+          },
+          {
+            title: 'Provinsi',
+            dataIndex: 'provinsi',
+            key: 'provinsi',
+            render: (text: string, record: TableRow, index: number) => (
+              <Form.Item name={`provinsi${record.key}`} initialValue={text} style={{width:'150px'}}>
                 <Input />
               </Form.Item>
             ),
           },
           {
             title: 'Negara',
-            dataIndex: 'negaraAsal',
-            key: 'negaraAsal',
+            dataIndex: 'negara',
+            key: 'negara',
             render: (text: string, record: TableRow, index: number) => (
-              <Form.Item name={`negaraAsal${record.id}`} initialValue={text} style={{width:'150px'}}>
+              <Form.Item name={`negara${record.key}`} initialValue={text} style={{width:'150px'}}>
                 <Input />
               </Form.Item>
             ),
           },
           {
-            title: 'Perioda',
-            dataIndex: 'perioda',
-            key: 'perioda',
+            title: 'Tahun Lulus',
+            dataIndex: 'tahunLulus',
+            key: 'tahunLulus',
             render: (text: string, record: TableRow, index: number) => (
-                <div>
-                    {record.masihAnggota  ? (
-                    <>
-                    <Form.Item name={`bulanMulai${record.id}`} initialValue={undefined}>
-                      <Select placeholder="--Bulan--" style={{ width: 150 }}>
-                        <Select.Option value="Januari">Januari</Select.Option>
-                        <Select.Option value="Februari">Februari</Select.Option>
-                        <Select.Option value="Maret">Maret</Select.Option>
-                        <Select.Option value="April">April</Select.Option>
-                        <Select.Option value="Mei">Mei</Select.Option>
-                        <Select.Option value="Juni">Juni</Select.Option>
-                        <Select.Option value="Juli">Juli</Select.Option>
-                        <Select.Option value="Agustus">Agustus</Select.Option>
-                        <Select.Option value="September">September</Select.Option>
-                        <Select.Option value="Oktober">Oktober</Select.Option>
-                        <Select.Option value="November">November</Select.Option>
-                        <Select.Option value="Desember">Desember</Select.Option>
-                      </Select>
-                    </Form.Item>
-                    <Form.Item name={`tahunMulai${record.id}`} initialValue={text}>
-                        <Input placeholder='--Tahun--' />
-                    </Form.Item></>)
-                    :(<>
-                    <Form.Item name={`bulanMulai${record.id}`} initialValue={undefined}>
-                      <Select placeholder="--Bulan--" style={{ width: 150 }}>
-                      <Select.Option value="Januari">Januari</Select.Option>
-                        <Select.Option value="Februari">Februari</Select.Option>
-                        <Select.Option value="Maret">Maret</Select.Option>
-                        <Select.Option value="April">April</Select.Option>
-                        <Select.Option value="Mei">Mei</Select.Option>
-                        <Select.Option value="Juni">Juni</Select.Option>
-                        <Select.Option value="Juli">Juli</Select.Option>
-                        <Select.Option value="Agustus">Agustus</Select.Option>
-                        <Select.Option value="September">September</Select.Option>
-                        <Select.Option value="Oktober">Oktober</Select.Option>
-                        <Select.Option value="November">November</Select.Option>
-                        <Select.Option value="Desember">Desember</Select.Option>
-                      </Select>
-                    </Form.Item>
-                    <Form.Item name={`tahunMulai${record.id}`} initialValue={text}>
-                        <Input placeholder='--Tahun--' />
-                    </Form.Item>
-                    <Divider plain>s/d</Divider>
-                    <Form.Item name={`bulan${record.id}`} initialValue={undefined}>
-                      <Select placeholder="--Bulan--" style={{ width: 150 }}>
-                      <Select.Option value="Januari">Januari</Select.Option>
-                        <Select.Option value="Februari">Februari</Select.Option>
-                        <Select.Option value="Maret">Maret</Select.Option>
-                        <Select.Option value="April">April</Select.Option>
-                        <Select.Option value="Mei">Mei</Select.Option>
-                        <Select.Option value="Juni">Juni</Select.Option>
-                        <Select.Option value="Juli">Juli</Select.Option>
-                        <Select.Option value="Agustus">Agustus</Select.Option>
-                        <Select.Option value="September">September</Select.Option>
-                        <Select.Option value="Oktober">Oktober</Select.Option>
-                        <Select.Option value="November">November</Select.Option>
-                        <Select.Option value="Desember">Desember</Select.Option>
-                      </Select>
-                    </Form.Item>
-                    <Form.Item name={`tahun${record.id}`} initialValue={text}>
-                        <Input placeholder='--Tahun--' />
-                    </Form.Item>
-                    </>)}
-                    
-                    {/* <Checkbox onChange={handleCheckboxChange}>Masih Menjadi Anggota</Checkbox> */}
-                    <Form.Item name={`masihAnggota${record.id}`} valuePropName="checked" initialValue={false}>
-                      <Checkbox checked={record.masihAnggota} onChange={(e: any) => handleCheckboxChange(record.id, e.target.checked)}>Masih Menjadi Anggota</Checkbox>
-                    </Form.Item>
-                </div>
-                ),
-          },
-          {
-            title: 'Jabatan Dalam Organisasi',
-            dataIndex: 'jabatanOrganisasi',
-            key: 'jabatanOrganisasi',
-            render: (text: string, record: TableRow, index: number) => (
-              <Form.Item name={`jabatanOrganisasi${record.id}`} initialValue={undefined} >
-                <Select placeholder="--Choose--" style={{ width: 280 }}>
-                  <Select.Option value="jabatan1">Anggota biasa</Select.Option>
-                  <Select.Option value="jabatan2">Anggota pengurus</Select.Option>
-                  <Select.Option value="jabatan3">Pimpinan</Select.Option>
-                </Select>
+              <Form.Item name={`tahunLulus${record.key}`} initialValue={text} style={{width:'150px'}}>
+                <Input />
               </Form.Item>
             ),
           },
           {
-            title: 'Tingkatan Organisasi',
-            dataIndex: 'tingkatanOrganisasi',
-            key: 'tingkatanOrganisasi',
+            title: 'Gelar',
+            dataIndex: 'gelar',
+            key: 'gelar',
             render: (text: string, record: TableRow, index: number) => (
-                <Form.Item name={`tingkatanOrganisasi${record.id}`} initialValue={undefined}>
-                <Select placeholder="--Choose--" style={{ width: 280 }}>
-                  <Select.Option value="tingkatan1">Organisasi lokal (bukan Nasional)</Select.Option>
-                  <Select.Option value="tingkatan2">Organisasi Nasional</Select.Option>
-                  <Select.Option value="tingkatan3">Organisasi Regional</Select.Option>
-                  <Select.Option value="tingkatan4">Organisasi Internasional</Select.Option>
-                </Select>
+              <Form.Item name={`gelar${record.key}`} initialValue={text} style={{width:'150px'}}>
+                <Input />
               </Form.Item>
             ),
           },
           {
-            title: 'Lingkup Kegiatan Organisasi',
-            dataIndex: 'kegiatanOrganisasi',
-            key: 'kegiatanOrganisasi',
-            render: (text: string, record: TableRow, index: number) => (
-                <Form.Item name={`kegiatanOrganisasi${record.id}`} initialValue={undefined}>
-                <Select placeholder="--Choose--" style={{ width: 280 }}>
-                  <Select.Option value="kegiatan1">Asosiasi Profesi</Select.Option>
-                  <Select.Option value="kegiatan2">Lembaga Pemerintah</Select.Option>
-                  <Select.Option value="kegiatan3">Lembaga Pendidikan</Select.Option>
-                  <Select.Option value="kegiatan4">Badan Usaha Milik Negara</Select.Option>
-                  <Select.Option value="kegiatan6">Badan Usaha Swasta</Select.Option>
-                  <Select.Option value="kegiatan7">Organisasi Kemasyarakatan</Select.Option>
-                  <Select.Option value="kegiatan8">Lain-lain</Select.Option>
-                </Select>
-              </Form.Item>
-            ),
-          },
-          {
-            title: 'Uraian Singkat Tugas dan Tanggung Jawab Profesional sesuai NSPK',
-            dataIndex: 'uraianTugas',
-            key: 'uraianTugas',
-            render: (text: string, record: TableRow, index: number) => (
-              <Form.Item name={`uraianTugas${record.id}`} initialValue={text} style={{width:'250px'}}>
+            title: 'Judul Tugas Akhir/Skripsi/Tesis/Disertasi',
+            dataIndex: 'judulTa',
+            key: 'judulTa',
+            render: (text: string, record: TableRow) => (
+              <Form.Item name={`judulTa${record.key}`} initialValue={text} style={{width:'250px'}}>
                 <TextArea rows={4} />
               </Form.Item>
             ),
           },
-        {
-          title: 'Dokumen Pendukung',
-          dataIndex: 'dokumenPendukung',
-          key: 'dokumenPendukung',
-          render: (text: string, record: TableRow, index: number) => (
-            <Form.Item name={`dokumenPendukung${record.id}`} initialValue={text}>
-              <Upload>
-                <Button icon={<UploadOutlined />}>Upload</Button>
-              </Upload>
-            </Form.Item>
-          ),
-        },
-        {
-          title: 'Klaim Kompetensi (Pilih Maks.3)',
-          dataIndex: 'klaimKompetensi',
-          key: 'klaimKompetensi',
-          render: (text: string[], record: TableRow) => (
-          <div style={{ height: '150px', overflowY: 'scroll',border:'1px solid #dddddd',padding:'5px' }}>
-            <Form.Item name={`klaimKompetensi${record.id}`} initialValue={text} style={{width:'1000px',fontSize:'14px'}} >
-              <div style={{ display: 'flex', flexDirection: 'column'}}>
-                {choicesData.map(section => (
-                <div key={section.value} >
-                  <span style={{fontWeight:'bold'}}>{section.label}</span>
-                  {section.children.map((subSection) => (
-                  <div id={subSection.value} style={{borderBottom:'1px solid #dddddd',borderTop:'1px solid #dddddd'}}>
-                    <Checkbox
-                      value={subSection.value}
-                      checked={(selectedChoices[record.id] || []).includes(subSection.value)}
-                      onChange={(e : any) => handleChoiceChange(record.id, subSection.value, e.target.checked)}
-                    >
-                      {subSection.label}
-                    </Checkbox>
-                  </div>
-                ))}
-                </div>
-              ))}
-              </div>
-            </Form.Item>
-        </div>
-          ),
-        },
-        {
-          title: 'Hapus',
-          dataIndex: 'actions',
-          key: 'actions',
-          render: (text: string, record: TableRow) => (
-            <Button onClick={() => handleDeleteRow(record.id)} danger><DeleteOutlined /> x</Button>
+          {
+            title: 'Uraian Singkat Tentang Materi Tugas Akhir/ Skripsi/Tesis/ Disertasi',
+            dataIndex: 'uraianSingkat',
+            key: 'uraianSingkat',
+            render: (text: string, record: TableRow) => (
+              <Form.Item name={`uraianSingkat${record.key}`} initialValue={text} style={{width:'250px'}}>
+                <TextArea rows={4} />
+              </Form.Item>
+            ),
+          },
+          {
+            title: 'Nilai Akademik Rata-rata',
+            dataIndex: 'nilaiAkademikRata',
+            key: 'nilaiAkademikRata',
+            render: (text: string, record: TableRow, index: number) => (
+              <Form.Item name={`nilaiAkademikRata${record.key}`} initialValue={text} style={{width:'100px'}}>
+                <Input />
+              </Form.Item>
+            ),
+          },
+          {
+            title: 'Hapus',
+            dataIndex: 'actions',
+            key: 'actions',
+            render: (text: string, record: TableRow) => (
+            // <>
+            <Button onClick={() => openModalDelete(record)} type='primary' danger>
+              <DeleteOutlined />
+            </Button>         
           ),
         },
       ];
+      // open={isModalOpen} onOk={handleDeleteRow} onCancel={handleCancel} 
+      //modal logic
+      const handleDelete = (key: any) => {
+        const newData = dataSource.filter(item => item.key !== key);
+        setDataSource(newData);
+      };
+
+      const [isModalOpen, setIsModalOpen] = useState(false);
+      const [modaldata, setmodaldata] = useState<any>([]);
+      const openModalDelete = (record: any) => { //fungsi hapus baris  //NEED API DELETE
+        // const updatedDataSource = dataSource.filter(row => row.key !== key);
+        setmodaldata(record);
+        setIsModalOpen(true);
+      };
+      const handleDeleteRow = () => {
+        handleDelete(modaldata.key);
+        setIsModalOpen(false);
+        };
+      const showModal = () => {
+        setIsModalOpen(true);
+      };
     
+      const handleCancel = () => {
+        setIsModalOpen(false);
+      };
     //struktur komponen
     return (
+    <ConfigProvider
+      theme={{
+        components: {
+          Table: {
+            headerBorderRadius: 4,
+          },
+          Checkbox: {
+            colorPrimary: '#6b7aa1',
+            colorPrimaryHover: '#7e90be',
+          },
+          Input: {
+            activeBorderColor:'#7e90be',
+            hoverBorderColor:'#7e90be',
+          },
+        }
+      }}
+    >
     <div>
         <div className='container-form'>
+            <h3 className='headerform' style={{marginBottom:'10px'}}>I.2 Pendidikan Formal <span style={{color:'#6b7aa1'}}>(W2)</span></h3>
             <Button className="addFormButton" type="primary" onClick={handleAddRow} style={{marginBottom:'10px'}}>
                 + Add Row
             </Button>
             <Form ref={formRef} onFinish={onFinish} >
-                <div style={{ maxHeight: '420px', overflowY: 'auto', }}>
-                    <Table dataSource={dataSource} columns={columns} pagination={false} rowKey="id" size="small" style={{maxHeight: '400px', margin: '-8px', padding: '8px' }}/>
-                </div>
+              <div style={{ overflowY: 'hidden', overflowX: 'auto' }}>
+                <Table
+                  dataSource={dataSource}
+                  columns={columns}
+                  pagination={false}
+                  rowKey={(record) => record.key}
+                  size="small"
+                  scroll={{ y: 400, x: 'max-content' }} // Adjust x as needed
+                  bordered
+                />
+              </div>
                 <p style={{margin:'10px 0'}}>*&#41; KOMPETENSI: Isi dengan nomor Uraian Kegiatan Kompetensi yang Anda anggap persyaratannya telah terpenuhi dengan aktifitas Anda di sini</p>
-                <Button className="saveFormButton" type="primary" htmlType="submit" style={{margin:'10px auto',display: "flex", justifyContent: "center" }}>
+                <Button className="saveFormButton" type="primary" htmlType="submit" style={{margin:'20px auto',display: "flex", justifyContent: "center" }}>
                     {/* <Button type="primary" htmlType="submit" disabled={totalSelected !== 3}> */}
                     Save & Continue
                 </Button>
             </Form>
+            <Modal title="Hapus data?" open={isModalOpen} onOk={handleDeleteRow} onCancel={handleCancel} okText={'Hapus'} okType='danger' centered>
+              {/* <p>Apakah anda yakin untuk menghapus data baris ini?</p> */}
+              <p style={{color:'#faad14'}}>Data baru benar-benar terhapus dengan menekan tombol "save and continue" di bagian bawah</p>
+            </Modal>
         </div>
     </div>
+    </ConfigProvider>
+
     );
   };
 
-  export default Formulir;
+  export default FormulirDua;

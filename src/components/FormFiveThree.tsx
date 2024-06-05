@@ -5,7 +5,7 @@ import { DeleteOutlined, MinusCircleOutlined, PlusOutlined, UploadOutlined } fro
 import TextArea from 'antd/es/input/TextArea';
 import { nanoid } from 'nanoid';
 import { ColumnsType } from 'antd/es/table';
-import { dataWsatu } from '../data/SectionFormDataW'
+import { dataWdua } from '../data/SectionFormDataW'
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { useParams } from 'react-router';
@@ -21,26 +21,20 @@ import { useParams } from 'react-router';
   //punya column
   interface TableRow {
     key: any;
-    namaOrganisasi: string;
-    jenisOrganisasi: string;
-    kotaAsal: string;
-    provinsiAsal: string;
-    negaraAsal: string;
-    bulan: string;
-    tahun: string;
-    bulanMulai: string;
-    tahunMulai: string;
-    masihAnggota : boolean;
-    jabatanOrganisasi: string;
-    tingkatanOrganisasi: string;
-    kegiatanOrganisasi: string;
-    uraianTugas: string;
+    namaSeminar: string;
+    namaPenyelenggara: string;
+    kota: string;
+    provinsi: string;
+    negara : string;
+    bulanPenyelenggaraSeminar: string;
+    tahunPenyelenggaraSeminar: string;
+	uraianSingkatMateriSeminar: string;
+	tingkatKesulitan: string;
     klaimKompetensi: string[];
-    // jumlahKlaimWSatu: number;
-    klaimKompetensiWSatu?: string[];
+    klaimKompetensiWdua?: string[];
   }
 
-const Formulir: React.FC = () => {
+const FormFiveThree: React.FC = () => {
 //kumpulan state
     const { formId } = useParams<{ formId: string | undefined }>();
     const [dataSource, setDataSource] = useState<TableRow[]>([  ]);//data tabel
@@ -76,12 +70,12 @@ const Formulir: React.FC = () => {
             }
           };
           // Make API request with user ID
-          const response = await axios.get(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&ft=i3`,config)
+          const response = await axios.get(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&ft=v3`,config)
           const userData = response.data;
-          setDataSource(userData.data.form_i_tiga)
+          setDataSource(userData.data.form_v_tiga)
           const newSelectedChoices: { [key: string]: string[] } = {};
-          userData.data.form_i_tiga.forEach((item: any) => {
-            newSelectedChoices[item.key] = item.klaimKompetensiWSatu;
+          userData.data.form_v_tiga.forEach((item: any) => {
+            newSelectedChoices[item.key] = item.klaimKompetensiWdua;
           });
           setSelectedChoices(newSelectedChoices);
     
@@ -95,20 +89,15 @@ const Formulir: React.FC = () => {
     const handleAddRow = () => { //fungsi nambah baris 
         const newRow: TableRow = {
           key: nanoid(),//gk perlu //gk jadi deng ternyata perlu
-          namaOrganisasi: '',
-          jenisOrganisasi: '',
-          kotaAsal: '',
-          provinsiAsal: '',
-          negaraAsal: '',
-          bulan: '',
-          tahun: '',
-          bulanMulai: '',
-          tahunMulai: '',
-          masihAnggota : false,
-          jabatanOrganisasi: '',
-          tingkatanOrganisasi: '',
-          kegiatanOrganisasi: '',
-          uraianTugas: '',
+          namaSeminar: '',
+          namaPenyelenggara: '',
+          kota: '',
+          provinsi: '',
+          negara: '',
+          bulanPenyelenggaraSeminar: '',
+          tahunPenyelenggaraSeminar: '',
+          uraianSingkatMateriSeminar: '',
+          tingkatKesulitan: '',
           klaimKompetensi: [],
           // jumlahKlaimWSatu: 0,
         };
@@ -133,21 +122,16 @@ const Formulir: React.FC = () => {
           const userId = decodedToken.nomerInduk;
           const formData = dataSource.map(row => ({
             ...row,
-            namaOrganisasi : values[`namaOrganisasi${row.key}`],
-            jenisOrganisasi: values[`jenisOrganisasi${row.key}`],
-            kotaAsal: values[`kotaAsal${row.key}`],
-            provinsiAsal: values[`provinsiAsal${row.key}`],
-            negaraAsal: values[`negaraAsal${row.key}`],
-            bulan: values[`bulan${row.key}`],
-            tahun: values[`tahun${row.key}`],
-            bulanMulai: values[`bulanMulai${row.key}`],
-            tahunMulai: values[`tahunMulai${row.key}`],
-            masihAnggota : values[`masihAnggota${row.key}`],
-            jabatanOrganisasi: values[`jabatanOrganisasi${row.key}`],
-            tingkatanOrganisasi: values[`tingkatanOrganisasi${row.key}`],
-            kegiatanOrganisasi: values[`kegiatanOrganisasi${row.key}`],
-            uraianTugas: values[`uraianTugas${row.key}`],
-            klaimKompetensiWSatu: selectedChoices[row.key] || [],
+            namaSeminar : values[`namaSeminar${row.key}`],
+            namaPenyelenggara: values[`namaPenyelenggara${row.key}`],
+            kota: values[`kota${row.key}`],
+            provinsi: values[`provinsi${row.key}`],
+            negara: values[`negara${row.key}`],
+            bulanPenyelenggaraSeminar: values[`bulanPenyelenggaraSeminar${row.key}`],
+            tahunPenyelenggaraSeminar: values[`tahunPenyelenggaraSeminar${row.key}`],
+            uraianSingkatMateriSeminar: values[`uraianSingkatMateriSeminar${row.key}`],
+            tingkatKesulitan: values[`tingkatKesulitan${row.key}`],
+            klaimKompetensiWdua: selectedChoices[row.key] || [],
           }));
           
           // Now you can send formData to your backend for processing
@@ -157,7 +141,7 @@ const Formulir: React.FC = () => {
               Authorization: `Bearer ${token}`
             }
           };
-          const response = await axios.patch(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=i3`,formData,config);
+          const response = await axios.patch(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=v3`,formData,config);
           // console.log("response add form:"+response)
 
           // const userData = response.data;
@@ -177,7 +161,7 @@ const Formulir: React.FC = () => {
     const handleChoiceChange = (recordKey: string, choiceValue: string, checked: boolean) => { //fungsi yg berhubungan dgn checbox klaim kompetensi
       const currentRowChoices = selectedChoices[recordKey] || [];
       // console.log(currentRowChoices);
-      if (checked && currentRowChoices.length < 13) {
+      if (checked && currentRowChoices.length < 3) {
         const updatedRowChoices = [...currentRowChoices, choiceValue];
           setSelectedChoices({
             ...selectedChoices,
@@ -191,56 +175,10 @@ const Formulir: React.FC = () => {
           });
       }else {
           // Show alert if more than 3 choices selected
-          alert('Harap Memilih Tidak Lebih Dari 13 Klaim Kompetensi W1');
+          alert('Harap Memilih Tidak Lebih Dari 3 Klaim Kompetensi W2');
       }
     };
-    //   setShowAdditionalFields(e.target.checked);
-    // };
-    const handleCheckboxChange = (key: any, checked: boolean) => {
-      setDataSource((prevData) =>
-        prevData.map((record) =>
-          record.key === key ? { ...record, masihAnggota: checked } : record
-        )
-      );
-    };
-
-    // const openModalDelete = (key: any) => { //fungsi hapus baris  //NEED API DELETE
-    //   // const updatedDataSource = dataSource.filter(row => row.key !== key);
-    //   // setDataSource(updatedDataSource);
-    //   setIsModalOpen(false);
-    // };
-    // const showModal = (record:any) => {
-    //   console.log(record);
-    //   setmodaldata(record);
-    //   setIsModalVisible(true);
-    //   };
-    // const deleteRowForm = async (record: TableRow) => {
-    //   try{
-    //     const token = localStorage.getItem('jwtToken');
-    //     if (token) {
-    //       const decodedToken: any = jwtDecode(token);
-    //       const userId = decodedToken.nomerInduk;
-    //       const config = {
-    //         headers: {
-    //           Authorization: `Bearer ${token}`
-    //         }
-    //       };
-    //       const response = await axios.patch(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=i3`,config);
-    //       console.log("response add form:"+response)
-    //       handleDeleteRow(record.key)
-
-    //       // const userData = response.data;
-    //       // setStatus("new")
-    //     } else {
-    //       console.error('JWT token not found');
-    //     }
-    //   }catch(error){
-    //     console.log('Error deleting row data form:', error);
-    //   }
-    //   setIsModalOpen(false);
-    //   // window.location.reload(); 
-    // };
-    
+   
 //kolom tabel
     const columns: ColumnsType<TableRow>= [
         {
@@ -253,70 +191,64 @@ const Formulir: React.FC = () => {
             fixed: 'left',
         },
         {
-          title: 'Nama Organisasi',
-          dataIndex: 'namaOrganisasi',
-          key: 'namaOrganisasi',
+          title: 'Nama Seminar/Lokakarya',
+          dataIndex: 'namaSeminar',
+          key: 'namaSeminar',
           render: (text: string, record: TableRow) => (
-            <Form.Item name={`namaOrganisasi${record.key}`} initialValue={text} style={{width:'200px'}}>
+            <Form.Item name={`namaSeminar${record.key}`} initialValue={text} style={{width:'200px'}}>
               <Input />
             </Form.Item>
           ),
         },
         {
-          title: 'Jenis',
-          dataIndex: 'jenisOrganisasi',
-          key: 'jenisOrganisasi',
+          title: 'Nama Penyelenggara',
+          dataIndex: 'namaPenyelenggara',
+          key: 'namaPenyelenggara',
           render: (text: string, record: TableRow) => (
-            <Form.Item name={`jenisOrganisasi${record.key}`} initialValue={record.jenisOrganisasi || undefined} >
-              <Select placeholder="--Choose--" style={{ width: 280 }} >
-                <Select.Option value="pii">Organisasi PII</Select.Option>
-                <Select.Option value="insinyurNonPii">Organisasi Keinsinyuran Non PII</Select.Option>
-                <Select.Option value="nonInsinyur">Organisasi Non Keinsinyuran</Select.Option>
-              </Select>
+            <Form.Item name={`namaPenyelenggara${record.key}`} initialValue={text} style={{width:'200px'}}>
+              <Input />
             </Form.Item>
           ),
         },
         {
           title: 'Kota/Kabupaten',
-          dataIndex: 'kotaAsal',
-          key: 'kotaAsal',
+          dataIndex: 'kota',
+          key: 'kota',
           render: (text: string, record: TableRow) => (
-            <Form.Item name={`kotaAsal${record.key}`} initialValue={text} style={{width:'150px'}}>
+            <Form.Item name={`kota${record.key}`} initialValue={text} style={{width:'150px'}}>
               <Input />
             </Form.Item>
           ),
         },
         {
             title: 'Provinsi',
-            dataIndex: 'provinsiAsal',
-            key: 'provinsiAsal',
+            dataIndex: 'provinsi',
+            key: 'provinsi',
             render: (text: string, record: TableRow) => (
-              <Form.Item name={`provinsiAsal${record.key}`} initialValue={text} style={{width:'150px'}}>
+              <Form.Item name={`provinsi${record.key}`} initialValue={text} style={{width:'150px'}}>
                 <Input />
               </Form.Item>
             ),
           },
           {
             title: 'Negara',
-            dataIndex: 'negaraAsal',
-            key: 'negaraAsal',
+            dataIndex: 'negara',
+            key: 'negara',
             render: (text: string, record: TableRow, index: number) => (
-              <Form.Item name={`negaraAsal${record.key}`} initialValue={text} style={{width:'150px'}}>
+              <Form.Item name={`negara${record.key}`} initialValue={text} style={{width:'150px'}}>
                 <Input />
               </Form.Item>
             ),
           },
           {
-            title: 'Perioda',
-            dataIndex: 'perioda',
-            key: 'perioda',
+            title: 'Kapan Seminar/Lokakarya Diselenggarakan?',
+            dataIndex: 'waktuKarya',
+            key: 'waktuKarya',
             width: 50,
             render: (text: string, record: TableRow, index: number) => (
                 <div>
-                    {record.masihAnggota  ? (
-                    <>
-                    <Form.Item className='form-item-row' name={`bulanMulai${record.key}`} initialValue={record.bulanMulai || undefined}>
-                      <Select placeholder="--Bulan Mulai--" style={{ width: 150 }}>
+                    <Form.Item className='form-item-row' name={`bulanPenyelenggaraSeminar${record.key}`} initialValue={record.bulanPenyelenggaraSeminar || undefined}>
+                      <Select placeholder="--Bulan--" style={{ width: 150 }}>
                         <Select.Option value="Januari">Januari</Select.Option>
                         <Select.Option value="Februari">Februari</Select.Option>
                         <Select.Option value="Maret">Maret</Select.Option>
@@ -331,112 +263,34 @@ const Formulir: React.FC = () => {
                         <Select.Option value="Desember">Desember</Select.Option>
                       </Select>
                     </Form.Item>
-                    <Form.Item className='form-item-row' name={`tahunMulai${record.key}`} initialValue={record.tahunMulai || undefined}>
-                        <Input placeholder='--Tahun Mulai--' />
-                    </Form.Item></>)
-                    :(<>
-                    <Form.Item className='form-item-row' name={`bulanMulai${record.key}`} initialValue={record.bulanMulai || undefined}>
-                      <Select placeholder="--Bulan Mulai--" style={{ width: 150 }}>
-                      <Select.Option value="Januari">Januari</Select.Option>
-                        <Select.Option value="Februari">Februari</Select.Option>
-                        <Select.Option value="Maret">Maret</Select.Option>
-                        <Select.Option value="April">April</Select.Option>
-                        <Select.Option value="Mei">Mei</Select.Option>
-                        <Select.Option value="Juni">Juni</Select.Option>
-                        <Select.Option value="Juli">Juli</Select.Option>
-                        <Select.Option value="Agustus">Agustus</Select.Option>
-                        <Select.Option value="September">September</Select.Option>
-                        <Select.Option value="Oktober">Oktober</Select.Option>
-                        <Select.Option value="November">November</Select.Option>
-                        <Select.Option value="Desember">Desember</Select.Option>
-                      </Select>
-                    </Form.Item>
-                    <Form.Item className='form-item-row' name={`tahunMulai${record.key}`} initialValue={record.tahunMulai || undefined}>
-                        <Input placeholder='--Tahun Mulai--' />
-                    </Form.Item>
-                    <Divider style={{ margin:'5px 0'}} plain>s/d</Divider>
-                    <Form.Item className='form-item-row' name={`bulan${record.key}`} initialValue={record.bulan || undefined}>
-                      <Select placeholder="--Bulan--" style={{ width: 150 }}>
-                      <Select.Option value="Januari">Januari</Select.Option>
-                        <Select.Option value="Februari">Februari</Select.Option>
-                        <Select.Option value="Maret">Maret</Select.Option>
-                        <Select.Option value="April">April</Select.Option>
-                        <Select.Option value="Mei">Mei</Select.Option>
-                        <Select.Option value="Juni">Juni</Select.Option>
-                        <Select.Option value="Juli">Juli</Select.Option>
-                        <Select.Option value="Agustus">Agustus</Select.Option>
-                        <Select.Option value="September">September</Select.Option>
-                        <Select.Option value="Oktober">Oktober</Select.Option>
-                        <Select.Option value="November">November</Select.Option>
-                        <Select.Option value="Desember">Desember</Select.Option>
-                      </Select>
-                    </Form.Item>
-                    <Form.Item className='form-item-row' name={`tahun${record.key}`} initialValue={record.tahun}>
+                    <Form.Item className='form-item-row' name={`tahunPenyelenggaraSeminar${record.key}`} initialValue={record.tahunPenyelenggaraSeminar || undefined}>
                         <Input placeholder='--Tahun--' />
-                    </Form.Item>
-                    </>)}
-                    
-                    {/* <Checkbox onChange={handleCheckboxChange}>Masih Menjadi Anggota</Checkbox> */}
-                    <Form.Item name={`masihAnggota${record.key}`} valuePropName="checked" initialValue={record.masihAnggota}>
-                      <Checkbox checked={record.masihAnggota} onChange={(e: any) => handleCheckboxChange(record.key, e.target.checked)}>Masih Menjadi Anggota</Checkbox>
                     </Form.Item>
                 </div>
                 ),
           },
           {
-            title: 'Jabatan Dalam Organisasi',
-            dataIndex: 'jabatanOrganisasi',
-            key: 'jabatanOrganisasi',
+            title: 'Uraian Singkat Materi Seminar/Lokakarya',
+            dataIndex: 'uraianSingkatMateriSeminar',
+            key: 'uraianSingkatMateriSeminar',
             render: (text: string, record: TableRow, index: number) => (
-              <Form.Item name={`jabatanOrganisasi${record.key}`} initialValue={record.jabatanOrganisasi || undefined} >
-                <Select placeholder="--Choose--" style={{ width: 280 }}>
-                  <Select.Option value="anggotaBiasa">Anggota biasa</Select.Option>
-                  <Select.Option value="anggotapengurus">Anggota pengurus</Select.Option>
-                  <Select.Option value="pimpinan">Pimpinan</Select.Option>
-                </Select>
-              </Form.Item>
-            ),
-          },
-          {
-            title: 'Tingkatan Organisasi',
-            dataIndex: 'tingkatanOrganisasi',
-            key: 'tingkatanOrganisasi',
-            render: (text: string, record: TableRow, index: number) => (
-                <Form.Item name={`tingkatanOrganisasi${record.key}`} initialValue={record.tingkatanOrganisasi  || undefined}>
-                <Select placeholder="--Choose--" style={{ width: 280 }}>
-                  <Select.Option value="lokal">Organisasi lokal (bukan Nasional)</Select.Option>
-                  <Select.Option value="nasional">Organisasi Nasional</Select.Option>
-                  <Select.Option value="regional">Organisasi Regional</Select.Option>
-                  <Select.Option value="internasional">Organisasi Internasional</Select.Option>
-                </Select>
-              </Form.Item>
-            ),
-          },
-          {
-            title: 'Lingkup Kegiatan Organisasi',
-            dataIndex: 'kegiatanOrganisasi',
-            key: 'kegiatanOrganisasi',
-            render: (text: string, record: TableRow, index: number) => (
-                <Form.Item name={`kegiatanOrganisasi${record.key}`} initialValue={record.kegiatanOrganisasi  || undefined}>
-                <Select placeholder="--Choose--" style={{ width: 280 }}>
-                  <Select.Option value="asosiasiProfesi">Asosiasi Profesi</Select.Option>
-                  <Select.Option value="lembagaPemerintah">Lembaga Pemerintah</Select.Option>
-                  <Select.Option value="lembagaPendidikan">Lembaga Pendidikan</Select.Option>
-                  <Select.Option value="bumn">Badan Usaha Milik Negara</Select.Option>
-                  <Select.Option value="badanUsahaSwasta">Badan Usaha Swasta</Select.Option>
-                  <Select.Option value="organisasiMasyarakat">Organisasi Kemasyarakatan</Select.Option>
-                  <Select.Option value="lain">Lain-lain</Select.Option>
-                </Select>
-              </Form.Item>
-            ),
-          },
-          {
-            title: 'Uraian Singkat Tugas dan Tanggung Jawab Profesional sesuai NSPK',
-            dataIndex: 'uraianTugas',
-            key: 'uraianTugas',
-            render: (text: string, record: TableRow, index: number) => (
-              <Form.Item name={`uraianTugas${record.key}`} initialValue={text} style={{width:'250px'}}>
+              <Form.Item name={`uraianSingkatMateriSeminar${record.key}`} initialValue={text} style={{width:'250px'}}>
                 <TextArea rows={4} />
+              </Form.Item>
+            ),
+          },
+          {
+            title: 'Tingkat Kesulitan dan Manfaat dari Materi Seminar/Lokakarya',
+            dataIndex: 'tingkatKesulitan',
+            key: 'tingkatKesulitan',
+            render: (text: string, record: TableRow, index: number) => (
+                <Form.Item name={`tingkatKesulitan${record.key}`} initialValue={record.tingkatKesulitan  || undefined}>
+                <Select placeholder="--Choose--" style={{ width: 780 }}>
+                  <Select.Option value="rendah">Komplikasi masalah, kreatifitas & inovasi rendah, nilai manfaat dan dampak nilai teknologi rendah</Select.Option>
+                  <Select.Option value="sedang">Komplikasi masalah, kreatifitas & inovasi sedang, nilai manfaat dan dampak nilai teknologi sedang</Select.Option>
+                  <Select.Option value="luas">Komplikasi masalah, kreatifitas & inovasi tinggi, nilai manfaat dan dampak nilai teknologi luas</Select.Option>
+                  <Select.Option value="sangatluas">Komplikasi masalah, kreatifitas & inovasi sangat tinggi, nilai manfaat dan dampak nilai teknologi sangat luas</Select.Option>
+                </Select>
               </Form.Item>
             ),
           },
@@ -448,7 +302,7 @@ const Formulir: React.FC = () => {
           <div className='form-klaim-list'>
             <Form.Item name={`klaimKompetensi${record.key}`} initialValue={text} style={{width:'1000px',fontSize:'14px'}} >
               <div style={{ display: 'flex', flexDirection: 'column'}}>
-                {dataWsatu.map(section => (
+                {dataWdua.map(section => (
                 <div key={section.value} >
                   <span style={{fontWeight:'bold'}}>{section.label}</span>
                   {section.children.map((subSection) => (
@@ -534,7 +388,7 @@ const Formulir: React.FC = () => {
     >
     <div>
         <div className='container-form'>
-            <h3 className='headerform' style={{marginBottom:'10px'}}>I.3 Organisasi Profesi & Organisasi Lainnya Yang Dimasuki <span style={{color:'#6b7aa1'}}>(W1)</span></h3>
+            <h3 className='headerform' style={{marginBottom:'10px'}}>V.3 Seminar/Lokakarya Keinsinyuran Yang Diikuti <span style={{color:'#6b7aa1'}}>(W2)</span></h3>
             <Button className="addFormButton" type="primary" onClick={handleAddRow} style={{marginBottom:'10px'}}>
                 + Add Row
             </Button>
@@ -567,4 +421,4 @@ const Formulir: React.FC = () => {
     );
   };
 
-  export default Formulir;
+  export default FormFiveThree;

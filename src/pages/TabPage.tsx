@@ -1,13 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { ConfigProvider, Tabs, TabsProps } from 'antd';
+import FirstTabForm from '../components/FormOne';
+import SecondTabForm from '../components/FormTwo';
 import ThirdTabForm from '../components/FormThree';
 import FourthTabForm from '../components/FormFour';
 import FifthTabForm from '../components/FormFive';
 import SixthTabForm from '../components/FormSix';
 import SeventhTabFrom from '../components/FormTwoOne';
-// FirstTabForm FirstTabForm ThirdTabForm FourthTabForm
-import { Header } from 'antd/es/layout/layout';
+import EighthTabFrom from '../components/FormTwoTwo';
+import ThreeOneTabPage from '../components/FormThreeOne';
+import FourOneTabPage from '../components/FormFourOne';
+import FiveOneTabPage from '../components/FormFiveOne';
+import FiveTwoTabPage from '../components/FormFiveTwo';
+import FiveThreeTabPage from '../components/FormFiveThree';
+import FiveFourTabPage from '../components/FormFiveFour';
+import SixthOneTabFrom from '../components/FormSixOne';
+import SevenOneTabFrom from '../components/FormSevenOne';
+
 import useDocumentTitle from '../hooks/useDocumentTitle';
+import UnderConstruct from './underConstruct';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router';
@@ -15,12 +26,13 @@ import { useLocation } from 'react-router-dom';
 
 const { TabPane } = Tabs;
 
+// IF LAST CHANGE = SUBMITTED TOMBOL AKSI MATI DI FAIP MHS, DISINI BAKAL DIARAHIN KE 404
 const MultiTabFormPage: React.FC = () => {
   useDocumentTitle('PII TA | Formulir');
   const navigate = useNavigate();
   const location = useLocation();
   const { formId } = useParams<{ formId: string | undefined }>();
-  const [activeTab, setActiveTab] = useState('third'); // Set the default active tab
+  const [activeTab, setActiveTab] = useState('1'); // Set the default active tab
   const [redirecting, setRedirecting] = useState(true); // New state for redirection
   // console.log("0 FORM ID:"+ formId)
 
@@ -79,7 +91,6 @@ const MultiTabFormPage: React.FC = () => {
         // console.log("2 response:"+ response)
 
         // if response no 
-
         const userData = response.data;
         // console.log("3 uid:"+ userData.data.student_id)
         // console.log("4 pid:"+ userData.data.pid)
@@ -127,30 +138,101 @@ const MultiTabFormPage: React.FC = () => {
 
   const items: TabsProps['items'] = [
     {
-      key: 'third',
+      key: '1',
+      label: 'I.1',
+      children: <FirstTabForm />,
+    },
+    {
+      key: '2',
+      label: 'I.2',
+      children: <SecondTabForm />,
+    },
+    {
+      key: '3',
       label: 'I.3',
       children: <ThirdTabForm />,
     },
     {
-      key: 'fourth',
+      key: '4',
       label: 'I.4',
       children: <FourthTabForm />,
     },
     {
-      key: 'fifth',
+      key: '5',
       label: 'I.5',
       children: <FifthTabForm />,
     },
     {
-      key: 'sixth',
+      key: '6',
       label: 'I.6',
       children: <SixthTabForm />,
     },
     {
-      key: 'seventh',
+      key: '7',
       label: 'II.1',
       children: <SeventhTabFrom />,
     },
+    {
+      key: '8',
+      label: 'II.2',
+      children: <EighthTabFrom />,
+    },
+        {
+      key: '9',
+      label: 'III',
+      children: <ThreeOneTabPage />,
+    },
+    {
+      key: '10',
+      label: 'IV',
+      children: <FourOneTabPage />,
+    },
+    {
+      key: '11',
+      label: 'V.1',
+      children: <FiveOneTabPage />,
+    },
+        {
+      key: '12',
+      label: 'V.2',
+      children: <FiveTwoTabPage />,
+    },
+        {
+      key: '13',
+      label: 'V.3',
+      children: <FiveThreeTabPage />,
+    },
+        {
+      key: '14',
+      label: 'V.4',
+      children: <FiveFourTabPage />,
+    },
+    {
+      key: '15',
+      label: 'VI',
+      children: <SixthOneTabFrom />,
+    },
+        {
+      key: '16',
+      label: 'VII',
+      children: <SevenOneTabFrom />,
+    },
+    //     {
+    //   key: '17',
+    //   label: 'Lampiran 1',
+    //   children: <UnderConstruct />,
+    // },
+    //     {
+    //   key: '18',
+    //   label: 'Lampiran 2',
+    //   children: <UnderConstruct />,
+    // },
+    //     {
+    //   key: '19',
+    //   label: 'Rekap',
+    //   children: <UnderConstruct />,
+    // },
+    
   ];
   // css margin  
   // w,x,y,z =>top,right,bottom left

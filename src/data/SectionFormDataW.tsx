@@ -66,8 +66,7 @@ export const dataWsatu: Section[]= [
         ],
       },
   ]
-  
-  export const dataWdua: Section[]= [
+export const dataWdua: Section[]= [
     //DONE CROSS CHECK
     {
       label:'W.2.1. - Melaksanakan pekerjaan yang bersifat kecendekiaan dan beragam',
@@ -143,7 +142,77 @@ export const dataWsatu: Section[]= [
       ],
     },
   ]
-  export const dataWempat: Section[]= [
+export const dataWtiga: Section[]= [
+    //DONE CROSS CHECK
+    {
+      label:'W.3.1. - Menjelaskan dan merumuskan kebutuhan perencanaan dan/atau perancangan',
+      value: 'W.3.1.',
+      children: [
+        { label: 'W.3.1.1. - Merundingkan spesifikasi awal atau pedoman rancangan (design brief) ditinjau dari keinginan pemberi tugas maupun keterbatasan kerekayasaan.', value: 'W.3.1.1' },
+        { label: 'W.3.1.2. - Melakukan analisis atas kebutuhan rancangan fungsional.', value: 'W.3.1.2' },
+        { label: 'W.3.1.3. - Memenuhi parameter perancangan seperti kinerja, keandalan, kemudahan pemeliharaan dan ergonomik.', value: 'W.3.1.3' },
+        { label: 'W.3.1.4. - Menentukan dampak atas rancangan yang di akibatkan oleh faktor-faktor produksi, konstruksi, pemasangan, uji-pakai, implikasi siklus hidup, dukungan logistik dan ketrampilan pemakai.', value: 'W.3.1.4' },
+        { label: 'W.3.1.5. - Menentukan kendala yang mungkin ada, seperti tanggungjawab perdata atas produk, pengaruh lingkup fisik atas bagian yang dirancang, atau pengaruh bagian tersebut terhadap lingkungan, dan kemudian mengambil langkah tindak-lanjut yang tepat.', value: 'W.3.1.5' },
+        { label: 'W.3.1.6. - Menggunakan bakuan dan spesifikasi perancangan keinsinyuran dan menyusun spesifikasi ke-fungsi-an untuk rancangannya.', value: 'W.3.1.6' },
+        // ... other sub-sections ...
+      ],
+    },
+    {
+      label:'W.3.2. - Membuat usulan  untuk memenuhi kebutuhan perencanaan dan /atau perancangan',
+      value: 'W.3.2.',
+      children: [
+        { label: 'W.3.2.1. - Menggunakan kreatifitas dan inisiatifnya dalam menyelidiki, menganalisis dan menyusun konsep-konsep bagi memenuhi tujuan rancangan.', value: 'W.3.2.1' },
+        { label: 'W.3.2.2. - Menganalisis konsep-konsep yang berkemungkinan menjadi rancangan akhir untuk mengkaji dampak faktor-faktor seperti kinerja, keandalan dan kemudahan pemeliharaan.', value: 'W.3.2.2' },
+        { label: 'W.3.2.3. - Menemu-kenali  masalah yang mungkin timbul dan merundingkan kemungkinan  perubahan atau penyesuaian atas pedoman rancangan.', value: 'W.3.2.3' },
+        { label: 'W.3.2.4. - Melakukan analisis biaya-manfaat dan risiko, studi kelayakan dan pembiayaan siklus hidup untuk menghasilkan suatu rancangan yang layak dilaksanakan.', value: 'W.3.2.4' },
+        { label: 'W.3.2.5. - Menyiapkan dan merekomendasikan pelaksanaan suatu usulan yang memenuhi persyaratan pemberi tugas atau pelaksana manufaktur.', value: 'W.3.2.5' },
+        // ... other sub-sections ...
+      ],
+    },
+    {
+      label:'W.3.3. - Melaksanakan pekerjaan perencanaan dan/atau perancangan sesuai usulan yang telah dipilih',
+      value: 'W.3.3.',
+      children: [
+        { label: 'W.3.3.1. - Melaksanakan atau mengatur pelaksanaan pekerjaan perancangan yang cukup berbobot.', value: 'W.3.3.1' },
+        { label: 'W.3.3.2. - Melaksanakan atau mengatur pelaksanaan analisis  untuk memilih komponen dan bahan material sesuai rancangan.', value: 'W.3.3.2' },
+        { label: 'W.3.3.3. - Menyiapkan dan memeriksa spesifikasi teknis sesuai rancangan.', value: 'W.3.3.3' },
+        // ... other sub-sections ...
+      ],
+    },
+    {
+      label:'W.3.4. - Melaksanakan kaji-nilai atas hasil rancangan',
+      value: 'W.3.4.',
+      children: [
+        { label: 'W.3.4.1. -  Memaparkan rancangan secara langsung atau dengan model komputer.', value: 'W.3.4.1' },
+        { label: 'W.3.4.2. -  Menyiapkan jadwal pengujian rancangan untuk uji kinerja dan lingkup fisik.', value: 'W.3.4.2' },
+        { label: 'W.3.4.3. - Mengawasi pengujian rancangan, analisis hasil pengujian dan mengajukan saran perbaikan.', value: 'W.3.4.3' },
+        { label: 'W.3.4.4. - Mengkaji dampak rancangan pada kondisi sekeliling.', value: 'W.3.4.4' },
+        { label: 'W.3.4.5. -  Memaparkan hasil pengkajian dampak rancangan pada pihak-pihak terkait.', value: 'W.3.4.5' },
+        // ... other sub-sections ...
+      ],
+    },
+    {
+      label:'W.3.5. - Menyiapkan dokumen penunjang',
+      value: 'W.3.5.',
+      children: [
+        { label: 'W.3.5.1. - Menyiapkan dokumen penunjang rancangan untuk produksi atau konstruksi, pemasangan, operasi, pemeliharaan dan pelatihan.', value: 'W.3.5.1' },
+        { label: 'W.3.5.2. - Menyunting dan memeriksa dokumen pendukung.', value: 'W.3.5.2' },
+        // ... other sub-sections ...
+      ],
+    },
+    {
+      label:'W.3.6. - Menjaga keutuhan tata identifikasi rancangan sepanjang proses pekerjaan',
+      value: 'W.3.6.',
+      children: [
+        { label: 'W.3.6.1. - Menerapkan tata identifikasi rancangan dengan cara-cara dokumentasi dan pencatatan yang tepat.', value: 'W.3.6.1' },
+        { label: 'W.3.6.2. - Menetapkan tatacara pengendalian dokumentasi dan catatan dalam melakukan perubahan rancangan.', value: 'W.3.6.2' },
+        { label: 'W.3.6.3. - Memastikan bahwa seluruh tata identifikasi rancangan tetap terjaga sebagai uraian yang benar sepanjang proses perancangan dan konstruksi atau manufaktur.', value: 'W.3.6.3' },
+        { label: 'W.3.6.4. - Mengawasi pelaksanaan penggambaran-ulang rancangan, sesuai dengan kenyataan dalam pelaksanaan konstruksi (as-built) atau pelaksanaan produksi (as-manufactured).', value: 'W.3.6.4' },
+        // ... other sub-sections ...
+      ],
+    },
+  ]
+export const dataWempat: Section[]= [
     
     {
       label:'W.4.1. - Menerapkan kaidah-kaidah manajemen atas diri sendiri',
@@ -220,85 +289,4 @@ export const dataWsatu: Section[]= [
         // ... other sub-sections ...
       ],
     },
-  ]
-  export const dataPsepuluh: Section[]= [
-  
-    {
-        label:'P.10.1. - Mengelola sumber-daya keinsinyuran',
-        value: 'P.10.1.',
-        children: [
-          { label: 'P.10.1.1. - Menetapkan dan melaksanakan tujuan dan prioritas kerja.', value: 'P.10.1.1' },
-          { label: 'P.10.1.2. - Merumuskan metoda pendekatan untuk pengelolaan sumber-daya.', value: 'P.10.1.2' },
-          { label: 'P.10.1.3. - Melakukan analisis rincian tugas (work breakdown analysis) sehingga tersedia dasar bagi perhitungan kebutuhan  sumber-daya.', value: 'P.10.1.3' },
-          { label: 'P.10.1.4. - Membuat perkiraan kebutuhan waktu, biaya, bahan dan sumber-daya lainnya untuk suatu pekerjaan.', value: 'P.10.1.4' },
-          // ... other sub-sections ...
-        ],
-      },
-  
-    {
-        label:'P.10.2. - Mengelola sumber-daya manusia',
-        value: 'P.10.2.',
-        children: [
-          { label: 'P.10.2.1. - Mematuhi ketentuan kesehatan dan keselamatan kerja.', value: 'P.10.2.1' },
-          { label: 'P.10.2.2. - Menemu-kenali dan menentukan kebutuhan pelatihan bagi tenaga kerja teknis di tempat pekerjaan.', value: 'P.10.2.2' },
-          { label: 'P.10.2.3. - Melaksanakan program pengembangan pengalaman kerja untuk bawahan, termasuk pelatihan-ulang, penyesuaian pada teknologi baru dan pengembangan ketrampilan.', value: 'P.10.2.3' },
-          { label: 'P.10.2.4. - Mengkaji efektifitas program pelatihan di tempat kerja.', value: 'P.10.2.4' },
-          { label: 'P.10.2.5. - Merumuskan kebutuhan pelatihan tenaga kerja non-teknis.', value: 'P.10.2.5' },
-          // ... other sub-sections ...
-        ],
-      },
-  
-    {
-        label:'P.10.3. - Melaksanakan pengelolaan kewira-usahaan, keuangan, dan hukum/kontraktual',
-        value: 'P.10.3.',
-        children: [
-          { label: 'P.10.3.1. - Melakukan tugas  kaji-nilai ekonomis atas pekerjaan yang dilaksanakan.', value: 'P.10.3.1' },
-          { label: 'P.10.3.2. - Memahami dampak hukum dari tiap pekerjaan yang dilaksanakan.', value: 'P.10.3.2' },
-          { label: 'P.10.3.3. - Memahami, menafsirkan dan menerapkan peraturan yang tepat.', value: 'P.10.3.3' },
-          { label: 'P.10.3.4. - Menilai kebutuhan pemasaran dan memberikan saran untuk strategi pemasaran.', value: 'P.10.3.4' },
-          { label: 'P.10.3.5. - Mengerjakan tugas pengelolaan  risiko.', value: 'P.10.3.5' },
-          { label: 'P.10.3.6. - Memahami kebutuhan kewira-usahaan suatu perusahaan dan bertindak sesuai kebutuhan tersebut dalam hal biaya, waktu dan faktor-faktor lainnya.', value: 'P.10.3.6' },
-          { label: 'P.10.3.7. - Mengkaji dan menyiapkan rencana usaha.', value: 'P.10.3.7' },
-          // ... other sub-sections ...
-        ],
-      },
-  
-    {
-        label:'P.10.4. - Mengelola keterangan produk (product knowledge) untuk barang/jasa keinsinyuran',
-        value: 'P.10.4.',
-        children: [
-          { label: 'P.10.4.1. - Menyiapkan dokumen, brosur, uraian teknis dan  spesifikasi mengenai produk barang/jasa keinsinyuran  untuk keperluan pemasaran.', value: 'P.10.4.1' },
-          { label: 'P.10.4.2. - Menyiapkan dokumen, pedoman, buku panduan untuk pemakaian operasi, pemeliharaan,  penyetelan dan perbaikan atas produk barang/jasa oleh konsumen.', value: 'P.10.4.2' },
-          { label: 'P.10.4.3. - Melakukan pengamatan atas kebutuhan pasar/pelanggan masa-depan terhadap  penyempurnaan dan menemu-kenali perubahan/pembaharuan yang perlu atas produk barang/jasa.', value: 'P.10.4.3' },
-          { label: 'P.10.4.4. - Memantau dan mengikuti kinerja dan keandalan produk barang/peralatan dan jasa yang dipakai pelanggan dan melakukan perbaikan dan penyempurnaan untuk kepuasan pelanggan.', value: 'P.10.4.4' },
-          // ... other sub-sections ...
-        ],
-      },
-  
-    {
-        label:'P.10.5. - Memahami dan menerapkan kaidah-kaidah pemasaran barang/jasa keinsinyuran',
-        value: 'P.10.5.',
-        children: [
-          { label: 'P.10.5.1. - Menyiapkan dan melakukan kajian kebutuhan pasar akan barang/jasa keinsinyuran yang hendak dipasarkan.', value: 'P.10.5.1' },
-          { label: 'P.10.5.2. - Menyiapkan strategi dan program pentahapan pemasaran untuk menarik minat pasar/pelanggan.', value: 'P.10.5.2' },
-          { label: 'P.10.5.3. - Melakukan promosi dan paparan pengenalan produk barang/jasa keinsinyuran untuk meyakinkan pelanggan dan pasar.', value: 'P.10.5.3' },
-          { label: 'P.10.5.4. - Menyiapkan usulan penawaran produk barang/jasa keinsinyuran secara mandiri atau bersama tim proposal, meliputi proposal teknis, komersial dan kontraktual.', value: 'P.10.5.4' },
-          { label: 'P.10.5.5. - Melaksanakan klasifikasi, negosiasi dan memberikan saran solusi/aplikasi teknis, penjelasan batasan tanggungjawab masing-masing untuk meyakinkan pelanggan sampai terlaksananya transaksi/kontrak penjualan produk barang/jasa.', value: 'P.10.5.5' },
-          // ... other sub-sections ...
-        ],
-      },
-  
-    {
-          label:'P.10.6. - Memahami dan menerapkan kaidah-kaidah pelayanan purna-jual',
-          value: 'P.10.6.',
-          children: [
-            { label: 'P.10.6.1. - Merumuskan dan menjelaskan batas syarat tanggungjawab jaminan kinerja dan perbaikan kerusakan purna-jual (warranty dan guarantee fee).', value: 'P.10.6.1' },
-            { label: 'P.10.6.2. - Melaksanakan pelayanan teknis purna-jual dan mengatasi masalah  teknis, sesuai tanggungjawab kontraktual.', value: 'P.10.6.2' },
-            { label: 'P.10.6.3. - Melaksanakan pelatihan pengembangan keahlian tenaga pemakai (operator) dan pemeliharaan produk.', value: 'P.10.6.3' },
-            { label: 'P.10.6.4. - Memelihara persediaan suku-cadang dan mengelola sumber daya untuk pelaksanaan pelayanan purna jual.', value: 'P.10.6.4' },
-            { label: 'P.10.6.5. - Melakukan pemantauan ke pelanggan untuk meningkatkan kehandalan pemakaian produk dan kepuasan pelanggan.', value: 'P.10.6.5' },
-            // ... other sub-sections ...
-          ],
-        },
-  
   ]

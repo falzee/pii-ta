@@ -211,7 +211,7 @@ const Layouting: React.FC = () => {
       <Layout >
       <Header style={{ padding: 0, backgroundColor:'#11324D',display:'flex',position: 'sticky',
           top: 0,
-          zIndex: 1,
+          zIndex: 100,
           width: '100%',
           alignItems: 'center' }}>
           <Button
