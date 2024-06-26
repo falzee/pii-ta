@@ -49,7 +49,7 @@ function mainApp() {
         <Route element={<ProtectedRoute allowedRoles={['dosen']}><Layouting /></ProtectedRoute>} >
           <Route element={<FormDosen /> } path="form/d/"/>
           <Route element={<FaipDosen /> } path="form/d/faip"/>
-          <Route element={<FaipDosenNilai /> } path="form/d/faip/id"/>
+          <Route element={<FaipDosenNilai /> } path="form/d/faip/edit/:formIdD"/>
           {/* <Route element={<FaipDosen /> } path="form/dosen"/>
             <Route element={<NilaiMhs/>} path="form/dosen/nilai" />
             <Route element={<TabPage/>} path="form/dosen/formulir" /> */}

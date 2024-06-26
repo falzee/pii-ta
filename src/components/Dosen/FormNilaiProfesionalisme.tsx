@@ -10,14 +10,17 @@ import { jwtDecode } from 'jwt-decode';
 import { useParams } from 'react-router';
 
 interface InputValues {
-  W121: number;
-  W122: number;
-  W123: number;
-  W124: number;
-  W125: number;
-  W126: number;
-  W127: number;
-  W128: number;
+  W111: number;
+  W112: number;
+  W113: number;
+  W114: number;
+  W115: number;
+  W221: number;
+  W222: number;
+  W223: number;
+  W224: number;
+  W225: number;
+  W226: number;
 }
   // nilaiAkademikRata
 
@@ -58,38 +61,49 @@ interface InputValues {
   //     "nilai_akhir_praktik_keinsinyuran_huruf": ""
   //   }
   // },
-const FormulirDua: React.FC = () => {
+const FormulirProfesionalisme: React.FC = () => {
 //kumpulan state
     const { formIdD } = useParams<{ formIdD: string | undefined }>();
     const [inputValue, setInputValues] = useState<{ [key: string]: number }>({//jumlah_isian_per_kompetensi
-      W121: 0,
-      W122: 0,
-      W123: 0,
-      W124: 0,
-      W125: 0,
-      W126: 0,
-      W127: 0,
-      W128: 0,
+      W111: 0,
+      W112: 0,
+      W113: 0,
+      W114: 0,
+      W115: 0,
+      W221: 0,
+      W222: 0,
+      W223: 0,
+      W224: 0,
+      W225: 0,
+      W226: 0,
     });
     const [gradeValue, setInputGradeValue] = useState({//nilai_per_kompetensi
-      GW121: 80,
-      GW122: 80,
-      GW123: 80,
-      GW124: 80,
-      GW125: 80,
-      GW126: 80,
-      GW127: 80,
-      GW128: 80,
+      GW111: 80,
+      GW112: 80,
+      GW113: 80,
+      GW114: 80,
+      GW115: 80,
+      GW221: 80,
+      GW222: 80,
+      GW223: 80,
+      GW224: 80,
+      GW225: 80,
+      GW226: 80,
+
     });
     const [percentValue, setInputPercentValue] = useState({//nilai_persen_per_kompetensi
-      PW121: 0,
-      PW122: 0,
-      PW123: 0,
-      PW124: 0,
-      PW125: 0,
-      PW126: 0,
-      PW127: 0,
-      PW128: 0,
+      PW111: 0,
+      PW112: 0,
+      PW113: 0,
+      PW114: 0,
+      PW115: 0,
+      PW221: 0,
+      PW222: 0,
+      PW223: 0,
+      PW224: 0,
+      PW225: 0,
+      PW226: 0,
+
     });
     const [finalValue, setFinalValue] = useState<number | null>(0);//nilai_akhir_angka
     const [finalLetterValue, setFinalLetterValue] = useState("E");//nilai_akhir_huruf
@@ -264,7 +278,7 @@ const FormulirDua: React.FC = () => {
                   />
                   <p style={{margin:'5px 0'}}> Maks. 3</p>
                 </div>
-                <p>Kontribusi terhadap mata kuliah : {inputValue[key as keyof typeof inputValue]}/24 = {percentValue[`P${key}` as keyof typeof percentValue]}% nilai = {gradeValue[`G${key}` as keyof typeof gradeValue]}</p>
+                <p>Kontribusi terhadap mata kuliah : {inputValue[key as keyof typeof inputValue]}/33 = {percentValue[`P${key}` as keyof typeof percentValue]}% nilai = {gradeValue[`G${key}` as keyof typeof gradeValue]}</p>
                 <Divider style={{margin:'5px 0'}} />
               </div>
             ))}
@@ -284,4 +298,4 @@ const FormulirDua: React.FC = () => {
     );
   };
 
-  export default FormulirDua;
+  export default FormulirProfesionalisme;

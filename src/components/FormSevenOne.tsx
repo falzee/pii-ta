@@ -92,7 +92,7 @@ const FormulirSevenOne: React.FC = () => {
     >
     <div>
         <div className='container-form'>
-            <h3 className='headerform' style={{marginBottom:'10px'}}>VII. Peryataan</h3>
+            <h3 className='headerform' style={{marginBottom:'10px'}}>VII. Pernyataan</h3>
 
             <Form name="checkboxForm" form={form} onFinish={onFinish} initialValues={{ accept: false } }>
               <div style={{ overflowY: 'hidden', overflowX: 'auto' }}>

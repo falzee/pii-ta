@@ -57,8 +57,8 @@ const FormulirSatu: React.FC = () => {
 //kumpulan state
     const { formId } = useParams<{ formId: string | undefined }>();
     const [dataSourceOne, setDataSourceOne] = useState<Table1Row[]>([]);
-    const [dataSourceTwo, setDataSourceTwo] = useState<Table2Row[]>([ ]);
-    const [dataSourceThree, setDataSourceThree] = useState<Table3Row[]>([ ]);
+    const [dataSourceTwo, setDataSourceTwo] = useState<Table2Row[]>([]);
+    const [dataSourceThree, setDataSourceThree] = useState<Table3Row[]>([]);
     // const [form] = Form.useForm<FormValues>();
     const formRef = React.createRef<FormInstance>();//
 

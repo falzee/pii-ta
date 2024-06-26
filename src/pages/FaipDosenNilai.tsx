@@ -15,8 +15,11 @@ const MultiTabFormPage: React.FC = () => {
   useDocumentTitle('PII TA | Formulir');
   const navigate = useNavigate();
   const location = useLocation();
-  const { formId } = useParams<{ formId: string | undefined }>();
+  const { formIdD } = useParams<{ formIdD: string | undefined }>();
   const [activeTab, setActiveTab] = useState('1'); // Set the default active tab
+  const [penilai,setPenilai] = useState('')
+  const [namaMhs,setNamaMhs] = useState('')
+
   // const [redirecting, setRedirecting] = useState(true); // New state for redirection
   // console.log("0 FORM ID:"+ formId)
 
@@ -54,53 +57,41 @@ const MultiTabFormPage: React.FC = () => {
       clearActiveTabOnNavigation();
     };
   }, [location]);
+  // http://localhost:8000/form-penilaian/dsn/student-info?pid=123456789&uid=1998200345678
+  useEffect(() => {
+    // Fetch user data when component mounts
+    fetchFaipData();
+  }, []);
 
-  // const fetchUserData = async (formId: string | undefined) => {
-  //   try {
-  //     const token = localStorage.getItem('jwtToken');
+    //API = const response = await axios.get(`http://localhost:8000/form-penilaian/dsn?uid=${userId},config);
+    const fetchFaipData = async () => {
+      try {
+        const token = localStorage.getItem('jwtToken');
+    
+        if (token) {
+          // Decode the token to extract user ID
+          const decodedToken: any = jwtDecode(token);
+          const userId = decodedToken.nomerInduk;
 
-  //     if (token) {
-  //       // Decode the token to extract user ID
-  //       const decodedToken: any = jwtDecode(token);
-  //       const userId = decodedToken.nomerInduk;
-  //       // console.log("1 uid:"+ userId)
-
-  //       const config = {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`
-  //         }
-  //       };
-  //       // Make API request with user ID
-  //       const response = await axios.get(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&ft=info`,config);
-  //       // console.log("2 response:"+ response)
-
-  //       // if response no 
-  //       const userData = response.data;
-  //       // console.log("3 uid:"+ userData.data.student_id)
-  //       // console.log("4 pid:"+ userData.data.pid)
-
-  //       if (formId !== userData.data.pid) {
-  //         // setRedirecting(true); 
-  //         navigate("/unauthorized", { replace: true });
-  //         return
-  //       } else if (userId !== userData.data.student_id){
-  //         // setRedirecting(true); 
-  //         navigate("/unauthorized", { replace: true });        
-  //       } else{
-  //         setRedirecting(false); 
-  //       }
-        
-  //       // setUserData(userData);
-  //       // Update the items with fetched data
-
-  //     } else {
-  //       console.error('User not found');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error fetching user data'); 
-  // // navigate("/unauthorized", { replace: true });
-  //   }
-  // };
+          setPenilai(decodedToken.nama)
+          const config = {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          };
+          // Make API request with user ID
+          const response = await axios.get(`http://localhost:8000/form-penilaian/dsn/student-info?uid=${userId}&pid=${formIdD}`,config);
+          const userData = response.data.data;
+          setNamaMhs(userData.info_mhs.nama_mhs);
+          
+          // console.log("FETCH SUCCESS?")
+        } else {
+          console.error('User not found');
+        }
+      } catch (error) {
+        console.error('Error fetching data'); 
+      }
+    };
 
 
   useEffect(() => {
@@ -185,8 +176,8 @@ const MultiTabFormPage: React.FC = () => {
         <h2 style={{ padding: '0 0 1rem', textAlign: 'left', width: '100%', borderBottom: '2px solid #D3D3D3' }}>Penilaian FAIP</h2>
         <div className='top-content' style={{backgroundColor:'#c2d0c1',padding:'1rem'}}>
           <h3>Informasi Penilaian</h3>
-          <p>Dosen penilai : </p>
-          <p>Mahasiswa yang dinilai : </p>
+          <p>Dosen penilai : {penilai}</p>
+          <p>Mahasiswa yang dinilai : {namaMhs}</p>
         </div>
       </div>
 
