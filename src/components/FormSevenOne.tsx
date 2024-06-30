@@ -10,7 +10,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useParams } from 'react-router';
 
 const FormulirSevenOne: React.FC = () => {
-    //API = const response = await axios.get(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&ft=i3`,config);
+    //API = const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/mhs?uid=${userId}&ft=i3`,config);
     const { formId } = useParams<{ formId: string | undefined }>();
 
     const [form] = Form.useForm();
@@ -34,7 +34,7 @@ const FormulirSevenOne: React.FC = () => {
             }
           };
           // Make API request with user ID
-          const response = await axios.get(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&ft=vii`,config)
+          const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/mhs?uid=${userId}&ft=vii`,config)
           const userData = response.data;
           form.setFieldsValue({ accept: userData.data.form_vii.accept });
         } else {
@@ -59,7 +59,7 @@ const FormulirSevenOne: React.FC = () => {
               Authorization: `Bearer ${token}`
             }
           };
-          await axios.patch(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=vii`,values,config);
+          await axios.patch(`http://192.168.195.241:8000/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=vii`,values,config);
           // console.log("response add form:"+response)
 
           // const userData = response.data;

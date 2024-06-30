@@ -20,11 +20,13 @@ interface DataType {
 
 const getStatusPenilaian = (status:string) => {
   switch(status) {
-    case "112-3":
+    case "112-0":
+      return "Data Belum Masuk";
+    case "112-1":
       return "Belum Dinilai";
-    case "112-4":
+    case "112-2":
       return "Sudah/Sedang Dinilai";
-    case "112-5":
+    case "112-3":
       return "Nilai Masuk";
     default:
       return "Status Tidak Diketahui";
@@ -40,7 +42,7 @@ const FaipDosen = ( ) => {
     fetchFaipData();
   }, []);
 
-    //API = const response = await axios.get(`http://localhost:8000/form-penilaian/dsn?uid=${userId},config);
+    //API = const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/dsn?uid=${userId},config);
     const fetchFaipData = async () => {
       try {
         const token = localStorage.getItem('jwtToken');
@@ -55,7 +57,7 @@ const FaipDosen = ( ) => {
             }
           };
           // Make API request with user ID
-          const response = await axios.get(`http://localhost:8000/form-penilaian/dsn?uid=${userId}`,config);
+          const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/dsn?uid=${userId}`,config);
           const userData = response.data.data;
           const transformedData = userData.map((item:any) => ({
             key: item.pid, // antd Table requires a unique key for each row
@@ -127,6 +129,10 @@ const FaipDosen = ( ) => {
         dataIndex: 'statusPenilaian',
         filters: [
           {
+            text: 'Data Belum Masuk',
+            value: 'Data Belum Masuk',
+          },
+          {
             text: 'Belum Dinilai',
             value: 'Belum Dinilai',
           },
@@ -141,7 +147,11 @@ const FaipDosen = ( ) => {
         ],
         render: (text: string, record: DataType) => (
           <div>
-            {(record.statusPenilaian === 'Belum Dinilai') ? <p style={{color:'red'}}>{text}</p> : (record.statusPenilaian === 'Sudah/Sedang Dinilai') ? <p style={{color:'blue'}}>{text}</p> : (record.statusPenilaian === 'Nilai Masuk') ? <p style={{color:'green'}}>{text}</p> : null }
+            {(record.statusPenilaian === 'Data Belum Masuk') ? <p style={{color:'orange'}}>{text}</p> 
+            : (record.statusPenilaian === 'Belum Dinilai') ? <p style={{color:'red'}}>{text}</p> 
+            : (record.statusPenilaian === 'Sudah/Sedang Dinilai') ? <p style={{color:'blue'}}>{text}</p> 
+            : (record.statusPenilaian === 'Nilai Masuk') ? <p style={{color:'green'}}>{text}</p> 
+            : null }
           </div>
         ),
         onFilter: (value, record) => record.statusPenilaian.indexOf(value as string) === 0,
@@ -153,13 +163,13 @@ const FaipDosen = ( ) => {
         width: 150,
         render: (text: string, record: DataType) => (
           <div>
-            {(record.statusPenilaian === 'Belum Dinilai') 
-            ? 
+            {(record.statusPenilaian === 'Data Belum Masuk') ? 
+              <p style={{color:'#808080',fontStyle:'italic'}}>menunggu mahasiswa*</p>     
+            :(record.statusPenilaian === 'Belum Dinilai') ? 
               <Button onClick={() => navigate(`/form/d/faip/edit/${record.key}`)} type='primary'>
                 Baru <PlusOutlined />
               </Button>     
-            : (record.statusPenilaian === 'Sudah/Sedang Dinilai') 
-            ?
+            : (record.statusPenilaian === 'Sudah/Sedang Dinilai') ?
               <>
                 <Button onClick={() => navigate(`/form/d/faip/edit/${record.key}`)} style={{margin:'0 5px'}} type='primary'>
                   Edit <EditOutlined />
@@ -169,8 +179,8 @@ const FaipDosen = ( ) => {
                   <DeleteOutlined />
                 </Button>  */}
               </>
-            : (record.statusPenilaian === 'Nilai Masuk') 
-            ? <p style={{color:'#808080',fontStyle:'italic'}}>expired</p>
+            : (record.statusPenilaian === 'Nilai Masuk') ? 
+              <p style={{color:'#808080',fontStyle:'italic'}}>expired**</p>
             : null
             }
           </div>

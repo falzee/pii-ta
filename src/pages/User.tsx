@@ -39,7 +39,7 @@ const User = () => {
           }
         };
         // Make API request with user ID
-        const response = await axios.get(`http://localhost:8000/user/profile/${userId}`,config);
+        const response = await axios.get(`http://192.168.195.241:8000/user/profile/${userId}`,config);
         // console.log("response:"+response)
 
         const userData = response.data;

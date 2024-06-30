@@ -101,7 +101,7 @@ const { formId } = useParams<{ formId: string | undefined }>();
             }
           };
           // Make API request with user ID
-          const response = await axios.get(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&ft=i6`,config)
+          const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/mhs?uid=${userId}&ft=i6`,config)
           const userData = response.data;
           setDataSource(userData.data.form_i_enam)
 
@@ -188,7 +188,7 @@ const { formId } = useParams<{ formId: string | undefined }>();
               Authorization: `Bearer ${token}`
             }
           };
-          const response = await axios.patch(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=i6`,formData,config);
+          const response = await axios.patch(`http://192.168.195.241:8000/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=i6`,formData,config);
           // console.log("response add form:"+response)
 
           // const userData = response.data;

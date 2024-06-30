@@ -57,13 +57,13 @@ const MultiTabFormPage: React.FC = () => {
       clearActiveTabOnNavigation();
     };
   }, [location]);
-  // http://localhost:8000/form-penilaian/dsn/student-info?pid=123456789&uid=1998200345678
+  // http://192.168.195.241:8000/form-penilaian/dsn/student-info?pid=123456789&uid=1998200345678
   useEffect(() => {
     // Fetch user data when component mounts
     fetchFaipData();
   }, []);
 
-    //API = const response = await axios.get(`http://localhost:8000/form-penilaian/dsn?uid=${userId},config);
+    //API = const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/dsn?uid=${userId},config);
     const fetchFaipData = async () => {
       try {
         const token = localStorage.getItem('jwtToken');
@@ -80,7 +80,7 @@ const MultiTabFormPage: React.FC = () => {
             }
           };
           // Make API request with user ID
-          const response = await axios.get(`http://localhost:8000/form-penilaian/dsn/student-info?uid=${userId}&pid=${formIdD}`,config);
+          const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/dsn/student-info?uid=${userId}&pid=${formIdD}`,config);
           const userData = response.data.data;
           setNamaMhs(userData.info_mhs.nama_mhs);
           

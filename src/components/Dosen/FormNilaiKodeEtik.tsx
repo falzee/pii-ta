@@ -115,8 +115,8 @@ const FormulirDua: React.FC = () => {
             }
           };
           // Make API request with user ID
-          const response = await axios.get(`http://localhost:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=kode-etik`,config)
-          // http://localhost:8000/form-penilaian/dsn/update-nilai?uid=1998200345678&pid=123456789&ft=kode-etik
+          const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=kode-etik`,config)
+          // http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=1998200345678&pid=123456789&ft=kode-etik
           const userData = response.data;
           setInputValues(userData.data.mk_kode_etik.data_nilai_kode_etik.jumlah_isian_per_kompetensi);
           setInputGradeValue(userData.data.mk_kode_etik.data_nilai_kode_etik.nilai_per_kompetensi);
@@ -151,7 +151,7 @@ const FormulirDua: React.FC = () => {
             }
           };
 
-          await axios.patch(`http://localhost:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=kode-etik`,formProfesionalisme,config);
+          await axios.patch(`http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=kode-etik`,formProfesionalisme,config);
           // console.log("response add form:"+response)
 
           // const userData = response.data;

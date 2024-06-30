@@ -5,7 +5,7 @@ import { title } from 'process';
 import React, { useEffect, useState } from 'react'
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import { Link, useNavigate } from 'react-router-dom';
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, UndoOutlined, UploadOutlined } from '@ant-design/icons';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import { nanoid } from 'nanoid';
@@ -43,8 +43,8 @@ const Faip = ( ) => {
           }
         };
         // Make API request with user ID
-        const response = await axios.get(`http://localhost:8000/form-penilaian/mhs?uid=${userId}&ft=info`,config);
-        // const response = await axios.get(`http://localhost:8000/form-penilaian/mhs`,config);
+        const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/mhs?uid=${userId}&ft=info`,config);
+        // const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/mhs`,config);
         // console.log("response:"+response)
         // if response no 
 
@@ -53,7 +53,13 @@ const Faip = ( ) => {
         setPid(userData.data.pid)
         setLastUpdate(userData.data.last_updated.slice(0, 10))
         setLastEdit(userData.data.last_change)
-        setStatus("edit")
+        if (userData.data.status === "111-0"){
+          setStatus('edit')
+        } else if (userData.data.status === "111-1"){
+          setStatus("retry")
+        } else if (userData.data.status === "111-2"){
+          setStatus("submit")
+        } 
         // console.log("userdata:"+ userData.data.pid)
         // setUserData(userData);
         // Update the items with fetched data
@@ -68,7 +74,6 @@ const Faip = ( ) => {
       setStatus('new')
     }
   };
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -89,7 +94,7 @@ const Faip = ( ) => {
             Authorization: `Bearer ${token}`
           }
         };
-        const response = await axios.delete(`http://localhost:8000/form-penilaian/mhs?uid=${nim}&pid=${pid}`,config);
+        const response = await axios.patch(`http://192.168.195.241:8000/form-penilaian/mhs/reset-form?uid=${nim}&pid=${pid}`,{},config);
         // console.log("response add form:"+response)
 
         // const userData = response.data;
@@ -104,6 +109,54 @@ const Faip = ( ) => {
     window.location.reload(); 
   };
 
+  const submitForm = async () => {
+    try{
+      const token = localStorage.getItem('jwtToken');
+
+      if (token) {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+        await axios.patch(`http://192.168.195.241:8000/form-penilaian/mhs/submit-form?uid=${nim}&pid=${pid}`,{},config);
+        // console.log("response add form:"+response)
+
+        // const userData = response.data;
+        // setStatus("new")
+      } else {
+        console.error('User not found');
+      }
+    }catch(error){
+      console.error('Error submitting form');
+    }
+    window.location.reload(); 
+  };
+
+  const restartForm = async () => {
+    try{
+      const token = localStorage.getItem('jwtToken');
+
+      if (token) {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+        const response = await axios.patch(`http://192.168.195.241:8000/form-penilaian/mhs/restart-form?uid=${nim}&pid=${pid}`,{},config);
+        // console.log("response add form:"+response)
+        setStatus("edit");
+        navigate(`/form/m/faip/edit/${pid}`, { replace: false });
+        // const userData = response.data;
+        // setStatus("new")
+      } else {
+        console.error('User not found');
+      }
+    }catch(error){
+      console.error('Error deleting form');
+    }
+
+  };
   const newForm = async () => {
     try {
       const token = localStorage.getItem('jwtToken');
@@ -118,7 +171,7 @@ const Faip = ( ) => {
             'Content-Type': 'application/json', // Ensure the Content-Type header is set
           }
         };  
-        const response = await axios.post(`http://localhost:8000/form-penilaian/mhs?uid=${nim}&pid=${pid}`, {}, config);
+        const response = await axios.post(`http://192.168.195.241:8000/form-penilaian/mhs?uid=${nim}&pid=${pid}`, {}, config);
         // console.log("response create form:" + response);
   
         // const userData = response.data;
@@ -146,33 +199,51 @@ const Faip = ( ) => {
       <p style={{ padding: '1rem 0 0' }}>Nim : {nim}</p>
       <p style={{ padding: '1rem 0 0' }}>Last updated : {lastUpdate ? lastUpdate : "-"}</p>
       <p style={{ padding: '1rem 0 0' }}>Last change : {lastEdit ? lastEdit : "-"}</p>
-      <p style={{ padding: '1rem 0 0' }}>Status : {(status === 'new') ? 'Baru' : (status === 'edit' ? 'Data Masuk' : '-')}</p>
+      <p style={{ padding: '1rem 0 0' }}>Status : {(status === 'new') ? 'Baru' : (status === 'edit') ? 'Data Masuk' : (status === 'retry') ? 'Ulang' : (status === 'submit') ? 'Terkirim': '-'}</p>
 
       <div style={{display: 'flex',justifyContent: 'center',alignItems:'center',margin:'1rem 0'}}>
-        {(status === 'new') ? 
+        { (status === 'new') ? 
         // like edit, but button with post api to sever to create new form and make pid for dynamic pid
         // <Link className='link-hover' style={{}} to={`/form/mahasiswa/faip/edit/${pid}`}>
-          <Button type="primary" size='large' onClick={newForm} style={{ borderRadius:'3px',margin:'0 0.5rem' }} >
-            + Baru
-          </Button> 
-          : (status === 'edit') ?
-        <>
-        {/* edit to> edit in dynamic page with pid > submit/ delete get popup> reload (delete no reload only submit)> 
-        if try change page get popup u sure? > only save if submit/delete so if sure just go away w/out save*/}
-        <Link className='link-hover' style={{margin:'0 0.5rem'}} to={`/form/m/faip/edit/${pid}`}>
-          <Button type="primary" size='large' style={{ borderRadius:'3px' }} >
-            <span style={{margin:'0 5px'}}><EditOutlined /></span> Edit
-          </Button>
-        </Link>
-        {/* delete to>popup > delete> backend delete &  state to new again & reload */}
-        <Button type="primary" danger size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={showModal}>
-          <span style={{margin:'0 5px'}}><DeleteOutlined /></span> Delete
-        </Button>
-      
-        <Modal title="Hapus Formulir?" open={isModalOpen} onOk={deleteForm} onCancel={handleCancel} okText={'Hapus'} okType='danger' centered>
-          <p>Apakah anda yakin untuk menghapus SEMUA data yang anda masukkan?</p>
-          <p style={{color:'red'}}>note. data yang dihapus tidak bisa dikembalikan</p>
-        </Modal></> : null
+            <Button type="primary" size='large' onClick={newForm} style={{ borderRadius:'3px',margin:'0 0.5rem' }} >
+              + Baru
+            </Button> 
+          :(status === 'retry') ? 
+          // like edit, but button with post api to sever to create new form and make pid for dynamic pid
+          // <Link className='link-hover' style={{}} to={`/form/mahasiswa/faip/edit/${pid}`}>
+            <Button type="primary" size='large' onClick={restartForm} style={{ borderRadius:'3px',margin:'0 0.5rem' }} >
+              + Buat Ulang
+            </Button> 
+            : (status === 'edit') ?
+            <>
+            {/* edit to> edit in dynamic page with pid > submit/ delete get popup> reload (delete no reload only submit)> 
+            if try change page get popup u sure? > only save if submit/delete so if sure just go away w/out save*/}
+            <Link className='link-hover' style={{margin:'0 0.5rem'}} to={`/form/m/faip/edit/${pid}`}>
+              <Button type="primary" size='large' style={{ borderRadius:'3px' }} >
+                <span style={{margin:'0 5px'}}><EditOutlined /></span> Edit
+              </Button>
+            </Link>
+            {/* delete to>popup > delete> backend delete &  state to new again & reload */}
+            <Button type="primary" danger size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={showModal}>
+              <span style={{margin:'0 5px'}}><DeleteOutlined /></span> Delete
+            </Button>
+
+            <Button type="primary" size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={submitForm}>
+              <span style={{margin:'0 5px'}}><UploadOutlined /></span> Submit
+            </Button>
+          
+            <Modal title="Hapus Formulir?" open={isModalOpen} onOk={deleteForm} onCancel={handleCancel} okText={'Hapus'} okType='danger' centered>
+              <p>Apakah anda yakin untuk menghapus SEMUA data yang anda masukkan?</p>
+              <p style={{color:'red'}}>note. data yang dihapus tidak bisa dikembalikan</p>
+            </Modal></> 
+          : (status === 'submit') ?
+              <>
+                <p>Data Sudah Berhasil Terkirim!</p>
+                <Button type="primary" size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={deleteForm}>
+                  <span style={{margin:'0 5px'}}><UndoOutlined /></span> RESTART ANTO
+                </Button>
+              </>
+          : null
       }
         
       </div>
