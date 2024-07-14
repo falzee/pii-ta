@@ -10,17 +10,22 @@ import { jwtDecode } from 'jwt-decode';
 import { useParams } from 'react-router';
 
 interface InputValues {
-  W111: number;
-  W112: number;
-  W113: number;
-  W114: number;
-  W115: number;
-  W221: number;
-  W222: number;
-  W223: number;
-  W224: number;
-  W225: number;
-  W226: number;
+  W441: number;
+  W442: number;
+  W443: number;
+  W444: number;
+  W445: number;
+  W446: number;
+  W451: number;
+  W452: number;
+  W453: number;
+  W454: number;
+  W455: number;
+  W456: number;
+  W457: number;
+  W458: number;
+  W459: number;
+  
 }
   // nilaiAkademikRata
 
@@ -61,47 +66,59 @@ interface InputValues {
   //     "nilai_akhir_praktik_keinsinyuran_huruf": ""
   //   }
   // },
-const FormulirProfesionalisme: React.FC = () => {
+const FormulirSeminar: React.FC = () => {
 //kumpulan state
     const { formIdD } = useParams<{ formIdD: string | undefined }>();
     const [inputValue, setInputValues] = useState<{ [key: string]: number }>({//jumlah_isian_per_kompetensi
-      W111 :0,
-      W112 :0,
-      W113 :0,
-      W114 :0,
-      W115 :0,
-      W221 :0,
-      W222 :0,
-      W223 :0,
-      W224 :0,
-      W225 :0,
-      W226 :0
+        W441: 0,
+        W442: 0,
+        W443: 0,
+        W444: 0,
+        W445: 0,
+        W446: 0,
+        W451: 0,
+        W452: 0,
+        W453: 0,
+        W454: 0,
+        W455: 0,
+        W456: 0,
+        W457: 0,
+        W458: 0,
+        W459: 0,
     });
     const [gradeValue, setInputGradeValue] = useState({//nilai_per_kompetensi
-      GW111 :75,
-      GW112 :75,
-      GW113 :75,
-      GW114 :75,
-      GW115 :75,
-      GW221 :75,
-      GW222 :75,
-      GW223 :75,
-      GW224 :75,
-      GW225 :75,
-      GW226 :75
+        GW441: 75,
+        GW442: 75,
+        GW443: 75,
+        GW444: 75,
+        GW445: 75,
+        GW446: 75,
+        GW451: 75,
+        GW452: 75,
+        GW453: 75,
+        GW454: 75,
+        GW455: 75,
+        GW456: 75,
+        GW457: 75,
+        GW458: 75,
+        GW459: 75,
     });
     const [percentValue, setInputPercentValue] = useState({//nilai_persen_per_kompetensi
-      PW111 :0,
-      PW112 :0,
-      PW113 :0,
-      PW114 :0,
-      PW115 :0,
-      PW221 :0,
-      PW222 :0,
-      PW223 :0,
-      PW224 :0,
-      PW225 :0,
-      PW226 :0
+        PW441: 0,
+        PW442: 0,
+        PW443: 0,
+        PW444: 0,
+        PW445: 0,
+        PW446: 0,
+        PW451: 0,
+        PW452: 0,
+        PW453: 0,
+        PW454: 0,
+        PW455: 0,
+        PW456: 0,
+        PW457: 0,
+        PW458: 0,
+        PW459: 0,
     });
     const [finalValue, setFinalValue] = useState<number | null>(0);//nilai_akhir_angka
     const [finalLetterValue, setFinalLetterValue] = useState("E");//nilai_akhir_huruf
@@ -127,26 +144,26 @@ const FormulirProfesionalisme: React.FC = () => {
             }
           };
           // Make API request with user ID
-          const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=profesionalisme`,config)
-          // http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=1998200345678&pid=123456789&ft=profesionalisme
+          const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=seminar`,config)
+          // http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=1998200345678&pid=123456789&ft=seminar
           const userData = response.data;
-          if (userData.data.mk_profesionalisme.data_nilai_profesionalisme.jumlah_isian_per_kompetensi){
-            setInputValues(userData.data.mk_profesionalisme.data_nilai_profesionalisme.jumlah_isian_per_kompetensi);
+          if (userData.data.mk_seminar.data_nilai_seminar.jumlah_isian_per_kompetensi){
+            setInputValues(userData.data.mk_seminar.data_nilai_seminar.jumlah_isian_per_kompetensi);
           }
 
-          if (userData.data.mk_profesionalisme.data_nilai_profesionalisme.nilai_per_kompetensi){
-            setInputGradeValue(userData.data.mk_profesionalisme.data_nilai_profesionalisme.nilai_per_kompetensi);
+          if (userData.data.mk_seminar.data_nilai_seminar.nilai_per_kompetensi){
+            setInputGradeValue(userData.data.mk_seminar.data_nilai_seminar.nilai_per_kompetensi);
           }
           
-          if (userData.data.mk_profesionalisme.data_nilai_profesionalisme.nilai_persen_per_kompetensi){
-            setInputPercentValue(userData.data.mk_profesionalisme.data_nilai_profesionalisme.nilai_persen_per_kompetensi);
+          if (userData.data.mk_seminar.data_nilai_seminar.nilai_persen_per_kompetensi){
+            setInputPercentValue(userData.data.mk_seminar.data_nilai_seminar.nilai_persen_per_kompetensi);
           }
 
-          if (userData.data.mk_profesionalisme.nilai_akhir_profesionalisme_angka){
-            setFinalValue(userData.data.mk_profesionalisme.nilai_akhir_profesionalisme_angka);
+          if (userData.data.mk_seminar.nilai_akhir_seminar_angka){
+            setFinalValue(userData.data.mk_seminar.nilai_akhir_seminar_angka);
           }
-          if (userData.data.mk_profesionalisme.nilai_akhir_profesionalisme_huruf){
-            setFinalLetterValue(userData.data.mk_profesionalisme.nilai_akhir_profesionalisme_huruf);
+          if (userData.data.mk_seminar.nilai_akhir_seminar_huruf){
+            setFinalLetterValue(userData.data.mk_seminar.nilai_akhir_seminar_huruf);
           }
 
         } else {
@@ -176,7 +193,7 @@ const FormulirProfesionalisme: React.FC = () => {
             }
           };
 
-          await axios.patch(`http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=profesionalisme`,formData,config);
+          await axios.patch(`http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=seminar`,formData,config);
           // console.log("response add form:"+response)
 
           // const userData = response.data;
@@ -218,7 +235,7 @@ const FormulirProfesionalisme: React.FC = () => {
     };
 
     const calculateExample = (key: keyof typeof inputValue, value: number) => {
-      const result = (value / 33) * 100;
+      const result = (value / 60) * 100;
       return parseFloat(result.toFixed(2));
     };
 
@@ -273,7 +290,7 @@ const FormulirProfesionalisme: React.FC = () => {
       >
         <div style={{marginBottom:'2rem'}}>
           <h3 className='headerform' style={{marginBottom:'10px'}}>
-            Profesionalisme <span style={{color:'#6b7aa1'}}>(W.1.1.1-5 ,W.2.2.1-6)</span>
+            Seminar <span style={{color:'#6b7aa1'}}>(W.4.4.1-6 ,W.4.5.1-9)</span>
           </h3>
           <div>
             {Object.keys(inputValue).map((key) => (
@@ -283,13 +300,13 @@ const FormulirProfesionalisme: React.FC = () => {
                   <InputNumber
                     style={{width:'75px',margin:'0 5px'}}
                     min={0}
-                    max={3}
+                    max={4}
                     value={inputValue[key]}
                     onChange={(value) => handleNumberChange(key as keyof typeof inputValue, value)}
                   />
-                  <p style={{margin:'5px 0'}}> Maks. 3</p>
+                  <p style={{margin:'5px 0'}}> Maks. 4</p>
                 </div>
-                <p>Kontribusi terhadap mata kuliah : {inputValue[key as keyof typeof inputValue]}/33 = {percentValue[`P${key}` as keyof typeof percentValue]}% nilai = {gradeValue[`G${key}` as keyof typeof gradeValue]}</p>
+                <p>Kontribusi terhadap mata kuliah : {inputValue[key as keyof typeof inputValue]}/60 = {percentValue[`P${key}` as keyof typeof percentValue]}% nilai = {gradeValue[`G${key}` as keyof typeof gradeValue]}</p>
                 <Divider style={{margin:'5px 0'}} />
               </div>
             ))}
@@ -309,4 +326,4 @@ const FormulirProfesionalisme: React.FC = () => {
     );
   };
 
-  export default FormulirProfesionalisme;
+  export default FormulirSeminar;

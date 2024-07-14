@@ -200,6 +200,9 @@ const Faip = ( ) => {
       <p style={{ padding: '1rem 0 0' }}>Last updated : {lastUpdate ? lastUpdate : "-"}</p>
       <p style={{ padding: '1rem 0 0' }}>Last change : {lastEdit ? lastEdit : "-"}</p>
       <p style={{ padding: '1rem 0 0' }}>Status : {(status === 'new') ? 'Baru' : (status === 'edit') ? 'Data Masuk' : (status === 'retry') ? 'Ulang' : (status === 'submit') ? 'Terkirim': '-'}</p>
+      <p style={{ padding: '1rem 0 0' }}>note.</p>
+      <p style={{ padding: '0' }}>- Jangan lupa untuk mengirim formulir di bagian <span style={{color:'blue'}}>SUBMIT</span> di hamalan pengisian formulir FAIP setelah selesai</p>
+      <p style={{ padding: '0' }}>- Formulir masih bisa diedit dan dirubah selama belum di submit </p>
 
       <div style={{display: 'flex',justifyContent: 'center',alignItems:'center',margin:'1rem 0'}}>
         { (status === 'new') ? 
@@ -227,21 +230,22 @@ const Faip = ( ) => {
             <Button type="primary" danger size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={showModal}>
               <span style={{margin:'0 5px'}}><DeleteOutlined /></span> Delete
             </Button>
-
+            {/* 
             <Button type="primary" size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={submitForm}>
               <span style={{margin:'0 5px'}}><UploadOutlined /></span> Submit
-            </Button>
+            </Button> */}
           
             <Modal title="Hapus Formulir?" open={isModalOpen} onOk={deleteForm} onCancel={handleCancel} okText={'Hapus'} okType='danger' centered>
-              <p>Apakah anda yakin untuk menghapus SEMUA data yang anda masukkan?</p>
+              <p>Apakah anda yakin untuk menghapus <span style={{color:'red'}}>SEMUA</span> data yang anda masukkan?</p>
               <p style={{color:'red'}}>note. data yang dihapus tidak bisa dikembalikan</p>
-            </Modal></> 
+            </Modal>
+            </> 
           : (status === 'submit') ?
               <>
                 <p>Data Sudah Berhasil Terkirim!</p>
-                <Button type="primary" size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={deleteForm}>
+                {/* <Button type="primary" size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={deleteForm}>
                   <span style={{margin:'0 5px'}}><UndoOutlined /></span> RESTART ANTO
-                </Button>
+                </Button> */}
               </>
           : null
       }

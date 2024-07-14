@@ -7,6 +7,10 @@ import FormNilaiKodeEtik from '../components/Dosen/FormNilaiKodeEtik'
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
+import FormNilaiProfesionalisme from '../components/Dosen/FormNilaiProfesionalisme';
+import FormNilaiKtiga from '../components/Dosen/FormNilaiKtiga';
+import FormNilaiSeminar from '../components/Dosen/FormNilaiSeminar';
+import FormNilaiDosenSubmit from '../components/Dosen/FormNilaiDosenSubmit';
 
 const { TabPane } = Tabs;
 
@@ -19,6 +23,8 @@ const MultiTabFormPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('1'); // Set the default active tab
   const [penilai,setPenilai] = useState('')
   const [namaMhs,setNamaMhs] = useState('')
+  const [redirecting, setRedirecting] = useState(true); // New state for redirection
+
 
   // const [redirecting, setRedirecting] = useState(true); // New state for redirection
   // console.log("0 FORM ID:"+ formId)
@@ -82,14 +88,36 @@ const MultiTabFormPage: React.FC = () => {
           // Make API request with user ID
           const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/dsn/student-info?uid=${userId}&pid=${formIdD}`,config);
           const userData = response.data.data;
-          setNamaMhs(userData.info_mhs.nama_mhs);
+          setNamaMhs(userData.info_mhs.nama);
+
+          if (formIdD !== userData.pid) {
+            // setRedirecting(true); 
+            navigate("/unauthorized", { replace: true });
+            return
+          } else if (userId !== userData.id_dosen){
+            // setRedirecting(true); 
+            navigate("/unauthorized", { replace: true });        
+          } else{
+            setRedirecting(false); 
+          }
+
+          if (!userData.status) {
+            // setRedirecting(true); 
+            navigate("/unauthorized", { replace: true });
+            return
+          } else if (userData.status === "112-3" || userData.status === "112-0"){
+            // setRedirecting(true); 
+            navigate("/unauthorized", { replace: true });        
+          } else{
+            setRedirecting(false); 
+          }
           
           // console.log("FETCH SUCCESS?")
         } else {
           console.error('User not found');
         }
       } catch (error) {
-        console.error('Error fetching data'); 
+        console.error('Error fetching data uhuy'); 
       }
     };
 
@@ -120,32 +148,37 @@ const MultiTabFormPage: React.FC = () => {
     {
       key: '2',
       label: 'Profesionalisme',
-      children: <UnderConstruct />,
+      children: <FormNilaiProfesionalisme />,
     },
     {
       key: '3',
       label: 'K3',
-      children: <UnderConstruct />,
+      children: <FormNilaiKtiga />,
     },
     {
       key: '4',
       label: 'Seminar & Workshop',
-      children: <UnderConstruct />,
+      children: <FormNilaiSeminar />,
     },
+    // {
+    //   key: '5',
+    //   label: 'Studi Kasus',
+    //   children: <UnderConstruct />,
+    // },
+    // {
+    //   key: '6',
+    //   label: 'Praktik Keinsinyuran',
+    //   children: <UnderConstruct />,
+    // },
+    // {
+    //   key: '7',
+    //   label: 'Submit',
+    //   children: <UnderConstruct />,
+    // },
     {
-      key: '5',
-      label: 'Studi Kasus',
-      children: <UnderConstruct />,
-    },
-    {
-      key: '6',
-      label: 'Praktik Keinsinyuran',
-      children: <UnderConstruct />,
-    },
-    {
-      key: '7',
-      label: 'Submit?',
-      children: <UnderConstruct />,
+      key: '8',
+      label: 'Submit',
+      children: <FormNilaiDosenSubmit />,
     },
     
   ];
@@ -169,8 +202,8 @@ const MultiTabFormPage: React.FC = () => {
       }}
     >
     <div className="faip-mhs-container" style={{ maxHeight: '1200px'}}>
-      {/* {redirecting ? <div>Redirecting...</div> :
-      <> */}
+      {redirecting ? null :
+      <>
 
       <div className='header-faip' style={{margin:'1rem 1rem 0',padding:'0 1rem 0'}}>
         <h2 style={{ padding: '0 0 1rem', textAlign: 'left', width: '100%', borderBottom: '2px solid #D3D3D3' }}>Penilaian FAIP</h2>
@@ -183,9 +216,10 @@ const MultiTabFormPage: React.FC = () => {
 
       <div className = 'formPage' style={{padding: '0 2rem',overflow: 'hidden'}}>
         <Tabs activeKey={activeTab} onChange={handleTabChange} items={items} />
-          </div> 
-        {/* </>
-        } */}
+      </div> 
+
+      </>
+      }
       
           {/* Add more TabPane for additional tabs */}
       

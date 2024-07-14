@@ -23,6 +23,7 @@ import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
+import FormMhsSubmit from '../components/FormMhsSubmit';
 
 const { TabPane } = Tabs;
 
@@ -36,7 +37,7 @@ const MultiTabFormPage: React.FC = () => {
   const [redirecting, setRedirecting] = useState(true); // New state for redirection
   // console.log("0 FORM ID:"+ formId)
 
-
+//add for submission  
   useEffect(() => {
     fetchUserData(formId);
   }, [formId]);
@@ -100,6 +101,17 @@ const MultiTabFormPage: React.FC = () => {
           navigate("/unauthorized", { replace: true });
           return
         } else if (userId !== userData.data.student_id){
+          // setRedirecting(true); 
+          navigate("/unauthorized", { replace: true });        
+        } else{
+          setRedirecting(false); 
+        }
+
+        if (!userData.data.status) {
+          // setRedirecting(true); 
+          navigate("/unauthorized", { replace: true });
+          return
+        } else if (userData.data.status === "111-2"){
           // setRedirecting(true); 
           navigate("/unauthorized", { replace: true });        
         } else{
@@ -212,11 +224,16 @@ const MultiTabFormPage: React.FC = () => {
       label: 'VI',
       children: <SixthOneTabFrom />,
     },
-        {
-      key: '16',
-      label: 'VII',
-      children: <SevenOneTabFrom />,
-    },
+      // {
+      //   key: '16',
+      //   label: 'VII',
+      //   children: <SevenOneTabFrom />,
+      // },
+      {
+        key: '17',
+        label: 'Submit',
+        children: <FormMhsSubmit />,
+      },
     //     {
     //   key: '17',
     //   label: 'Lampiran 1',
@@ -254,7 +271,7 @@ const MultiTabFormPage: React.FC = () => {
       }}
     >
     <div className="faip-mhs-container" style={{ maxHeight: '1200px'}}>
-      {redirecting ? <div>Redirecting...</div> :
+      {redirecting ? null :
       <>
       <div className='header-faip' style={{margin:'1rem 1rem 0',padding:'0 1rem 0'}}>
         <h2 style={{ padding: '0 0 1rem', textAlign: 'left', width: '100%', borderBottom: '2px solid #D3D3D3' }}>Pengisian FAIP</h2>

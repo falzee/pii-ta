@@ -10,17 +10,18 @@ import { jwtDecode } from 'jwt-decode';
 import { useParams } from 'react-router';
 
 interface InputValues {
-  W111: number;
-  W112: number;
-  W113: number;
-  W114: number;
-  W115: number;
-  W221: number;
-  W222: number;
-  W223: number;
-  W224: number;
-  W225: number;
-  W226: number;
+  W131: number;
+  W132: number;
+  W133: number;
+  W134: number;
+  W135: number;
+  W136: number;
+  W137: number;
+  W141: number;
+  W142: number;
+  W143: number;
+  W144: number;
+  W145: number;
 }
   // nilaiAkademikRata
 
@@ -61,64 +62,66 @@ interface InputValues {
   //     "nilai_akhir_praktik_keinsinyuran_huruf": ""
   //   }
   // },
-const FormulirProfesionalisme: React.FC = () => {
+const FormulirKtiga: React.FC = () => {
 //kumpulan state
     const { formIdD } = useParams<{ formIdD: string | undefined }>();
     const [inputValue, setInputValues] = useState<{ [key: string]: number }>({//jumlah_isian_per_kompetensi
-      W111: 0,
-      W112: 0,
-      W113: 0,
-      W114: 0,
-      W115: 0,
-      W221: 0,
-      W222: 0,
-      W223: 0,
-      W224: 0,
-      W225: 0,
-      W226: 0,
+      W131: 0,
+      W132: 0,
+      W133: 0,
+      W134: 0,
+      W135: 0,
+      W136: 0,
+      W137: 0,
+      W141: 0,
+      W142: 0,
+      W143: 0,
+      W144: 0,
+      W145: 0,
     });
     const [gradeValue, setInputGradeValue] = useState({//nilai_per_kompetensi
-      GW111: 80,
-      GW112: 80,
-      GW113: 80,
-      GW114: 80,
-      GW115: 80,
-      GW221: 80,
-      GW222: 80,
-      GW223: 80,
-      GW224: 80,
-      GW225: 80,
-      GW226: 80,
-
+      GW131: 75,
+      GW132: 75,
+      GW133: 75,
+      GW134: 75,
+      GW135: 75,
+      GW136: 75,
+      GW137: 75,
+      GW141: 75,
+      GW142: 75,
+      GW143: 75,
+      GW144: 75,
+      GW145: 75,
     });
     const [percentValue, setInputPercentValue] = useState({//nilai_persen_per_kompetensi
-      PW111: 0,
-      PW112: 0,
-      PW113: 0,
-      PW114: 0,
-      PW115: 0,
-      PW221: 0,
-      PW222: 0,
-      PW223: 0,
-      PW224: 0,
-      PW225: 0,
-      PW226: 0,
+      PW131: 0,
+      PW132: 0,
+      PW133: 0,
+      PW134: 0,
+      PW135: 0,
+      PW136: 0,
+      PW137: 0,
+      PW141: 0,
+      PW142: 0,
+      PW143: 0,
+      PW144: 0,
+      PW145: 0,
 
     });
     const [finalValue, setFinalValue] = useState<number | null>(0);//nilai_akhir_angka
     const [finalLetterValue, setFinalLetterValue] = useState("E");//nilai_akhir_huruf
     // const [form] = Form.useForm();
-//kumpulan fungsi
+    //kumpulan fungsi
     const formRef = React.createRef<FormInstance>();//
     useEffect(() => {
       // Retrieve JWT token from localStorage
       fetchFaipData();
     }, []);
-    
+
     const fetchFaipData = async () => {
       try {
         const token = localStorage.getItem('jwtToken');
-    
+
         if (token) {
           // Decode the token to extract user ID
           const decodedToken: any = jwtDecode(token);
@@ -129,15 +132,28 @@ const FormulirProfesionalisme: React.FC = () => {
             }
           };
           // Make API request with user ID
-          const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=kode-etik`,config)
-          // http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=1998200345678&pid=123456789&ft=kode-etik
+          const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=k3lh`,config)
+          // http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=1998200345678&pid=123456789&ft=k3lh
           const userData = response.data;
-          setInputValues(userData.data.mk_kode_etik.data_nilai_kode_etik.jumlah_isian_per_kompetensi);
-          setInputGradeValue(userData.data.mk_kode_etik.data_nilai_kode_etik.nilai_per_kompetensi);
-          setInputPercentValue(userData.data.mk_kode_etik.data_nilai_kode_etik.nilai_persen_per_kompetensi);
-          setFinalValue(userData.data.mk_kode_etik.nilai_akhir_kode_etik_angka);
-          setFinalLetterValue(userData.data.mk_kode_etik.nilai_akhir_kode_etik_huruf);
-    
+          if (userData.data.mk_k3lh.data_nilai_k3lh.jumlah_isian_per_kompetensi){
+            setInputValues(userData.data.mk_k3lh.data_nilai_k3lh.jumlah_isian_per_kompetensi);
+          }
+
+          if (userData.data.mk_k3lh.data_nilai_k3lh.nilai_per_kompetensi){
+            setInputGradeValue(userData.data.mk_k3lh.data_nilai_k3lh.nilai_per_kompetensi);
+          }
+          
+          if (userData.data.mk_k3lh.data_nilai_k3lh.nilai_persen_per_kompetensi){
+            setInputPercentValue(userData.data.mk_k3lh.data_nilai_k3lh.nilai_persen_per_kompetensi);
+          }
+
+          if (userData.data.mk_k3lh.nilai_akhir_k3lh_angka){
+            setFinalValue(userData.data.mk_k3lh.nilai_akhir_k3lh_angka);
+          }
+          if (userData.data.mk_k3lh.nilai_akhir_k3lh_huruf){
+            setFinalLetterValue(userData.data.mk_k3lh.nilai_akhir_k3lh_huruf);
+          }
+
         } else {
           console.error('User not found');
         }
@@ -152,20 +168,20 @@ const FormulirProfesionalisme: React.FC = () => {
           const decodedToken: any = jwtDecode(token);
           const userId = decodedToken.nomerInduk;
 
-          const formProfesionalisme = {dataNilai:{  
+          const formData = {dataNilai:{  
             jumlah_isian_per_kompetensi:inputValue,
             nilai_per_kompetensi:gradeValue,
             nilai_persen_per_kompetensi:percentValue
-         },nilaiAngka:finalValue,nilaiHuruf:finalLetterValue}
+        },nilaiAngka:finalValue,nilaiHuruf:finalLetterValue}
           // Now you can send formData to your backend for processing
-          console.log('Form Data:', formProfesionalisme);
+          console.log('Form Data:', formData);
           const config = {
             headers: {
               Authorization: `Bearer ${token}`
             }
           };
 
-          await axios.patch(`http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=kode-etik`,formProfesionalisme,config);
+          await axios.patch(`http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=k3lh`,formData,config);
           // console.log("response add form:"+response)
 
           // const userData = response.data;
@@ -195,33 +211,33 @@ const FormulirProfesionalisme: React.FC = () => {
             ...prevPercentValues,
             [`P${key}`]: newPercentGrade,
           }));
-  
+
           setInputGradeValue((prevGradeValues) => ({
             ...prevGradeValues,
             [`G${key}`]: newGrade,
           }));
-  
+
           return updatedValues;
         });
       }
     };
-  
+
     const calculateExample = (key: keyof typeof inputValue, value: number) => {
-      const result = (value / 24) * 100;
+      const result = (value / 36) * 100;
       return parseFloat(result.toFixed(2));
     };
-  
+
     const calculateGrade = (value: number) => {
-      return value >= 2 ? 85 : 80;
+      return value >= 2 ? 85 : 75;
     };
 
     const calculateAverageGrade = (grades: typeof gradeValue) => {
       const total = Object.values(grades).reduce((acc, grade) => acc + grade, 0);
       return (total / Object.values(grades).length).toFixed(2);
     };
-  
+
     const averageGrade = calculateAverageGrade(gradeValue);
-    
+
     const calculateFinalGrade = (value: number | null) => {
       setFinalValue(value)
       if (value !== null) {
@@ -262,7 +278,7 @@ const FormulirProfesionalisme: React.FC = () => {
       >
         <div style={{marginBottom:'2rem'}}>
           <h3 className='headerform' style={{marginBottom:'10px'}}>
-            Kode Etik <span style={{color:'#6b7aa1'}}>(W.1.2.1-8)</span>
+            K3LH <span style={{color:'#6b7aa1'}}>(W.1.3.1-7 ,W.1.4.1-6)</span>
           </h3>
           <div>
             {Object.keys(inputValue).map((key) => (
@@ -298,4 +314,4 @@ const FormulirProfesionalisme: React.FC = () => {
     );
   };
 
-  export default FormulirProfesionalisme;
+  export default FormulirKtiga;

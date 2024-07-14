@@ -25,7 +25,7 @@ const getStatusPenilaian = (status:string) => {
     case "112-1":
       return "Belum Dinilai";
     case "112-2":
-      return "Sudah/Sedang Dinilai";
+      return "Proses Penilaian";
     case "112-3":
       return "Nilai Masuk";
     default:
@@ -82,35 +82,35 @@ const FaipDosen = ( ) => {
         key:'nama',
         dataIndex: 'nama',
         showSorterTooltip: true,
-        filters: [
-          {
-            text: 'Joe',
-            value: 'Joe',
-          },
-          {
-            text: 'Jim',
-            value: 'Jim',
-          },
-          {
-            text: 'Submenu',
-            value: 'Submenu',
-            children: [
-              {
-                text: 'Green',
-                value: 'Green',
-              },
-              {
-                text: 'Black',
-                value: 'Black',
-              },
-            ],
-          },
-        ],
+        // filters: [
+        //   {
+        //     text: 'Joe',
+        //     value: 'Joe',
+        //   },
+        //   {
+        //     text: 'Jim',
+        //     value: 'Jim',
+        //   },
+        //   {
+        //     text: 'Submenu',
+        //     value: 'Submenu',
+        //     children: [
+        //       {
+        //         text: 'Green',
+        //         value: 'Green',
+        //       },
+        //       {
+        //         text: 'Black',
+        //         value: 'Black',
+        //       },
+        //     ],
+        //   },
+        // ],
         // specify the condition of filtering result
         // here is that finding the name started with `value`
-        onFilter: (value, record) => record.nama.indexOf(value as string) === 0,
-        sorter: (a, b) => a.nama.length - b.nama.length,
-        sortDirections: ['descend'],
+        // onFilter: (value, record) => record.nama.indexOf(value as string) === 0,
+        // sorter: (a, b) => a.nama.length - b.nama.length,
+        // sortDirections: ['descend'],
       },
       {
         title: 'NIM',
@@ -137,19 +137,19 @@ const FaipDosen = ( ) => {
             value: 'Belum Dinilai',
           },
           {
-            text: 'Sudah/Sedang Dinilai',
-            value: 'Sudah/Sedang Dinilai',
+            text: 'Proses Penilaian',
+            value: 'Proses Penilaian',
           },
           {
             text: 'Nilai Masuk',
-            value: 'Nilai masuk',
+            value: 'Nilai Masuk',
           },
         ],
         render: (text: string, record: DataType) => (
           <div>
             {(record.statusPenilaian === 'Data Belum Masuk') ? <p style={{color:'orange'}}>{text}</p> 
             : (record.statusPenilaian === 'Belum Dinilai') ? <p style={{color:'red'}}>{text}</p> 
-            : (record.statusPenilaian === 'Sudah/Sedang Dinilai') ? <p style={{color:'blue'}}>{text}</p> 
+            : (record.statusPenilaian === 'Proses Penilaian') ? <p style={{color:'orange'}}>{text}</p> 
             : (record.statusPenilaian === 'Nilai Masuk') ? <p style={{color:'green'}}>{text}</p> 
             : null }
           </div>
@@ -169,7 +169,7 @@ const FaipDosen = ( ) => {
               <Button onClick={() => navigate(`/form/d/faip/edit/${record.key}`)} type='primary'>
                 Baru <PlusOutlined />
               </Button>     
-            : (record.statusPenilaian === 'Sudah/Sedang Dinilai') ?
+            : (record.statusPenilaian === 'Proses Penilaian') ?
               <>
                 <Button onClick={() => navigate(`/form/d/faip/edit/${record.key}`)} style={{margin:'0 5px'}} type='primary'>
                   Edit <EditOutlined />
@@ -194,7 +194,8 @@ const FaipDosen = ( ) => {
     // console.log('params', pagination, filters, sorter, extra);
   };
   return (
-<div style={{ display: 'flex', justifyContent: 'center' }}>
+    
+  <div style={{ display: 'flex', justifyContent: 'center' }}>
     <div className='form' style={{ padding: '1rem', width: '100%', maxWidth: '1000px', backgroundColor: '' }}>
       {/* header tambahin underline sama shadow(opsional) */}
         <h2 style={{ padding: '0 0 1rem', textAlign: 'left', width: '100%', borderBottom: '2px solid #D3D3D3' }}>Pengisian Nilai Mahasiswa</h2>
@@ -209,6 +210,8 @@ const FaipDosen = ( ) => {
           showSorterTooltip={true}
           scroll={{ y: 400, x: 'max-content' }}
         />
+        <p style={{color:'#808080',fontStyle:'italic'}}>Note. (*) mahasiswa belum mengisi formulir.</p>
+        <p style={{color:'#808080',fontStyle:'italic'}}>(**) nilai sudah masuk ke dalam sistem.</p>
     </div>
   </div>
   )

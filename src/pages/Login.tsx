@@ -51,7 +51,7 @@ const Login = () => {
 			  dispatch(postLogIn(loginCredentials));  
 			})
 			.catch((error) => {
-        console.error('Error fetching data'); 
+        console.error('Error fetching login data'); 
       });
 
     };

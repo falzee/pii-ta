@@ -72,14 +72,14 @@ const FormulirDua: React.FC = () => {
       W128: 0,
     });
     const [gradeValue, setInputGradeValue] = useState({//nilai_per_kompetensi
-      GW121: 80,
-      GW122: 80,
-      GW123: 80,
-      GW124: 80,
-      GW125: 80,
-      GW126: 80,
-      GW127: 80,
-      GW128: 80,
+      GW121: 75,
+      GW122: 75,
+      GW123: 75,
+      GW124: 75,
+      GW125: 75,
+      GW126: 75,
+      GW127: 75,
+      GW128: 75,
     });
     const [percentValue, setInputPercentValue] = useState({//nilai_persen_per_kompetensi
       PW121: 0,
@@ -118,11 +118,24 @@ const FormulirDua: React.FC = () => {
           const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=kode-etik`,config)
           // http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=1998200345678&pid=123456789&ft=kode-etik
           const userData = response.data;
-          setInputValues(userData.data.mk_kode_etik.data_nilai_kode_etik.jumlah_isian_per_kompetensi);
-          setInputGradeValue(userData.data.mk_kode_etik.data_nilai_kode_etik.nilai_per_kompetensi);
-          setInputPercentValue(userData.data.mk_kode_etik.data_nilai_kode_etik.nilai_persen_per_kompetensi);
-          setFinalValue(userData.data.mk_kode_etik.nilai_akhir_kode_etik_angka);
-          setFinalLetterValue(userData.data.mk_kode_etik.nilai_akhir_kode_etik_huruf);
+          if (userData.data.mk_kode_etik.data_nilai_kode_etik.jumlah_isian_per_kompetensi){
+            setInputValues(userData.data.mk_kode_etik.data_nilai_kode_etik.jumlah_isian_per_kompetensi);
+          }
+
+          if (userData.data.mk_kode_etik.data_nilai_kode_etik.nilai_per_kompetensi){
+            setInputGradeValue(userData.data.mk_kode_etik.data_nilai_kode_etik.nilai_per_kompetensi);
+          }
+          
+          if (userData.data.mk_kode_etik.data_nilai_kode_etik.nilai_persen_per_kompetensi){
+            setInputPercentValue(userData.data.mk_kode_etik.data_nilai_kode_etik.nilai_persen_per_kompetensi);
+          }
+
+          if (userData.data.mk_kode_etik.nilai_akhir_kode_etik_angka){
+            setFinalValue(userData.data.mk_kode_etik.nilai_akhir_kode_etik_angka);
+          }
+          if (userData.data.mk_kode_etik.nilai_akhir_kode_etik_huruf){
+            setFinalLetterValue(userData.data.mk_kode_etik.nilai_akhir_kode_etik_huruf);
+          }
     
         } else {
           console.error('User not found');
@@ -138,20 +151,23 @@ const FormulirDua: React.FC = () => {
           const decodedToken: any = jwtDecode(token);
           const userId = decodedToken.nomerInduk;
 
-          const formProfesionalisme = {dataNilai:{  
+          const formData = {
+          dataNilai:{  
             jumlah_isian_per_kompetensi:inputValue,
             nilai_per_kompetensi:gradeValue,
             nilai_persen_per_kompetensi:percentValue
-         },nilaiAngka:finalValue,nilaiHuruf:finalLetterValue}
+          },
+          nilaiAngka:finalValue,
+          nilaiHuruf:finalLetterValue}
           // Now you can send formData to your backend for processing
-          console.log('Form Data:', formProfesionalisme);
+          console.log('Form Data:', formData);
           const config = {
             headers: {
               Authorization: `Bearer ${token}`
             }
           };
 
-          await axios.patch(`http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=kode-etik`,formProfesionalisme,config);
+          await axios.patch(`http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=kode-etik`,formData,config);
           // console.log("response add form:"+response)
 
           // const userData = response.data;
@@ -198,7 +214,7 @@ const FormulirDua: React.FC = () => {
     };
   
     const calculateGrade = (value: number) => {
-      return value >= 2 ? 85 : 80;
+      return value >= 2 ? 85 : 75;
     };
 
     const calculateAverageGrade = (grades: typeof gradeValue) => {
