@@ -27,7 +27,7 @@ const getStatusPenilaian = (status:string) => {
     case "112-2":
       return "Proses Penilaian";
     case "112-3":
-      return "Nilai Masuk";
+      return "Sudah Dinilai";
     default:
       return "Status Tidak Diketahui";
   }
@@ -141,8 +141,8 @@ const FaipDosen = ( ) => {
             value: 'Proses Penilaian',
           },
           {
-            text: 'Nilai Masuk',
-            value: 'Nilai Masuk',
+            text: 'Sudah Dinilai',
+            value: 'Sudah Dinilai',
           },
         ],
         render: (text: string, record: DataType) => (
@@ -150,7 +150,7 @@ const FaipDosen = ( ) => {
             {(record.statusPenilaian === 'Data Belum Masuk') ? <p style={{color:'orange'}}>{text}</p> 
             : (record.statusPenilaian === 'Belum Dinilai') ? <p style={{color:'red'}}>{text}</p> 
             : (record.statusPenilaian === 'Proses Penilaian') ? <p style={{color:'orange'}}>{text}</p> 
-            : (record.statusPenilaian === 'Nilai Masuk') ? <p style={{color:'green'}}>{text}</p> 
+            : (record.statusPenilaian === 'Sudah Dinilai') ? <p style={{color:'green'}}>{text}</p> 
             : null }
           </div>
         ),
@@ -179,7 +179,7 @@ const FaipDosen = ( ) => {
                   <DeleteOutlined />
                 </Button>  */}
               </>
-            : (record.statusPenilaian === 'Nilai Masuk') ? 
+            : (record.statusPenilaian === 'Sudah Dinilai') ? 
               <p style={{color:'#808080',fontStyle:'italic'}}>expired**</p>
             : null
             }
@@ -210,7 +210,10 @@ const FaipDosen = ( ) => {
           showSorterTooltip={true}
           scroll={{ y: 400, x: 'max-content' }}
         />
-        <p style={{color:'#808080',fontStyle:'italic'}}>Note. (*) mahasiswa belum mengisi formulir.</p>
+        {/* <div>
+
+        </div> */}
+        <p style={{color:'#808080',fontStyle:'italic'}}>Note. (*) mahasiswa belum mengirim formulir.</p>
         <p style={{color:'#808080',fontStyle:'italic'}}>(**) nilai sudah masuk ke dalam sistem.</p>
     </div>
   </div>

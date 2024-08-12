@@ -133,7 +133,7 @@ const FormulirMhsSubmission: React.FC = () => {
         <div className='container-form'>
             <h3 className='headerform' style={{marginBottom:'10px'}}>Submit</h3>
 
-           <p>Harap untuk mengecek formulir anda sebelum mengirim formulir FAIP !</p>
+           <p>Harap untuk mengecek seluruh bagian formulir anda sebelum mengirim formulir FAIP!</p>
             <Button type="primary" size='large' style={{ margin:'20px auto',display: "flex", justifyContent: "center",borderRadius:'3px' }} onClick={showModal}>
               <span style={{margin:'0 5px'}}><UploadOutlined /></span> Submit
             </Button>

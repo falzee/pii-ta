@@ -242,10 +242,10 @@ const Faip = ( ) => {
             </> 
           : (status === 'submit') ?
               <>
-                <p>Data Sudah Berhasil Terkirim!</p>
-                {/* <Button type="primary" size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={deleteForm}>
-                  <span style={{margin:'0 5px'}}><UndoOutlined /></span> RESTART ANTO
-                </Button> */}
+                <p style={{color:"blue"}}>Data Sudah Berhasil Terkirim!</p>
+                <Button type="primary" size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={deleteForm}>
+                  <span style={{margin:'0 5px'}}><UndoOutlined /></span> RESTART DEV
+                </Button>
               </>
           : null
       }

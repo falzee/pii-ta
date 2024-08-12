@@ -39,7 +39,7 @@ const FaipMhs = ( ) => {
         to='/form/m/faip'
         style={{ textDecoration: 'none', display: 'block', width: '100%',margin:'1rem 0' }}
       >
-        <Button style={{ borderRadius: '3px', width: '100%', textAlign: 'left', height: 'auto', padding: '10px'}}>
+        <Button style={{ borderRadius: '3px', width: '100%', textAlign: 'left', height: 'auto', padding: '10px'}} data-cy="faip">
           <h2 style={{ margin: 0, whiteSpace: 'normal', wordWrap: 'break-word', overflowWrap: 'break-word' }}>
             <FormOutlined /> FAIP
           </h2>

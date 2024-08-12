@@ -253,6 +253,7 @@ const FormulirSeminar: React.FC = () => {
             : <span style={{color:'blue'}}>{matkul.seminar}</span> 
             }
           </p>
+          <p>Note. Pastikan nilai sudah dalam keadaan <span style={{color:'blue'}}>ADA</span> semua sebelum menyelesaikan penilaian!</p>
           {/* {(record.statusPenilaian === 'Data Belum Masuk') ? <p style={{color:'orange'}}>{text}</p> 
             : (record.statusPenilaian === 'Belum Dinilai') ? <p style={{color:'red'}}>{text}</p> 
             : (record.statusPenilaian === 'Proses Penilaian') ? <p style={{color:'orange'}}>{text}</p> 
