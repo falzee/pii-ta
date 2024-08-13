@@ -183,12 +183,12 @@ const FormulirDua: React.FC = () => {
                 <div>
                   <Form.Item name={`tingkatPendidikan${record.key}`} initialValue={record.tingkatPendidikan || undefined}>
                     <Select placeholder="--Choose--" style={{ width: 100 }}>
-                      <Select.Option value="d3">D3</Select.Option>
-                      <Select.Option value="d4">D4</Select.Option>
-                      <Select.Option value="s1">S1</Select.Option>
-                      <Select.Option value="s2">S2</Select.Option>
-                      <Select.Option value="s3">S3</Select.Option>
-                      <Select.Option value="ir">Ir.</Select.Option>
+                      <Select.Option value="D3">D3</Select.Option>
+                      <Select.Option value="D4">D4</Select.Option>
+                      <Select.Option value="S1">S1</Select.Option>
+                      <Select.Option value="S2">S2</Select.Option>
+                      <Select.Option value="S3">S3</Select.Option>
+                      <Select.Option value="Ir.">Ir.</Select.Option>
                     </Select>
                   </Form.Item>
                 </div>

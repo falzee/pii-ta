@@ -349,7 +349,7 @@ const { formId } = useParams<{ formId: string | undefined }>();
               <Form.Item className='form-item-row' name={`bulanMulai${record.key}`} initialValue={record.bulanMulai || undefined}>
                 <Select placeholder="--Bulan Mulai--" style={{ width: 150 }}>
                   <Select.Option value="Januari">Januari</Select.Option>
-                  <Select.Option value="Februari">Februari</Select.Option>
+                  <Select.Option value="Pebruari">Februari</Select.Option>
                   <Select.Option value="Maret">Maret</Select.Option>
                   <Select.Option value="April">April</Select.Option>
                   <Select.Option value="Mei">Mei</Select.Option>
@@ -358,8 +358,8 @@ const { formId } = useParams<{ formId: string | undefined }>();
                   <Select.Option value="Agustus">Agustus</Select.Option>
                   <Select.Option value="September">September</Select.Option>
                   <Select.Option value="Oktober">Oktober</Select.Option>
-                  <Select.Option value="November">November</Select.Option>
-                  <Select.Option value="Desember">Desember</Select.Option>
+                  <Select.Option value="Nopember">November</Select.Option>
+                  <Select.Option value="Desember">Desember</Select.Option>                
                 </Select>
               </Form.Item>
               <Form.Item className='form-item-row' name={`tahunMulai${record.key}`} initialValue={record.tahunMulai || undefined}>
@@ -368,8 +368,8 @@ const { formId } = useParams<{ formId: string | undefined }>();
               :(<>
               <Form.Item className='form-item-row' name={`bulanMulai${record.key}`} initialValue={record.bulanMulai || undefined}>
                 <Select placeholder="--Bulan Mulai--" style={{ width: 150 }}>
-                <Select.Option value="Januari">Januari</Select.Option>
-                  <Select.Option value="Februari">Februari</Select.Option>
+                  <Select.Option value="Januari">Januari</Select.Option>
+                  <Select.Option value="Pebruari">Februari</Select.Option>
                   <Select.Option value="Maret">Maret</Select.Option>
                   <Select.Option value="April">April</Select.Option>
                   <Select.Option value="Mei">Mei</Select.Option>
@@ -378,8 +378,8 @@ const { formId } = useParams<{ formId: string | undefined }>();
                   <Select.Option value="Agustus">Agustus</Select.Option>
                   <Select.Option value="September">September</Select.Option>
                   <Select.Option value="Oktober">Oktober</Select.Option>
-                  <Select.Option value="November">November</Select.Option>
-                  <Select.Option value="Desember">Desember</Select.Option>
+                  <Select.Option value="Nopember">November</Select.Option>
+                  <Select.Option value="Desember">Desember</Select.Option>                
                 </Select>
               </Form.Item>
               <Form.Item className='form-item-row' name={`tahunMulai${record.key}`} initialValue={record.tahunMulai || undefined}>
@@ -388,7 +388,7 @@ const { formId } = useParams<{ formId: string | undefined }>();
               <Divider style={{ margin:'5px 0'}} plain>s/d</Divider>
               <Form.Item className='form-item-row' name={`bulan${record.key}`} initialValue={record.bulan || undefined}>
                 <Select placeholder="--Bulan--" style={{ width: 150 }}>
-                <Select.Option value="Januari">Januari</Select.Option>
+                  <Select.Option value="Januari">Januari</Select.Option>
                   <Select.Option value="Februari">Februari</Select.Option>
                   <Select.Option value="Maret">Maret</Select.Option>
                   <Select.Option value="April">April</Select.Option>
@@ -442,8 +442,8 @@ const { formId } = useParams<{ formId: string | undefined }>();
                 <div>
                   <Form.Item name={`tingkatanMateriPendidikanManajemen${record.key}`} initialValue={record.tingkatanMateriPendidikanManajemen || undefined}>
                     <Select placeholder="--Choose--" style={{ width: 280 }}>
-                      <Select.Option value="dasar">Tingkat Dasar &#40;Fundamental&#41;</Select.Option>
-                      <Select.Option value="lanjutan">Tingkat Lanjutan &#40;Advanced&#41;</Select.Option>
+                      <Select.Option value="Tingkat Dasar (Fundamental)">Tingkat Dasar &#40;Fundamental&#41;</Select.Option>
+                      <Select.Option value="Tingkat Lanjutan (Advanced)">Tingkat Lanjutan &#40;Advanced&#41;</Select.Option>
                     </Select>
                   </Form.Item>
                 </div>
@@ -456,10 +456,10 @@ const { formId } = useParams<{ formId: string | undefined }>();
             render: (text: string, record: TableRow, index: number) => (
               <Form.Item name={`jamPendidikanTeknikManajemen${record.key}`} initialValue={record.jamPendidikanTeknikManajemen || undefined} >
               <Select placeholder="--Choose--" style={{ width: 280 }}>
-                <Select.Option value="kurang36jam">Lama pendidikan s/d 36 Jam</Select.Option>
-                <Select.Option value="kurang100jam">Lama pendidikan 36 &#45; 100 Jam</Select.Option>
-                <Select.Option value="kurang240jam">Lama pendidikan 100 &#45; 240 Jam</Select.Option>
-                <Select.Option value="lebih240jam">&#62; dari 240 Jam</Select.Option>
+                <Select.Option value="Lama pendidikan s/d 36 Jam">Lama pendidikan s/d 36 Jam</Select.Option>
+                <Select.Option value="Lama pendidikan 36 - 100 Jam">Lama pendidikan 36 &#45; 100 Jam</Select.Option>
+                <Select.Option value="Lama pendidikan 100 - 240 Jam">Lama pendidikan 100 &#45; 240 Jam</Select.Option>
+                <Select.Option value="> dari 240 Jam">&#62; dari 240 Jam</Select.Option>
               </Select>
             </Form.Item>
             ),

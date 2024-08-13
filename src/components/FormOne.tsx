@@ -276,9 +276,9 @@ const FormulirSatu: React.FC = () => {
               <div>
                 <Form.Item name={`tipe${record.key}`} initialValue={record.tipe || undefined} >
                   <Select placeholder="--Choose--" style={{ width: 100 }}>
-                    <Select.Option value="home">Home</Select.Option>
-                    <Select.Option value="work">Work</Select.Option>
-                    <Select.Option value="other">Other</Select.Option>
+                    <Select.Option value="Home">Home</Select.Option>
+                    <Select.Option value="Work">Work</Select.Option>
+                    <Select.Option value="Other">Other</Select.Option>
                   </Select>
                 </Form.Item>
               </div>
@@ -406,13 +406,13 @@ const FormulirSatu: React.FC = () => {
               <div>
                   <Form.Item name={`tipe${record.key}`} initialValue={record.tipe || undefined} >
                     <Select placeholder="--Choose--" style={{ width: 150 }}>
-                      <Select.Option value="mobile">Mobile</Select.Option>
-                      <Select.Option value="home">Home</Select.Option>
-                      <Select.Option value="work">Work</Select.Option>
-                      <Select.Option value="main">Main</Select.Option>
-                      <Select.Option value="work_fax">Work Fax</Select.Option>
-                      <Select.Option value="home_fax">Home Fax</Select.Option>
-                      <Select.Option value="other">Other</Select.Option>
+                      <Select.Option value="Mobile">Mobile</Select.Option>
+                      <Select.Option value="Home">Home</Select.Option>
+                      <Select.Option value="Work">Work</Select.Option>
+                      <Select.Option value="Main">Main</Select.Option>
+                      <Select.Option value="Work Fax">Work Fax</Select.Option>
+                      <Select.Option value="Home Fax">Home Fax</Select.Option>
+                      <Select.Option value="Other">Other</Select.Option>
                     </Select>
                   </Form.Item>
                 </div>

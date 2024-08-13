@@ -57,7 +57,7 @@ const Faip = ( ) => {
           setStatus('edit')
         } else if (userData.data.status === "111-1"){
           setStatus("retry")
-        } else if (userData.data.status === "111-2"){
+        } else if (userData.data.status === "111-2" || userData.data.status === "111-3"){
           setStatus("submit")
         } 
         // console.log("userdata:"+ userData.data.pid)

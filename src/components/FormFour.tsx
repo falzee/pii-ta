@@ -252,7 +252,7 @@ interface TableRow {
                     <Form.Item className='form-item-row' name={`bulanTerbit${record.key}`} initialValue={record.bulanTerbit || undefined}>
                       <Select placeholder="--Bulan--" style={{ width: 150 }}>
                         <Select.Option value="Januari">Januari</Select.Option>
-                        <Select.Option value="Februari">Februari</Select.Option>
+                        <Select.Option value="Pebruari">Februari</Select.Option>
                         <Select.Option value="Maret">Maret</Select.Option>
                         <Select.Option value="April">April</Select.Option>
                         <Select.Option value="Mei">Mei</Select.Option>
@@ -261,7 +261,7 @@ interface TableRow {
                         <Select.Option value="Agustus">Agustus</Select.Option>
                         <Select.Option value="September">September</Select.Option>
                         <Select.Option value="Oktober">Oktober</Select.Option>
-                        <Select.Option value="November">November</Select.Option>
+                        <Select.Option value="Nopember">November</Select.Option>
                         <Select.Option value="Desember">Desember</Select.Option>
                       </Select>
                     </Form.Item>
@@ -279,9 +279,9 @@ interface TableRow {
                 <div>
                   <Form.Item name={`tingkatPenghargaan${record.key}`} initialValue={record.tingkatPenghargaan || undefined}>
                     <Select placeholder="--Choose--" style={{ width: 280 }}>
-                      <Select.Option value="pemula">Tingkatan Muda/pemula</Select.Option>
-                      <Select.Option value="madya">Tingkatan Madya</Select.Option>
-                      <Select.Option value="utama">Tingkatan Utama</Select.Option>
+                      <Select.Option value="Tingkatan Muda/pemula">Tingkatan Muda/pemula</Select.Option>
+                      <Select.Option value="Tingkatan Madya">Tingkatan Madya</Select.Option>
+                      <Select.Option value="Tingkatan Utama">Tingkatan Utama</Select.Option>
                     </Select>
                   </Form.Item>
                 </div>
@@ -294,10 +294,10 @@ interface TableRow {
             render: (text: string, record: TableRow, index: number) => (
               <Form.Item name={`jenisLembagaPenghargaan${record.key}`} initialValue={record.jenisLembagaPenghargaan || undefined} >
                 <Select placeholder="--Choose--" style={{ width: 280 }}>
-                  <Select.Option value="lokal">Penghargaan Lokal</Select.Option>
-                  <Select.Option value="nasional">Penghargaan Nasional</Select.Option>
-                  <Select.Option value="regional">Penghargaan Regional</Select.Option>
-                  <Select.Option value="internasional">Penghargaan Internasional</Select.Option>
+                  <Select.Option value="Penghargaan Lokal">Penghargaan Lokal</Select.Option>
+                  <Select.Option value="Penghargaan Nasional">Penghargaan Nasional</Select.Option>
+                  <Select.Option value="Penghargaan Regional">Penghargaan Regional</Select.Option>
+                  <Select.Option value="Penghargaan Internasional">Penghargaan Internasional</Select.Option>
                 </Select>
               </Form.Item>
             ),

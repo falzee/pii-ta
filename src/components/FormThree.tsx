@@ -269,9 +269,9 @@ const Formulir: React.FC = () => {
           render: (text: string, record: TableRow) => (
             <Form.Item name={`jenisOrganisasi${record.key}`} initialValue={record.jenisOrganisasi || undefined} >
               <Select placeholder="--Choose--" style={{ width: 280 }} >
-                <Select.Option value="pii">Organisasi PII</Select.Option>
-                <Select.Option value="insinyurNonPii">Organisasi Keinsinyuran Non PII</Select.Option>
-                <Select.Option value="nonInsinyur">Organisasi Non Keinsinyuran</Select.Option>
+                <Select.Option value="Organisasi PII">Organisasi PII</Select.Option>
+                <Select.Option value="Organisasi Keinsinyuran Non PII">Organisasi Keinsinyuran Non PII</Select.Option>
+                <Select.Option value="Organisasi Non Keinsinyuran">Organisasi Non Keinsinyuran</Select.Option>
               </Select>
             </Form.Item>
           ),
@@ -318,7 +318,7 @@ const Formulir: React.FC = () => {
                     <Form.Item className='form-item-row' name={`bulanMulai${record.key}`} initialValue={record.bulanMulai || undefined}>
                       <Select placeholder="--Bulan Mulai--" style={{ width: 150 }}>
                         <Select.Option value="Januari">Januari</Select.Option>
-                        <Select.Option value="Februari">Februari</Select.Option>
+                        <Select.Option value="Pebruari">Februari</Select.Option>
                         <Select.Option value="Maret">Maret</Select.Option>
                         <Select.Option value="April">April</Select.Option>
                         <Select.Option value="Mei">Mei</Select.Option>
@@ -327,7 +327,7 @@ const Formulir: React.FC = () => {
                         <Select.Option value="Agustus">Agustus</Select.Option>
                         <Select.Option value="September">September</Select.Option>
                         <Select.Option value="Oktober">Oktober</Select.Option>
-                        <Select.Option value="November">November</Select.Option>
+                        <Select.Option value="Nopember">November</Select.Option>
                         <Select.Option value="Desember">Desember</Select.Option>
                       </Select>
                     </Form.Item>
@@ -338,7 +338,7 @@ const Formulir: React.FC = () => {
                     <Form.Item className='form-item-row' name={`bulanMulai${record.key}`} initialValue={record.bulanMulai || undefined}>
                       <Select placeholder="--Bulan Mulai--" style={{ width: 150 }}>
                       <Select.Option value="Januari">Januari</Select.Option>
-                        <Select.Option value="Februari">Februari</Select.Option>
+                        <Select.Option value="Pebruari">Februari</Select.Option>
                         <Select.Option value="Maret">Maret</Select.Option>
                         <Select.Option value="April">April</Select.Option>
                         <Select.Option value="Mei">Mei</Select.Option>
@@ -347,7 +347,7 @@ const Formulir: React.FC = () => {
                         <Select.Option value="Agustus">Agustus</Select.Option>
                         <Select.Option value="September">September</Select.Option>
                         <Select.Option value="Oktober">Oktober</Select.Option>
-                        <Select.Option value="November">November</Select.Option>
+                        <Select.Option value="Nopember">November</Select.Option>
                         <Select.Option value="Desember">Desember</Select.Option>
                       </Select>
                     </Form.Item>
@@ -358,7 +358,7 @@ const Formulir: React.FC = () => {
                     <Form.Item className='form-item-row' name={`bulan${record.key}`} initialValue={record.bulan || undefined}>
                       <Select placeholder="--Bulan--" style={{ width: 150 }}>
                       <Select.Option value="Januari">Januari</Select.Option>
-                        <Select.Option value="Februari">Februari</Select.Option>
+                        <Select.Option value="Pebruari">Februari</Select.Option>
                         <Select.Option value="Maret">Maret</Select.Option>
                         <Select.Option value="April">April</Select.Option>
                         <Select.Option value="Mei">Mei</Select.Option>
@@ -367,7 +367,7 @@ const Formulir: React.FC = () => {
                         <Select.Option value="Agustus">Agustus</Select.Option>
                         <Select.Option value="September">September</Select.Option>
                         <Select.Option value="Oktober">Oktober</Select.Option>
-                        <Select.Option value="November">November</Select.Option>
+                        <Select.Option value="Nopember">November</Select.Option>
                         <Select.Option value="Desember">Desember</Select.Option>
                       </Select>
                     </Form.Item>
@@ -390,9 +390,9 @@ const Formulir: React.FC = () => {
             render: (text: string, record: TableRow, index: number) => (
               <Form.Item name={`jabatanOrganisasi${record.key}`} initialValue={record.jabatanOrganisasi || undefined} >
                 <Select placeholder="--Choose--" style={{ width: 280 }}>
-                  <Select.Option value="anggotaBiasa">Anggota biasa</Select.Option>
-                  <Select.Option value="anggotapengurus">Anggota pengurus</Select.Option>
-                  <Select.Option value="pimpinan">Pimpinan</Select.Option>
+                  <Select.Option value="Anggota biasa">Anggota biasa</Select.Option>
+                  <Select.Option value="Anggota pengurus">Anggota pengurus</Select.Option>
+                  <Select.Option value="Pimpinan">Pimpinan</Select.Option>
                 </Select>
               </Form.Item>
             ),
@@ -404,10 +404,10 @@ const Formulir: React.FC = () => {
             render: (text: string, record: TableRow, index: number) => (
                 <Form.Item name={`tingkatanOrganisasi${record.key}`} initialValue={record.tingkatanOrganisasi  || undefined}>
                 <Select placeholder="--Choose--" style={{ width: 280 }}>
-                  <Select.Option value="lokal">Organisasi lokal (bukan Nasional)</Select.Option>
-                  <Select.Option value="nasional">Organisasi Nasional</Select.Option>
-                  <Select.Option value="regional">Organisasi Regional</Select.Option>
-                  <Select.Option value="internasional">Organisasi Internasional</Select.Option>
+                  <Select.Option value="Organisasi lokal (bukan Nasional)">Organisasi lokal (bukan Nasional)</Select.Option>
+                  <Select.Option value="Organisasi Nasional">Organisasi Nasional</Select.Option>
+                  <Select.Option value="Organisasi Regional">Organisasi Regional</Select.Option>
+                  <Select.Option value="Organisasi Internasional">Organisasi Internasional</Select.Option>
                 </Select>
               </Form.Item>
             ),
@@ -419,13 +419,13 @@ const Formulir: React.FC = () => {
             render: (text: string, record: TableRow, index: number) => (
                 <Form.Item name={`kegiatanOrganisasi${record.key}`} initialValue={record.kegiatanOrganisasi  || undefined}>
                 <Select placeholder="--Choose--" style={{ width: 280 }}>
-                  <Select.Option value="asosiasiProfesi">Asosiasi Profesi</Select.Option>
-                  <Select.Option value="lembagaPemerintah">Lembaga Pemerintah</Select.Option>
-                  <Select.Option value="lembagaPendidikan">Lembaga Pendidikan</Select.Option>
-                  <Select.Option value="bumn">Badan Usaha Milik Negara</Select.Option>
-                  <Select.Option value="badanUsahaSwasta">Badan Usaha Swasta</Select.Option>
-                  <Select.Option value="organisasiMasyarakat">Organisasi Kemasyarakatan</Select.Option>
-                  <Select.Option value="lain">Lain-lain</Select.Option>
+                  <Select.Option value="Asosiasi Profesi">Asosiasi Profesi</Select.Option>
+                  <Select.Option value="Lembaga Pemerintah">Lembaga Pemerintah</Select.Option>
+                  <Select.Option value="Lembaga Pendidikan">Lembaga Pendidikan</Select.Option>
+                  <Select.Option value="Badan Usaha Milik Negara">Badan Usaha Milik Negara</Select.Option>
+                  <Select.Option value="Badan Usaha Swasta">Badan Usaha Swasta</Select.Option>
+                  <Select.Option value="Organisasi Kemasyarakatan">Organisasi Kemasyarakatan</Select.Option>
+                  <Select.Option value="Lain-lain">Lain-lain</Select.Option>
                 </Select>
               </Form.Item>
             ),
