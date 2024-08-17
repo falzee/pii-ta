@@ -201,7 +201,7 @@ const Faip = ( ) => {
       <p style={{ padding: '1rem 0 0' }}>Last change : {lastEdit ? lastEdit : "-"}</p>
       <p style={{ padding: '1rem 0 0' }}>Status : {(status === 'new') ? 'Baru' : (status === 'edit') ? 'Data Masuk' : (status === 'retry') ? 'Ulang' : (status === 'submit') ? 'Terkirim': '-'}</p>
       <p style={{ padding: '1rem 0 0' }}>note.</p>
-      <p style={{ padding: '0' }}>- Jangan lupa untuk mengirim formulir di bagian <span style={{color:'blue'}}>SUBMIT</span> di hamalan pengisian formulir FAIP setelah selesai</p>
+      <p style={{ padding: '0' }}>- Jangan lupa untuk mengirim formulir di bagian <span style={{color:'blue'}}>SUBMIT</span> di halaman pengisian formulir FAIP setelah selesai</p>
       <p style={{ padding: '0' }}>- Formulir masih bisa diedit dan dirubah selama belum di submit </p>
 
       <div style={{display: 'flex',justifyContent: 'center',alignItems:'center',margin:'1rem 0'}}>

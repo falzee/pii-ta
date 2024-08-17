@@ -39,7 +39,7 @@ const FormDosen = ( ) => {
         to='/form/d/faip'
         style={{ textDecoration: 'none', display: 'block', width: '100%', margin: '1rem 0' }}
       >
-        <Button style={{ borderRadius: '3px', width: '100%', textAlign: 'left', height: 'auto', padding: '10px' }}>
+        <Button data-cy="faip-dsn" style={{ borderRadius: '3px', width: '100%', textAlign: 'left', height: 'auto', padding: '10px' }}>
           <h2 style={{ margin: 0, whiteSpace: 'normal', wordWrap: 'break-word', overflowWrap: 'break-word' }}>
             <FormOutlined /> Penilaian FAIP
           </h2>

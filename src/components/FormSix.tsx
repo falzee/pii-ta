@@ -455,13 +455,13 @@ const { formId } = useParams<{ formId: string | undefined }>();
             key: 'jamPendidikanTeknikManajemen',
             render: (text: string, record: TableRow, index: number) => (
               <Form.Item name={`jamPendidikanTeknikManajemen${record.key}`} initialValue={record.jamPendidikanTeknikManajemen || undefined} >
-              <Select placeholder="--Choose--" style={{ width: 280 }}>
-                <Select.Option value="Lama pendidikan s/d 36 Jam">Lama pendidikan s/d 36 Jam</Select.Option>
-                <Select.Option value="Lama pendidikan 36 - 100 Jam">Lama pendidikan 36 &#45; 100 Jam</Select.Option>
-                <Select.Option value="Lama pendidikan 100 - 240 Jam">Lama pendidikan 100 &#45; 240 Jam</Select.Option>
-                <Select.Option value="> dari 240 Jam">&#62; dari 240 Jam</Select.Option>
-              </Select>
-            </Form.Item>
+                <Select placeholder="--Choose--" style={{ width: 280 }}>
+                  <Select.Option value="Lama pendidikan s/d 36 Jam">Lama pendidikan s/d 36 Jam</Select.Option>
+                  <Select.Option value="Lama pendidikan 36 – 100 Jam">Lama pendidikan 36 &#45; 100 Jam</Select.Option>
+                  <Select.Option value="Lama pendidikan 100 – 240 Jam">Lama pendidikan 100 &#45; 240 Jam</Select.Option>
+                  <Select.Option value="> dari 240 Jam">&#62; dari 240 Jam</Select.Option>
+                </Select>
+              </Form.Item>
             ),
           },
           {

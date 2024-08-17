@@ -517,7 +517,7 @@ const FormulirSatu: React.FC = () => {
                   bordered
                 />
                 <h3 className='form-i-satu' style={{margin:'10px 0'}}>B. Lembaga (Instansi/Perusahaan) </h3>
-                <Button className="addFormButton" type="primary" onClick={handleAddRowTwo} style={{marginBottom:'10px'}}>
+                <Button cy-test="btn-i1-2" className="addFormButton" type="primary" onClick={handleAddRowTwo} style={{marginBottom:'10px'}}>
                   + Add Row
                 </Button>
                 <Table
@@ -530,7 +530,7 @@ const FormulirSatu: React.FC = () => {
                   bordered
                 />
                 <h3 className='form-i-satu' style={{margin:'10px 0'}}>C. Komunikasi </h3>
-                <Button className="addFormButton" type="primary" onClick={handleAddRowThree} style={{marginBottom:'10px'}}>
+                <Button cy-test="btn-i1-3" className="addFormButton" type="primary" onClick={handleAddRowThree} style={{marginBottom:'10px'}}>
                   + Add Row
                 </Button>
                 <Table

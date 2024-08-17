@@ -35,6 +35,11 @@ const MultiTabFormPage: React.FC = () => {
   // }, [formId]);
 
   useEffect(() => {
+    // Fetch user data when component mounts
+    fetchFaipData();
+  }, []);
+
+  useEffect(() => {
     // Load the saved tab from local storage or default to 'first'
     const savedTab = localStorage.getItem('activeTab');
     if (savedTab) {
@@ -63,11 +68,9 @@ const MultiTabFormPage: React.FC = () => {
       clearActiveTabOnNavigation();
     };
   }, [location]);
+  
   // http://192.168.195.241:8000/form-penilaian/dsn/student-info?pid=123456789&uid=1998200345678
-  useEffect(() => {
-    // Fetch user data when component mounts
-    fetchFaipData();
-  }, []);
+  
 
     //API = const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/dsn?uid=${userId},config);
     const fetchFaipData = async () => {
@@ -122,17 +125,17 @@ const MultiTabFormPage: React.FC = () => {
     };
 
 
-  useEffect(() => {
-    function beforeUnload(e: BeforeUnloadEvent) {
-      e.preventDefault();
-    }
+  // useEffect(() => {
+  //   function beforeUnload(e: BeforeUnloadEvent) {
+  //     e.preventDefault();
+  //   }
 
-    window.addEventListener('beforeunload', beforeUnload);
+  //   window.addEventListener('beforeunload', beforeUnload);
 
-    return () => {
-      window.removeEventListener('beforeunload', beforeUnload);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener('beforeunload', beforeUnload);
+  //   };
+  // }, []);
 
   const handleTabChange = (tabKey: string) => {
     setActiveTab(tabKey);

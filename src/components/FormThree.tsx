@@ -177,7 +177,7 @@ const Formulir: React.FC = () => {
     const handleChoiceChange = (recordKey: string, choiceValue: string, checked: boolean) => { //fungsi yg berhubungan dgn checbox klaim kompetensi
       const currentRowChoices = selectedChoices[recordKey] || [];
       // console.log(currentRowChoices);
-      if (checked && currentRowChoices.length < 13) {
+      if (checked && currentRowChoices.length < 3) {
         const updatedRowChoices = [...currentRowChoices, choiceValue];
           setSelectedChoices({
             ...selectedChoices,
@@ -191,7 +191,7 @@ const Formulir: React.FC = () => {
           });
       }else {
           // Show alert if more than 3 choices selected
-          alert('Harap Memilih Tidak Lebih Dari 13 Klaim Kompetensi W1');
+          alert('Harap Memilih Tidak Lebih Dari 3 Klaim Kompetensi W1');
       }
     };
     //   setShowAdditionalFields(e.target.checked);
@@ -258,7 +258,7 @@ const Formulir: React.FC = () => {
           key: 'namaOrganisasi',
           render: (text: string, record: TableRow) => (
             <Form.Item name={`namaOrganisasi${record.key}`} initialValue={text} style={{width:'200px'}}>
-              <Input />
+              <Input data-test="input"  />
             </Form.Item>
           ),
         },
@@ -268,7 +268,7 @@ const Formulir: React.FC = () => {
           key: 'jenisOrganisasi',
           render: (text: string, record: TableRow) => (
             <Form.Item name={`jenisOrganisasi${record.key}`} initialValue={record.jenisOrganisasi || undefined} >
-              <Select placeholder="--Choose--" style={{ width: 280 }} >
+              <Select placeholder="--Choose--" style={{ width: 280 }} data-test="select"  >
                 <Select.Option value="Organisasi PII">Organisasi PII</Select.Option>
                 <Select.Option value="Organisasi Keinsinyuran Non PII">Organisasi Keinsinyuran Non PII</Select.Option>
                 <Select.Option value="Organisasi Non Keinsinyuran">Organisasi Non Keinsinyuran</Select.Option>
@@ -457,6 +457,7 @@ const Formulir: React.FC = () => {
                       value={subSection.value}
                       checked={(selectedChoices[record.key] || []).includes(subSection.value)}
                       onChange={(e : any) => handleChoiceChange(record.key, subSection.value, e.target.checked)}
+                      data-test={`checkbox-${subSection.value}`}
                     >
                       {subSection.label}
                     </Checkbox>
@@ -475,7 +476,7 @@ const Formulir: React.FC = () => {
           key: 'actions',
           render: (text: string, record: TableRow) => (
             // <>
-            <Button onClick={() => openModalDelete(record)} type='primary' danger>
+            <Button data-test="delete-button" onClick={() => openModalDelete(record)} type='primary' danger>
               <DeleteOutlined />
             </Button>
             // <Button onClick={showModal} type='primary' danger><DeleteOutlined /> x</Button>
@@ -535,7 +536,7 @@ const Formulir: React.FC = () => {
     <div>
         <div className='container-form'>
             <h3 className='headerform' style={{marginBottom:'10px'}}>I.3 Organisasi Profesi & Organisasi Lainnya Yang Dimasuki <span style={{color:'#6b7aa1'}}>(W1)</span></h3>
-            <Button className="addFormButton" type="primary" onClick={handleAddRow} style={{marginBottom:'10px'}}>
+            <Button data-cy="add-row-button"  className="addFormButton" type="primary" onClick={handleAddRow} style={{marginBottom:'10px'}}>
                 + Add Row
             </Button>
             <Form ref={formRef} onFinish={onFinish} >
@@ -548,10 +549,11 @@ const Formulir: React.FC = () => {
                   size="small"
                   scroll={{ y: 400, x: 'max-content' }} // Adjust x as needed
                   bordered
+                  data-test="my-table" // Add data-test attribute here
                 />
               </div>
                 <p style={{margin:'10px 0'}}>*&#41; KOMPETENSI: Isi dengan nomor Uraian Kegiatan Kompetensi yang Anda anggap persyaratannya telah terpenuhi dengan aktifitas Anda di sini</p>
-                <Button className="saveFormButton" type="primary" htmlType="submit" style={{margin:'20px auto',display: "flex", justifyContent: "center" }}>
+                <Button data-cy="save-table" className="saveFormButton" type="primary" htmlType="submit" style={{margin:'20px auto',display: "flex", justifyContent: "center" }}>
                     {/* <Button type="primary" htmlType="submit" disabled={totalSelected !== 3}> */}
                     Save & Continue
                 </Button>
