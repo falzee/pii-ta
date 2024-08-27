@@ -47,7 +47,7 @@ const FormFiveFour: React.FC = () => {
     const [form] = Form.useForm();
 //kumpulan fungsi
     const formRef = React.createRef<FormInstance>();//
-    //API = const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/mhs?uid=${userId}&ft=i3`,config);
+    //API = const response = await axios.get(`/form-penilaian/mhs?uid=${userId}&ft=i3`,config);
 
     useEffect(() => {
       // Retrieve JWT token from localStorage
@@ -68,7 +68,7 @@ const FormFiveFour: React.FC = () => {
             }
           };
           // Make API request with user ID
-          const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/mhs?uid=${userId}&ft=v4`,config)
+          const response = await axios.get(`/form-penilaian/mhs?uid=${userId}&ft=v4`,config)
           const userData = response.data;
           setDataSource(userData.data.form_v_empat)
           const newSelectedChoices: { [key: string]: string[] } = {};
@@ -135,7 +135,7 @@ const FormFiveFour: React.FC = () => {
               Authorization: `Bearer ${token}`
             }
           };
-          const response = await axios.patch(`http://192.168.195.241:8000/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=v4`,formData,config);
+          const response = await axios.patch(`/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=v4`,formData,config);
           // console.log("response add form:"+response)
 
           // const userData = response.data;

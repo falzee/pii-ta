@@ -45,8 +45,8 @@ const FormulirSeminar: React.FC = () => {
             }
           };
           // Make API request with user ID
-          const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=all`,config)
-          // http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=1998200345678&pid=123456789&ft=seminar
+          const response = await axios.get(`/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=all`,config)
+          // /form-penilaian/dsn/update-nilai?uid=1998200345678&pid=123456789&ft=seminar
           const userData = response.data;
           if (userData.data.mk_kode_etik.nilai_akhir_kode_etik_huruf){
             setMatkul((prevValues) => ({
@@ -103,7 +103,7 @@ const FormulirSeminar: React.FC = () => {
     //         }
     //       };
 
-    //       await axios.patch(`http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=seminar`,formData,config);
+    //       await axios.patch(`/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=seminar`,formData,config);
     //       // console.log("response add form:"+response)
 
     //       // const userData = response.data;
@@ -192,7 +192,7 @@ const FormulirSeminar: React.FC = () => {
               Authorization: `Bearer ${token}`
             }
           };
-          await axios.patch(`http://192.168.195.241:8000/form-penilaian/dsn/submit-nilai?uid=${userId}&pid=${formIdD}`,{},config);
+          await axios.patch(`/form-penilaian/dsn/submit-nilai?uid=${userId}&pid=${formIdD}`,{},config);
           navigate(`/form/d/faip`, { replace: true });
           // console.log("response add form:"+response)
   

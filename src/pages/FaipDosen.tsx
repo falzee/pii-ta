@@ -42,7 +42,8 @@ const FaipDosen = ( ) => {
     fetchFaipData();
   }, []);
 
-    //API = const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/dsn?uid=${userId},config);
+    //API = const response = await axios.get(`/form-penilaian/dsn?uid=${userId},config);
+    
     const fetchFaipData = async () => {
       try {
         const token = localStorage.getItem('jwtToken');
@@ -57,7 +58,7 @@ const FaipDosen = ( ) => {
             }
           };
           // Make API request with user ID
-          const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/dsn?uid=${userId}`,config);
+          const response = await axios.get(`/form-penilaian/dsn?uid=${userId}`,config);
           const userData = response.data.data;
           const transformedData = userData.map((item:any) => ({
             key: item.pid, // antd Table requires a unique key for each row

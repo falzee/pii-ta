@@ -75,7 +75,7 @@ interface TableRow {
             }
           };
           // Make API request with user ID
-          const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/mhs?uid=${userId}&ft=i4`,config)
+          const response = await axios.get(`/form-penilaian/mhs?uid=${userId}&ft=i4`,config)
           const userData = response.data;
           setDataSource(userData.data.form_i_empat)
           const newSelectedChoices: { [key: string]: string[] } = {};
@@ -142,7 +142,7 @@ interface TableRow {
               Authorization: `Bearer ${token}`
             }
           };
-          const response = await axios.patch(`http://192.168.195.241:8000/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=i4`,formData,config);
+          const response = await axios.patch(`/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=i4`,formData,config);
           // console.log("response add form:"+response)
 
           // const userData = response.data;

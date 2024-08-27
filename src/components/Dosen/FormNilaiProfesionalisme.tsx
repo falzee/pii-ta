@@ -127,8 +127,8 @@ const FormulirProfesionalisme: React.FC = () => {
             }
           };
           // Make API request with user ID
-          const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=profesionalisme`,config)
-          // http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=1998200345678&pid=123456789&ft=profesionalisme
+          const response = await axios.get(`/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=profesionalisme`,config)
+          // /form-penilaian/dsn/update-nilai?uid=1998200345678&pid=123456789&ft=profesionalisme
           const userData = response.data;
           if (userData.data.mk_profesionalisme.data_nilai_profesionalisme.jumlah_isian_per_kompetensi){
             setInputValues(userData.data.mk_profesionalisme.data_nilai_profesionalisme.jumlah_isian_per_kompetensi);
@@ -176,7 +176,7 @@ const FormulirProfesionalisme: React.FC = () => {
             }
           };
 
-          await axios.patch(`http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=profesionalisme`,formData,config);
+          await axios.patch(`/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=profesionalisme`,formData,config);
           // console.log("response add form:"+response)
 
           // const userData = response.data;

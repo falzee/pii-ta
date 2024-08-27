@@ -43,8 +43,8 @@ const Faip = ( ) => {
           }
         };
         // Make API request with user ID
-        const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/mhs?uid=${userId}&ft=info`,config);
-        // const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/mhs`,config);
+        const response = await axios.get(`/form-penilaian/mhs?uid=${userId}&ft=info`,config);
+        // const response = await axios.get(`/form-penilaian/mhs`,config);
         // console.log("response:"+response)
         // if response no 
 
@@ -94,7 +94,7 @@ const Faip = ( ) => {
             Authorization: `Bearer ${token}`
           }
         };
-        const response = await axios.patch(`http://192.168.195.241:8000/form-penilaian/mhs/reset-form?uid=${nim}&pid=${pid}`,{},config);
+        const response = await axios.patch(`/form-penilaian/mhs/reset-form?uid=${nim}&pid=${pid}`,{},config);
         // console.log("response add form:"+response)
 
         // const userData = response.data;
@@ -109,30 +109,6 @@ const Faip = ( ) => {
     window.location.reload(); 
   };
 
-  const submitForm = async () => {
-    try{
-      const token = localStorage.getItem('jwtToken');
-
-      if (token) {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        };
-        await axios.patch(`http://192.168.195.241:8000/form-penilaian/mhs/submit-form?uid=${nim}&pid=${pid}`,{},config);
-        // console.log("response add form:"+response)
-
-        // const userData = response.data;
-        // setStatus("new")
-      } else {
-        console.error('User not found');
-      }
-    }catch(error){
-      console.error('Error submitting form');
-    }
-    window.location.reload(); 
-  };
-
   const restartForm = async () => {
     try{
       const token = localStorage.getItem('jwtToken');
@@ -143,7 +119,7 @@ const Faip = ( ) => {
             Authorization: `Bearer ${token}`
           }
         };
-        const response = await axios.patch(`http://192.168.195.241:8000/form-penilaian/mhs/restart-form?uid=${nim}&pid=${pid}`,{},config);
+        const response = await axios.patch(`/form-penilaian/mhs/restart-form?uid=${nim}&pid=${pid}`,{},config);
         // console.log("response add form:"+response)
         setStatus("edit");
         navigate(`/form/m/faip/edit/${pid}`, { replace: false });
@@ -171,7 +147,7 @@ const Faip = ( ) => {
             'Content-Type': 'application/json', // Ensure the Content-Type header is set
           }
         };  
-        const response = await axios.post(`http://192.168.195.241:8000/form-penilaian/mhs?uid=${nim}&pid=${pid}`, {}, config);
+        const response = await axios.post(`/form-penilaian/mhs?uid=${nim}&pid=${pid}`, {}, config);
         // console.log("response create form:" + response);
   
         // const userData = response.data;
@@ -184,6 +160,29 @@ const Faip = ( ) => {
     } catch (error) {
       console.error('Form can\'t be created');
     }
+  };
+  const submitForm = async () => {
+    try{
+      const token = localStorage.getItem('jwtToken');
+
+      if (token) {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+        await axios.patch(`http://192.168.195.241:8000/form-penilaian/mhs/submit-form?uid=${nim}&pid=${pid}`,{},config);
+        // console.log("response add form:"+response)
+
+        // const userData = response.data;
+        // setStatus("new")
+      } else {
+        console.error('User not found');
+      }
+    }catch(error){
+      console.error('Error submitting form');
+    }
+    window.location.reload(); 
   };
 
   useDocumentTitle('PII TA | FAIP');
@@ -243,9 +242,9 @@ const Faip = ( ) => {
           : (status === 'submit') ?
               <>
                 <p style={{color:"blue"}}>Data Sudah Berhasil Terkirim!</p>
-                <Button type="primary" size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={deleteForm}>
+                {/* <Button type="primary" size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={deleteForm}>
                   <span style={{margin:'0 5px'}}><UndoOutlined /></span> RESTART DEV
-                </Button>
+                </Button> */}
               </>
           : null
       }

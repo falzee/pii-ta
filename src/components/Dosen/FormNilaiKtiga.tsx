@@ -132,8 +132,8 @@ const FormulirKtiga: React.FC = () => {
             }
           };
           // Make API request with user ID
-          const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=k3lh`,config)
-          // http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=1998200345678&pid=123456789&ft=k3lh
+          const response = await axios.get(`/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=k3lh`,config)
+          // /form-penilaian/dsn/update-nilai?uid=1998200345678&pid=123456789&ft=k3lh
           const userData = response.data;
           if (userData.data.mk_k3lh.data_nilai_k3lh.jumlah_isian_per_kompetensi){
             setInputValues(userData.data.mk_k3lh.data_nilai_k3lh.jumlah_isian_per_kompetensi);
@@ -181,7 +181,7 @@ const FormulirKtiga: React.FC = () => {
             }
           };
 
-          await axios.patch(`http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=k3lh`,formData,config);
+          await axios.patch(`/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=k3lh`,formData,config);
           // console.log("response add form:"+response)
 
           // const userData = response.data;

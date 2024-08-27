@@ -53,7 +53,6 @@ const Login = () => {
 			.catch((error) => {
         console.error('Error fetching login data'); 
       });
-
     };
 
     const onFinishFailed = (errorInfo : any) => {

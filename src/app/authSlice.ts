@@ -48,7 +48,7 @@ export const postLogIn = createAsyncThunk(
   "auth/postLogIn",
   async (users: User, {rejectWithValue}) => {
             try{
-                const response = await axios.post("http://192.168.195.241:8000/auth/login", {
+                const response = await axios.post("/auth/login", {
                     email: users.email,
                     nomerInduk: users.nomerInduk,
                     password: users.password

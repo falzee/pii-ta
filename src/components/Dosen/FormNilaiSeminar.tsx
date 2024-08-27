@@ -144,8 +144,8 @@ const FormulirSeminar: React.FC = () => {
             }
           };
           // Make API request with user ID
-          const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=seminar`,config)
-          // http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=1998200345678&pid=123456789&ft=seminar
+          const response = await axios.get(`/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=seminar`,config)
+          // /form-penilaian/dsn/update-nilai?uid=1998200345678&pid=123456789&ft=seminar
           const userData = response.data;
           if (userData.data.mk_seminar.data_nilai_seminar.jumlah_isian_per_kompetensi){
             setInputValues(userData.data.mk_seminar.data_nilai_seminar.jumlah_isian_per_kompetensi);
@@ -193,7 +193,7 @@ const FormulirSeminar: React.FC = () => {
             }
           };
 
-          await axios.patch(`http://192.168.195.241:8000/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=seminar`,formData,config);
+          await axios.patch(`/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=seminar`,formData,config);
           // console.log("response add form:"+response)
 
           // const userData = response.data;

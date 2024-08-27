@@ -10,7 +10,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useNavigate, useParams } from 'react-router';
 
 const FormulirMhsSubmission: React.FC = () => {
-    //API = const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/mhs?uid=${userId}&ft=i3`,config);
+    //API = const response = await axios.get(`/form-penilaian/mhs?uid=${userId}&ft=i3`,config);
     const { formId } = useParams<{ formId: string | undefined }>();
 
     const [form] = Form.useForm();
@@ -37,7 +37,7 @@ const FormulirMhsSubmission: React.FC = () => {
             }
           };
           // Make API request with user ID
-          const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/mhs?uid=${userId}&ft=vii`,config)
+          const response = await axios.get(`/form-penilaian/mhs?uid=${userId}&ft=vii`,config)
           const userData = response.data;
           form.setFieldsValue({ accept: userData.data.form_vii.accept });
         } else {
@@ -60,7 +60,7 @@ const FormulirMhsSubmission: React.FC = () => {
               Authorization: `Bearer ${token}`
             }
           };
-          await axios.patch(`http://192.168.195.241:8000/form-penilaian/mhs/submit-form?uid=${userId}&pid=${formId}`,{},config);
+          await axios.patch(`/form-penilaian/mhs/submit-form?uid=${userId}&pid=${formId}`,{},config);
           navigate(`/form/m/faip/`, { replace: true });
           // console.log("response add form:"+response)
   
@@ -87,7 +87,7 @@ const FormulirMhsSubmission: React.FC = () => {
               Authorization: `Bearer ${token}`
             }
           };
-          await axios.patch(`http://192.168.195.241:8000/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=vii`,values,config);
+          await axios.patch(`/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=vii`,values,config);
           // console.log("response add form:"+response)
 
           // const userData = response.data;

@@ -87,7 +87,7 @@ const FormulirSatu: React.FC = () => {
           }
         };
         // Make API request with user ID
-        const response = await axios.get(`http://192.168.195.241:8000/user/profile/${userId}`,config);
+        const response = await axios.get(`/user/profile/${userId}`,config);
         // console.log("response:"+response)
 
         const userData = response.data;
@@ -134,7 +134,7 @@ const FormulirSatu: React.FC = () => {
       console.error('Error fetching user data');
     }
   };
-    //API = const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/mhs?uid=${userId}&ft=i3`,config);
+    //API = const response = await axios.get(`/form-penilaian/mhs?uid=${userId}&ft=i3`,config);
     const fetchFaipData = async () => {
       try {
         const token = localStorage.getItem('jwtToken');
@@ -149,7 +149,7 @@ const FormulirSatu: React.FC = () => {
             }
           };
           // Make API request with user ID
-          const response = await axios.get(`http://192.168.195.241:8000/form-penilaian/mhs?uid=${userId}&ft=i1`,config)
+          const response = await axios.get(`/form-penilaian/mhs?uid=${userId}&ft=i1`,config)
           const userData = response.data;
           setDataSourceOne(userData.data.form_i_satu.alamat)
           setDataSourceTwo(userData.data.form_i_satu.lembaga)
@@ -240,7 +240,7 @@ const FormulirSatu: React.FC = () => {
             }
           };
 
-          await axios.patch(`http://192.168.195.241:8000/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=i1`,formDataIone,config);
+          await axios.patch(`/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=i1`,formDataIone,config);
           // console.log("response add form:"+response)
 
           // const userData = response.data;
