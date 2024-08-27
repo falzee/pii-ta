@@ -5,6 +5,7 @@ import { DeleteOutlined, MinusCircleOutlined, PlusOutlined, UploadOutlined } fro
 import TextArea from 'antd/es/input/TextArea';
 import { nanoid } from 'nanoid';
 import { ColumnsType } from 'antd/es/table';
+import { dataWsatu } from '../data/SectionFormDataW'
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { useParams } from 'react-router';
@@ -20,23 +21,18 @@ import { useParams } from 'react-router';
   //punya column
   interface TableRow {
     key: any;
-    namaPerguruan: string;
-    tingkatPendidikan: string;
-    fakultas: string;
-    jurusan: string;
-    kotaPerguruan: string;
+    namaKualifikasiEtik: string;
+    lembaga: string;
+    alamat: string;
+    kota: string;
     provinsi: string;
     negara: string;
-    tahunLulus: string;
-    gelar: string;
-    judulTa: string;
-    uraianSingkat: string;
-    nilaiAkademikRata: string;
-    
+    noTelp: string;
+    email: string;
+    hubungan: string;
   }
 
-  // nilaiAkademikRata
-const FormulirDua: React.FC = () => {
+const FormulirDuaSatu: React.FC = () => {
 //kumpulan state
     const { formId } = useParams<{ formId: string | undefined }>();
     const [dataSource, setDataSource] = useState<TableRow[]>([  ]);//data tabel
@@ -64,9 +60,9 @@ const FormulirDua: React.FC = () => {
             }
           };
           // Make API request with user ID
-          const response = await axios.get(`/form-penilaian/mhs?uid=${userId}&ft=i2`,config)
+          const response = await axios.get(`/form-penilaian/mhs?uid=${userId}&ft=ii1`,config)
           const userData = response.data;
-          setDataSource(userData.data.form_i_dua)
+          setDataSource(userData.data.form_ii_satu)
     
         } else {
           console.error('User not found');
@@ -75,24 +71,18 @@ const FormulirDua: React.FC = () => {
         console.error('Error fetching data'); 
       }
     };
-
     const handleAddRow = () => { //fungsi nambah baris 
-
-      
         const newRow: TableRow = {
           key: nanoid(),//gk perlu //gk jadi deng ternyata perlu
-          namaPerguruan: '',
-          tingkatPendidikan: '',
-          fakultas: '',
-          jurusan: '',
-          kotaPerguruan: '',
+          namaKualifikasiEtik: '',
+          lembaga: '',
+          alamat: '',
+          kota: '',
           provinsi: '',
           negara: '',
-          tahunLulus: '',
-          gelar: '',
-          judulTa: '',
-          uraianSingkat: '',
-          nilaiAkademikRata: '',
+          noTelp: '',
+          email: '',
+          hubungan:'',
         };
         setDataSource([...dataSource, newRow]);
         // setRowNumbers(rowNumbers + 1); 
@@ -116,18 +106,15 @@ const FormulirDua: React.FC = () => {
 
           const formData = dataSource.map(row => ({
             ...row,
-            namaPerguruan : values[`namaPerguruan${row.key}`],
-            tingkatPendidikan: values[`tingkatPendidikan${row.key}`],
-            fakultas: values[`fakultas${row.key}`],
-            jurusan: values[`jurusan${row.key}`],
-            kotaPerguruan: values[`kotaPerguruan${row.key}`],
+            namaKualifikasiEtik : values[`namaKualifikasiEtik${row.key}`],
+            lembaga: values[`lembaga${row.key}`],
+            alamat: values[`alamat${row.key}`],
+            kota: values[`kota${row.key}`],
             provinsi: values[`provinsi${row.key}`],
             negara: values[`negara${row.key}`],
-            tahunLulus: values[`tahunLulus${row.key}`],
-            gelar: values[`gelar${row.key}`],
-            judulTa: values[`judulTa${row.key}`],
-            uraianSingkat: values[`uraianSingkat${row.key}`],
-            nilaiAkademikRata: values[`nilaiAkademikRata${row.key}`],
+            noTelp: values[`noTelp${row.key}`],
+            email: values[`email${row.key}`],
+            hubungan: values[`hubungan${row.key}`],
           }));
           
           // Now you can send formData to your backend for processing
@@ -137,7 +124,7 @@ const FormulirDua: React.FC = () => {
               Authorization: `Bearer ${token}`
             }
           };
-          const response = await axios.patch(`/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=i2`,formData,config);
+          const response = await axios.patch(`/form-penilaian/mhs?uid=${userId}&pid=${formId}&ft=ii1`,formData,config);
           // console.log("response add form:"+response)
 
           // const userData = response.data;
@@ -167,68 +154,49 @@ const FormulirDua: React.FC = () => {
         },
         {
           title: 'Nama',
-          dataIndex: 'namaPerguruan',
-          key: 'namaPerguruan',
+          dataIndex: 'namaKualifikasiEtik',
+          key: 'namaKualifikasiEtik',
           render: (text: string, record: TableRow) => (
-            <Form.Item name={`namaPerguruan${record.key}`} initialValue={text} style={{width:'200px'}}>
+            <Form.Item name={`namaKualifikasiEtik${record.key}`} initialValue={text} style={{width:'200px'}}>
               <Input />
             </Form.Item>
           ),
         },
         {
-            title: 'Tingkkat Pendidikan',
-            dataIndex: 'tingkatPendidikan',
-            key: 'tingkatPendidikan',
-            render: (text: string, record: TableRow) => (
-                <div>
-                  <Form.Item name={`tingkatPendidikan${record.key}`} initialValue={record.tingkatPendidikan || undefined}>
-                    <Select placeholder="--Choose--" style={{ width: 100 }}>
-                      <Select.Option value="D3">D3</Select.Option>
-                      <Select.Option value="D4">D4</Select.Option>
-                      <Select.Option value="S1">S1</Select.Option>
-                      <Select.Option value="S2">S2</Select.Option>
-                      <Select.Option value="S3">S3</Select.Option>
-                      <Select.Option value="Ir.">Ir.</Select.Option>
-                    </Select>
-                  </Form.Item>
-                </div>
-            ),
-          },
-        {
-          title: 'Fakultas',
-          dataIndex: 'fakultas',
-          key: 'fakultas',
+          title: 'Lembaga',
+          dataIndex: 'lembaga',
+          key: 'lembaga',
           render: (text: string, record: TableRow) => (
-            <Form.Item name={`fakultas${record.key}`} initialValue={text} style={{width:'250px'}}>
+            <Form.Item name={`lembaga${record.key}`} initialValue={text} style={{width:'250px'}}>
               <Input />
             </Form.Item>
           ),
         },
         {
-            title: 'Jurusan',
-            dataIndex: 'jurusan',
-            key: 'jurusan',
+          title: 'Alamat',
+          dataIndex: 'alamat',
+          key: 'alamat',
+          render: (text: string, record: TableRow) => (
+            <Form.Item name={`alamat${record.key}`} initialValue={text} style={{width:'250px'}}>
+              <TextArea rows={4} />
+            </Form.Item>
+          ),
+        },
+        {
+            title: 'Kota / Kabupaten',
+            dataIndex: 'kota',
+            key: 'kota',
             render: (text: string, record: TableRow) => (
-              <Form.Item name={`jurusan${record.key}`} initialValue={text} style={{width:'150px'}}>
+              <Form.Item name={`kota${record.key}`} initialValue={text} style={{width:'150px'}}>
                 <Input />
               </Form.Item>
             ),
           },
         {
-            title: 'Kota /Kabupaten',
-            dataIndex: 'kotaPerguruan',
-            key: 'kotaPerguruan',
-            render: (text: string, record: TableRow) => (
-              <Form.Item name={`kotaPerguruan${record.key}`} initialValue={text} style={{width:'150px'}}>
-                <Input />
-              </Form.Item>
-            ),
-          },
-          {
             title: 'Provinsi',
             dataIndex: 'provinsi',
             key: 'provinsi',
-            render: (text: string, record: TableRow, index: number) => (
+            render: (text: string, record: TableRow) => (
               <Form.Item name={`provinsi${record.key}`} initialValue={text} style={{width:'150px'}}>
                 <Input />
               </Form.Item>
@@ -245,56 +213,43 @@ const FormulirDua: React.FC = () => {
             ),
           },
           {
-            title: 'Tahun Lulus',
-            dataIndex: 'tahunLulus',
-            key: 'tahunLulus',
+            title: 'No. Telp',
+            dataIndex: 'noTelp',
+            key: 'noTelp',
             render: (text: string, record: TableRow, index: number) => (
-              <Form.Item name={`tahunLulus${record.key}`} initialValue={text} style={{width:'150px'}}>
+              <Form.Item name={`noTelp${record.key}`} initialValue={text} style={{width:'150px'}}>
                 <Input />
               </Form.Item>
             ),
           },
           {
-            title: 'Gelar',
-            dataIndex: 'gelar',
-            key: 'gelar',
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'email',
             render: (text: string, record: TableRow, index: number) => (
-              <Form.Item name={`gelar${record.key}`} initialValue={text} style={{width:'150px'}}>
+              <Form.Item name={`email${record.key}`} initialValue={text} style={{width:'250px'}}>
                 <Input />
               </Form.Item>
             ),
           },
           {
-            title: 'Judul Tugas Akhir/Skripsi/Tesis/Disertasi',
-            dataIndex: 'judulTa',
-            key: 'judulTa',
-            render: (text: string, record: TableRow) => (
-              <Form.Item name={`judulTa${record.key}`} initialValue={text} style={{width:'250px'}}>
-                <TextArea rows={4} />
-              </Form.Item>
-            ),
-          },
-          {
-            title: 'Uraian Singkat Tentang Materi Tugas Akhir/ Skripsi/Tesis/ Disertasi',
-            dataIndex: 'uraianSingkat',
-            key: 'uraianSingkat',
-            render: (text: string, record: TableRow) => (
-              <Form.Item name={`uraianSingkat${record.key}`} initialValue={text} style={{width:'250px'}}>
-                <TextArea rows={4} />
-              </Form.Item>
-            ),
-          },
-          {
-            title: 'Nilai Akademik Rata-rata',
-            dataIndex: 'nilaiAkademikRata',
-            key: 'nilaiAkademikRata',
+            title: 'Hubungan',
+            dataIndex: 'hubungan',
+            key: 'hubungan',
             render: (text: string, record: TableRow, index: number) => (
-              <Form.Item name={`nilaiAkademikRata${record.key}`} initialValue={text} style={{width:'100px'}}>
-                <Input />
-              </Form.Item>
-            ),
+                <div>
+                  <Form.Item name={`hubungan${record.key}`} initialValue={record.hubungan || undefined}>
+                    <Select placeholder="--Choose--" style={{ width: 280 }}>
+                      <Select.Option value="atasan">Atasan</Select.Option>
+                      <Select.Option value="rekanKerja">Rekan kerja</Select.Option>
+                      <Select.Option value="rekanSeprofesi">Rekan Seprofesi</Select.Option>
+                      <Select.Option value="lainLain">Lain-lain</Select.Option>
+                    </Select>
+                  </Form.Item>
+                </div>
+                ),
           },
-          {
+        {
             title: 'Hapus',
             dataIndex: 'actions',
             key: 'actions',
@@ -306,7 +261,6 @@ const FormulirDua: React.FC = () => {
           ),
         },
       ];
-      // open={isModalOpen} onOk={handleDeleteRow} onCancel={handleCancel} 
       //modal logic
       const handleDelete = (key: any) => {
         const newData = dataSource.filter(item => item.key !== key);
@@ -352,7 +306,8 @@ const FormulirDua: React.FC = () => {
     >
     <div>
         <div className='container-form'>
-            <h3 className='headerform' style={{marginBottom:'10px'}}>I.2 Pendidikan Formal <span style={{color:'#6b7aa1'}}>(W2)</span></h3>
+            <h2 className='headerform' style={{marginBottom:'10px',textAlign:'center'}}>II. KUALIFIKASI KODE ETIK INSINYUR INDONESIA dan ETIKA PROFESIONAL</h2>
+            <h3 className='headerform' style={{marginBottom:'10px'}}>II.1 Referensi Kode Etik dan Etika Profesi <span style={{color:'#6b7aa1'}}>(#)</span></h3>
             <Button className="addFormButton" type="primary" onClick={handleAddRow} style={{marginBottom:'10px'}}>
                 + Add Row
             </Button>
@@ -368,7 +323,7 @@ const FormulirDua: React.FC = () => {
                   bordered
                 />
               </div>
-                <p style={{margin:'10px 0'}}>*&#41; KOMPETENSI: Isi dengan nomor Uraian Kegiatan Kompetensi yang Anda anggap persyaratannya telah terpenuhi dengan aktifitas Anda di sini</p>
+                <p style={{margin:'10px 0'}}>*&#41; Catatan: <span style={{color:'#6b7aa1'}}>(#)</span> Sekurang-krangnya 2 (dua) orang,sebanyak-banyaknya 4 (empat) orang</p>
                 <Button className="saveFormButton" type="primary" htmlType="submit" style={{margin:'20px auto',display: "flex", justifyContent: "center" }}>
                     {/* <Button type="primary" htmlType="submit" disabled={totalSelected !== 3}> */}
                     Save & Continue
@@ -385,4 +340,4 @@ const FormulirDua: React.FC = () => {
     );
   };
 
-  export default FormulirDua;
+  export default FormulirDuaSatu;

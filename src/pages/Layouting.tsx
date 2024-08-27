@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react';
 import React, { useEffect, useState } from 'react';
 import {
   MenuFoldOutlined,
@@ -9,25 +7,117 @@ import {
   UserOutlined,
   LogoutOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, Button, theme, Popover } from 'antd';
-import logoPii from '../images/logo-pii.png';
+import { Layout, Menu, Button, theme, Popover, MenuProps } from 'antd';
+import logoElektro from '../images/logo-elektro-300.png';
 import { Outlet, useLocation, useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../hooks/reduxHooks';
+import { removeToken, reset } from '../app/authSlice';
+import { jwtDecode } from 'jwt-decode';
 const { Header, Sider, Content } = Layout;
 
-
-const content = (
-  <div>
-    <Link to='./login'><Button>Logout</Button></Link>
-  </div>
-);
-
 const Layouting: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const navigate = useNavigate();
   let location = useLocation();
+  // const [isSwap, setIsSwap] = useState(false);
 
   const [current, setCurrent] = useState(location.pathname);
+  const [role, setRole] = useState(''); // State to store the user's role
+
+  useEffect(() => {
+    // Retrieve JWT token from localStorage
+    const token = localStorage.getItem('jwtToken');
+
+    if (token) {
+      // Parse the JWT token to get the payload
+      const decodedToken: any = jwtDecode(token);
+
+      setRole(decodedToken.roles);
+    }
+  }, []); // This effect runs only once on component mount
+
+  const handleButtonClick = () => {
+    // Dispatch an action for reducerA
+    dispatch(reset()); 
+    dispatch(removeToken());
+  };
+
+  type MenuItem = Required<MenuProps>['items'][number];
+  
+  const itemsMahasiswa: MenuItem[] = [
+    {
+      key: '/',
+      icon: <HomeOutlined />,
+      label: (<Link to='./'>Beranda</Link>),
+      // roles:  ['mahasiswa']
+    },
+    {
+      key: '/user',
+      icon: <UserOutlined />,
+      label: (<Link to='./user'>User</Link>), 
+    },
+    {
+      key: '/form',
+      icon: <UnorderedListOutlined />,
+      label: (<Link to='./form/m'>Form - mahasiswa</Link>),
+      
+    },
+    {
+      key: '/login',
+      icon: <LogoutOutlined />,
+      label: (<Link to='./login' onClick={handleButtonClick}>Logout</Link>),
+    },
+  ]
+  const itemsDosen: MenuItem[] = [
+    {
+      key: '/',
+      icon: <HomeOutlined />,
+      label: (<Link to='./'>Beranda</Link>),
+      // roles:  ['mahasiswa']
+    },
+    {
+      key: '/user',
+      icon: <UserOutlined />,
+      label: (<Link to='./user'>User</Link>), 
+    },
+    {
+      key: '/form',
+      icon: <UnorderedListOutlined />,
+      label: (<Link to='./form/d'>Form - dosen</Link>),
+      
+    },
+    {
+      key: '/login',
+      icon: <LogoutOutlined />,
+      label: (<Link to='./login' onClick={handleButtonClick}>Logout</Link>),
+    },
+  ]
+  const itemsAdmin: MenuItem[] = [
+    {
+      key: '/',
+      icon: <HomeOutlined />,
+      label: (<Link to='./'>Beranda</Link>),
+      // roles:  ['mahasiswa']
+    },
+    {
+      key: '/user',
+      icon: <UserOutlined />,
+      label: (<Link to='./user'>User</Link>), 
+    },
+    {
+      key: '/login',
+      icon: <LogoutOutlined />,
+      label: (<Link to='./login' onClick={handleButtonClick}>Logout</Link>),
+    },
+  ]
+  // const getItem = (role:string) => { 
+  //   return (role === 'mahasiswa') ? itemsMahasiswa :
+  //   (role === 'dosen') ? itemsDosen :
+  //   (role === 'admin') ? itemsAdmin :
+  //   handleButtonClick;
+  // }
+    
     //or simply use const [current, setCurrent] = useState(location.pathname)        
 
   useEffect(() => {
@@ -46,64 +136,57 @@ const Layouting: React.FC = () => {
   const toHome = () => {
     navigate("./")
   };
+  const toggleSider = () => {
+    setCollapsed(!collapsed);
+  };
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 600) {
-        setCollapsed(true);
-      } else {
-        setCollapsed(false);
-      }
-    };
 
-    window.addEventListener('resize', handleResize);
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     if (window.innerWidth < 600) {
+  //       setCollapsed(true);
+  //     } else {
+  //       setCollapsed(false);
+  //     }
+  //   };
+  // const swapLogo = () => {
+  //     if (window.innerWidth > 500) {
+  //       setIsSwap(true);
+  //     } else {
+  //       setIsSwap(false);
+  //     }
+  //   };
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  //   window.addEventListener('resize', handleResize);
+  //   window.addEventListener('resize', swapLogo);
+  //   swapLogo()
 
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  //   return () => {
+  //     window.removeEventListener('resize', handleResize);
+  //     window.removeEventListener('resize', swapLogo);
+  //   };
+  // }, []);
 
+
+
+  const dispatch = useAppDispatch();
+
+
+  
+  const content = (
+    <div>
+      <Link to='./login' ><Button className='btn-logout' style={{ borderRadius:'0' }} onClick={handleButtonClick}>Logout</Button></Link>
+    </div>
+  );
   // css margin  
   // w,x,y,z =>top,right,bottom left
   // x,y,z =>top,(l+r),bottom
   // y,z =>(t+b),(l+r)
   return (
     <Layout style={{minHeight: '100vh'}} >
-      <Header style={{ padding: 0, backgroundColor:'#201f2b',display:'flex',position: 'sticky',
-          top: 0,
-          zIndex: 1,
-          width: '100%',
-          alignItems: 'center' }}>
-          <div className="logo-sider"  css={{ height:'64px',backgroundColor:'colorBgContainer',display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',cursor: 'pointer'}} onClick={toHome}>        
-            <img src={logoPii} alt="logo pii" css={css` margin:10px` } />
-          </div>
-          <Button
-            type="text"
-            icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-            onClick={() => setCollapsed(!collapsed)}
-
-            style={{
-              fontSize: '16px',
-              width: 64,
-              height: 64,
-              color: 'white'
-            }}
-          />
-          <Popover placement="bottomRight" content={content} trigger="click">
-            <UserOutlined css={{marginLeft:'auto',marginRight:'20px',color:'white',fontSize:'130%',cursor: 'pointer'}} />
-          </Popover>
-        </Header>
-      
-      <Layout hasSider>
-      <Sider trigger={null}  collapsible collapsed={collapsed} collapsedWidth={0} 
+      <Sider trigger={null}  collapsible collapsed={collapsed} onCollapse={() => setCollapsed(!collapsed)} collapsedWidth={0} 
       style={{ 
-          backgroundColor:'#201f2b',
+          backgroundColor:'#11324D',
           overflow: 'auto',
           height: '100vh',
           position: 'fixed',
@@ -111,67 +194,67 @@ const Layouting: React.FC = () => {
           top: '64px',
           bottom: 0,
           zIndex : 9999,
+          boxShadow:'2px 0 6px rgba(0, 21, 41, 0.35)'
       }} 
-      width={176} >
-        
+      width={200} >
         
         <Menu
           theme="dark"
-          style={{ backgroundColor:'#201f2b'}}
+          style={{ backgroundColor:'#11324D' }}
           mode="inline"
           selectedKeys={[current]}
           // onClick={handleMenuClick}
-          items={[
-            {
-              key: '/',
-              icon: <HomeOutlined />,
-              label: (<Link to='./'>Beranda</Link>),
-            },
-            {
-              key: '/user',
-              icon: <UserOutlined />,
-              label: (<Link to='./user'>User</Link>), 
-            },
-            {
-              key: '/faip',
-              icon: <UnorderedListOutlined />,
-              label: (<Link to='./faip'>FAIP</Link>),
-              
-            },
-            {
-              key: '/login',
-              icon: <LogoutOutlined />,
-              label: (<Link to='./login'>Logout</Link>),
-            },
-          ]}
+          items={(role === 'mahasiswa') ? itemsMahasiswa : (role === 'dosen') ? itemsDosen : itemsAdmin }
         />
       </Sider>
-      
+      <div className={`transparent-layer ${collapsed ? 'collapsed' : ''}`} onClick={toggleSider}></div>
       <Layout >
-        {collapsed 
-        ? (<Content
+      <Header style={{ padding: 0, backgroundColor:'#11324D',display:'flex',position: 'sticky',
+          top: 0,
+          zIndex: 100,
+          width: '100%',
+          alignItems: 'center' }}>
+          <Button
+                className='btn-menu-collapse'
+                type="text"
+                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                onClick={() => setCollapsed(!collapsed)}
+
+                style={{
+                  fontSize: '16px',
+                  width: 64,
+                  height: 64,
+                  color: 'white',
+                  cursor:'pointer'
+                }}
+              />
+
+              <div className="logo-sider"  style={{ height:'64px',
+                  width:'176px',
+                  backgroundColor:'colorBgContainer',
+                  justifyContent: 'center',
+                  marginLeft:'auto',
+                  alignItems: 'center',
+                  cursor: 'pointer'}} onClick={toHome}>        
+                <img src={logoElektro} alt="logo elektro" style={ {marginTop:'10px',
+                  width: 'auto',
+                  maxWidth: '100%',
+                  objectFit: 'cover'} } />
+              </div>
+          <Popover placement="bottomRight"  content={content} trigger="click">
+            <UserOutlined style={{marginLeft:'auto',marginRight:'20px',color:'white',fontSize:'130%',cursor: 'pointer'}} />
+          </Popover>
+        </Header>
+
+        <Content
           style={{
             minHeight: 280,
-            background: colorBgContainer,
             overflow: 'initial',
           }}
         >
-             <Outlet />
-        </Content>)
-         : <Content
-          style={{
-            minHeight: 280,
-            background: colorBgContainer,
-            overflow: 'initial',
-            margin: '0 0 0 176px'
-          }}
-        >
-          
-             <Outlet />
+          <Outlet />
         </Content>
-        }
       
-        </Layout>
       </Layout>
 
     </Layout>
