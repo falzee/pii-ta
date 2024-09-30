@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Table, Form,Input, Button, Select, Upload, Checkbox, Divider, Space, ConfigProvider, Modal, InputNumber, InputNumberProps } from 'antd';
 import { FormInstance } from 'antd/lib/form';
+// import { MhsContext } from '../../pages/FaipDosenNilai'; // Import the context
 import { DeleteOutlined, MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
 import { nanoid } from 'nanoid';
@@ -61,6 +62,7 @@ interface InputValues {
 const FormulirDua: React.FC = () => {
 //kumpulan state
     const { formIdD } = useParams<{ formIdD: string | undefined }>();
+    // const nimMhs = useContext<string | undefined>(MhsContext);
     const [inputValue, setInputValues] = useState<{ [key: string]: number }>({//jumlah_isian_per_kompetensi
       W121: 0,
       W122: 0,
@@ -217,7 +219,7 @@ const FormulirDua: React.FC = () => {
       return value >= 2 ? 85 : 75;
     };
 
-    const calculateAverageGrade = (grades: typeof gradeValue) => {
+    const calculateAverageGrade = (grades: typeof gradeValue ) => {
       const total = Object.values(grades).reduce((acc, grade) => acc + grade, 0);
       return (total / Object.values(grades).length).toFixed(2);
     };
@@ -293,6 +295,7 @@ const FormulirDua: React.FC = () => {
               <InputNumber style={{width:'75px',margin:'0 5px'}} min={0} max={100} value={finalValue !== null ? finalValue : undefined} onChange={calculateFinalGrade} />
             <p style={{margin:'5px 0',fontStyle:'italic',color:'gray'}}>* Masukkan nilai dari 1-100</p>
           </div>
+          {/* <p>{`nim ${nimMhs}`}</p>  */}
           <p style={{margin:'5px 0'}}>Nilai Akhir dalam Huruf : <span style={{color:'blue'}}>{finalLetterValue}</span></p>
           <Button style={{margin:'20px auto',display: "flex", justifyContent: "center"}} onClick={onFinish} type='primary'>Save and Continue</Button>
         </div>

@@ -41,7 +41,7 @@ interface TableRow {
   uraianSingkatAktifitas: string;
   
   klaimKompetensi: string[];
-  klaimKompetensiWSatu?: string[]
+  klaimKompetensiWsatu?: string[]
   }
   //punya column
   
@@ -80,7 +80,7 @@ interface TableRow {
           setDataSource(userData.data.form_i_empat)
           const newSelectedChoices: { [key: string]: string[] } = {};
           userData.data.form_i_empat.forEach((item: any) => {
-            newSelectedChoices[item.key] = item.klaimKompetensiWSatu;
+            newSelectedChoices[item.key] = item.klaimKompetensiWsatu;
           });
           setSelectedChoices(newSelectedChoices);
     
@@ -132,7 +132,7 @@ interface TableRow {
             tingkatPenghargaan: values[`tingkatPenghargaan${row.key}`] ,
             jenisLembagaPenghargaan: values[`jenisLembagaPenghargaan${row.key}`],
             uraianSingkatAktifitas: values[`uraianSingkatAktifitas${row.key}`] ,
-            klaimKompetensiWSatu: selectedChoices[row.key] || [],
+            klaimKompetensiWsatu: selectedChoices[row.key] || [],
           }));
           
           // Now you can send formData to your backend for processing

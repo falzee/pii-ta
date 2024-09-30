@@ -37,7 +37,7 @@ import { useParams } from 'react-router';
     uraianTugas: string;
     klaimKompetensi: string[];
     // jumlahKlaimWSatu: number;
-    klaimKompetensiWSatu?: string[];
+    klaimKompetensiWsatu?: string[];
   }
 
 const Formulir: React.FC = () => {
@@ -81,7 +81,7 @@ const Formulir: React.FC = () => {
           setDataSource(userData.data.form_i_tiga)
           const newSelectedChoices: { [key: string]: string[] } = {};
           userData.data.form_i_tiga.forEach((item: any) => {
-            newSelectedChoices[item.key] = item.klaimKompetensiWSatu;
+            newSelectedChoices[item.key] = item.klaimKompetensiWsatu;
           });
           setSelectedChoices(newSelectedChoices);
     
@@ -147,7 +147,7 @@ const Formulir: React.FC = () => {
             tingkatanOrganisasi: values[`tingkatanOrganisasi${row.key}`],
             kegiatanOrganisasi: values[`kegiatanOrganisasi${row.key}`],
             uraianTugas: values[`uraianTugas${row.key}`],
-            klaimKompetensiWSatu: selectedChoices[row.key] || [],
+            klaimKompetensiWsatu: selectedChoices[row.key] || [],
           }));
           
           // Now you can send formData to your backend for processing

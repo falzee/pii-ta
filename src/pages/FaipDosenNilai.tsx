@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createContext, useContext  } from 'react';
 import { ConfigProvider, Tabs, TabsProps } from 'antd';
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import UnderConstruct from './underConstruct';
 import { jwtDecode } from 'jwt-decode';
 import FormNilaiKodeEtik from '../components/Dosen/FormNilaiKodeEtik'
+import NewFormNilaiKodeEtik from '../components/Dosen/NewFormNilaiKodeEtik'
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router';
 import { useLocation } from 'react-router-dom';
@@ -13,7 +14,49 @@ import FormNilaiSeminar from '../components/Dosen/FormNilaiSeminar';
 import FormNilaiDosenSubmit from '../components/Dosen/FormNilaiDosenSubmit';
 
 const { TabPane } = Tabs;
+interface DataLength {
+  W1: number;
+  W2: number;
+  W3: number;
+  W4: number;
+  P5: number;
+  P6: number;
+  P7: number;
+  P8: number;
+  P9: number;
+  P10: number;
+  P11: number;
+}
 
+interface Parameters {
+  W1: number;
+  W2: number;
+  W3: number;
+  W4: number;
+  P5: number;
+  P6: number;
+  P7: number;
+  P8: number;
+  P9: number;
+  P10: number;
+  P11: number;
+}
+
+export interface Grades {
+  GW1: number;
+  GW2: number;
+  GW3: number;
+  GW4: number;
+  GP5: number;
+  GP6: number;
+  GP7: number;
+  GP8: number;
+  GP9: number;
+  GP10: number;
+  GP11: number;
+}
+
+export const MhsGradeContext = createContext<Grades | undefined>(undefined);
 // IF LAST CHANGE = SUBMITTED TOMBOL AKSI MATI DI FAIP MHS, DISINI BAKAL DIARAHIN KE 404
 const MultiTabFormPage: React.FC = () => {
   useDocumentTitle('PII TA | Formulir');
@@ -23,7 +66,23 @@ const MultiTabFormPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('1'); // Set the default active tab
   const [penilai,setPenilai] = useState('')
   const [namaMhs,setNamaMhs] = useState('')
+  const [nimMhs,setNimMhs] = useState('')
   const [redirecting, setRedirecting] = useState(true); // New state for redirection
+  const [dataLengths, setDataLengths] = useState<DataLength | null>(null);
+  const [parameters, setParameters] = useState<Parameters>({
+    W1: 15, 
+    W2: 18, 
+    W3: 6, 
+    W4: 25, 
+    P5: 6, 
+    P6: 12, 
+    P7: 8, 
+    P8: 8, 
+    P9: 6, 
+    P10: 6, 
+    P11: 6, 
+  });
+  const [grades, setGrades] = useState<Grades | undefined>(undefined);
 
 
   // const [redirecting, setRedirecting] = useState(true); // New state for redirection
@@ -38,6 +97,128 @@ const MultiTabFormPage: React.FC = () => {
     // Fetch user data when component mounts
     fetchFaipData();
   }, []);
+
+    //API = const response = await axios.get(`/form-penilaian/dsn?uid=${userId},config);
+    const fetchFaipData = async () => {
+      try {
+        const token = localStorage.getItem('jwtToken');
+    
+        if (token) {
+          // Decode the token to extract user ID
+          const decodedToken: any = jwtDecode(token);
+          const userId = decodedToken.nomerInduk;
+
+          setPenilai(decodedToken.nama)
+          const config = {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          };
+          // Make API request with user ID
+          const response = await axios.get(`/form-penilaian/dsn/student-info?uid=${userId}&pid=${formIdD}`,config);
+          const userData = response.data.data;
+          setNamaMhs(userData.info_mhs.nama);
+          setNimMhs(userData.info_mhs.nomer_induk)
+
+          if (formIdD !== userData.pid) {
+            // setRedirecting(true); 
+            navigate("/unauthorized", { replace: true });
+            return
+          } else if (userId !== userData.id_dosen){
+            // setRedirecting(true); 
+            navigate("/unauthorized", { replace: true });        
+          } else{
+            setRedirecting(false); 
+          }
+
+          if (!userData.status) {
+            // setRedirecting(true); 
+            navigate("/unauthorized", { replace: true });
+            return
+          } else if (userData.status === "112-3" || userData.status === "112-0"){
+            // setRedirecting(true); 
+            navigate("/unauthorized", { replace: true });        
+          } else{
+            setRedirecting(false); 
+          }
+          
+          // console.log("FETCH SUCCESS?")
+        } else {
+          console.error('User not found');
+        }
+      } catch (error) {
+        console.error('Error fetching data'); 
+      }
+    };
+
+  useEffect(() => {
+    const fetchClaimData = async () => { 
+      try {
+        const token = localStorage.getItem('jwtToken');
+    
+        if (token) {
+          // Decode the token to extract user ID
+          const decodedToken: any = jwtDecode(token);
+          const userId = decodedToken.nomerInduk;
+
+          setPenilai(decodedToken.nama)
+          const config = {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          };
+          // Make API request with user ID
+          const responseTwo = await axios.get(`/form-penilaian/dsn/claim-mhs?sid=${nimMhs}&uid=${userId}`,config); // Replace with your API endpoint
+          const data = responseTwo.data.data;
+          const lengths: DataLength = {
+            W1: data.klaimWsatu.length,
+            W2: data.klaimWdua.length,
+            W3: data.klaimWtiga.length,
+            W4: data.klaimWempat.length,
+            P5: data.klaimPlima.length,
+            P6: data.klaimPenam.length,
+            P7: data.klaimPtujuh.length,
+            P8: data.klaimPdelapan.length,
+            P9: data.klaimPsembilan.length,
+            P10: data.klaimPsepuluh.length,
+            P11: data.klaimPsebelas.length,
+          };
+  
+          setDataLengths(lengths);
+  
+          // Calculate grades based on lengths and parameters
+          const calculatedGrades: Grades = {
+            GW1: calculateGrade(lengths.W1, parameters.W1),
+            GW2: calculateGrade(lengths.W2, parameters.W2),
+            GW3: calculateGrade(lengths.W3, parameters.W3),
+            GW4: calculateGrade(lengths.W4, parameters.W4),
+            GP5: calculateGrade(lengths.P5, parameters.P5),
+            GP6: calculateGrade(lengths.P6, parameters.P6),
+            GP7: calculateGrade(lengths.P7, parameters.P7),
+            GP8: calculateGrade(lengths.P8, parameters.P8),
+            GP9: calculateGrade(lengths.P9, parameters.P9),
+            GP10: calculateGrade(lengths.P10, parameters.P10),
+            GP11: calculateGrade(lengths.P11, parameters.P11),
+          };
+  
+          setGrades(calculatedGrades);
+
+        } else {
+          console.error('User not found');
+        }
+      } catch (error) {
+        console.error('Error fetching data'); 
+      }
+    };
+    fetchClaimData();
+  },[nimMhs])
+
+  const calculateGrade = (length: number, parameter: number): number => {
+    if (length === 0) return 50;
+    if (length > 0 && length <= parameter / 2) return 70;
+    if (length > parameter / 2 && length <= parameter) return 80;
+    return 100;
+  };
 
   useEffect(() => {
     // Load the saved tab from local storage or default to 'first'
@@ -72,59 +253,9 @@ const MultiTabFormPage: React.FC = () => {
   // /form-penilaian/dsn/student-info?pid=123456789&uid=1998200345678
   
 
-    //API = const response = await axios.get(`/form-penilaian/dsn?uid=${userId},config);
-    const fetchFaipData = async () => {
-      try {
-        const token = localStorage.getItem('jwtToken');
-    
-        if (token) {
-          // Decode the token to extract user ID
-          const decodedToken: any = jwtDecode(token);
-          const userId = decodedToken.nomerInduk;
-
-          setPenilai(decodedToken.nama)
-          const config = {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          };
-          // Make API request with user ID
-          const response = await axios.get(`/form-penilaian/dsn/student-info?uid=${userId}&pid=${formIdD}`,config);
-          const userData = response.data.data;
-          setNamaMhs(userData.info_mhs.nama);
-
-          if (formIdD !== userData.pid) {
-            // setRedirecting(true); 
-            navigate("/unauthorized", { replace: true });
-            return
-          } else if (userId !== userData.id_dosen){
-            // setRedirecting(true); 
-            navigate("/unauthorized", { replace: true });        
-          } else{
-            setRedirecting(false); 
-          }
-
-          if (!userData.status) {
-            // setRedirecting(true); 
-            navigate("/unauthorized", { replace: true });
-            return
-          } else if (userData.status === "112-3" || userData.status === "112-0"){
-            // setRedirecting(true); 
-            navigate("/unauthorized", { replace: true });        
-          } else{
-            setRedirecting(false); 
-          }
-          
-          // console.log("FETCH SUCCESS?")
-        } else {
-          console.error('User not found');
-        }
-      } catch (error) {
-        console.error('Error fetching data uhuy'); 
-      }
-    };
 
 
+   
   // useEffect(() => {
   //   function beforeUnload(e: BeforeUnloadEvent) {
   //     e.preventDefault();
@@ -146,7 +277,7 @@ const MultiTabFormPage: React.FC = () => {
     {
       key: '1',
       label: 'Kode Etik',
-      children: <FormNilaiKodeEtik />,
+      children: <NewFormNilaiKodeEtik />,
     },
     {
       key: '2',
@@ -214,11 +345,24 @@ const MultiTabFormPage: React.FC = () => {
           <h3>Informasi Penilaian</h3>
           <p>Dosen penilai : {penilai}</p>
           <p>Mahasiswa yang dinilai : {namaMhs}</p>
+          <p>Grade W1: {grades?.GW1} - {dataLengths?.W1}/{parameters?.W1}</p>
+          <p>Grade W2: {grades?.GW2} - {dataLengths?.W2}/{parameters?.W2}</p>
+          <p>Grade W3: {grades?.GW3} - {dataLengths?.W3}/{parameters?.W3}</p>
+          <p>Grade W4: {grades?.GW4} - {dataLengths?.W4}/{parameters?.W4}</p>
+          <p>Grade P5: {grades?.GP5} - {dataLengths?.P5}/{parameters?.P5}</p>
+          <p>Grade P6: {grades?.GP6} - {dataLengths?.P6}/{parameters?.P6}</p>
+          <p>Grade P7: {grades?.GP7} - {dataLengths?.P7}/{parameters?.P7}</p>
+          <p>Grade P8: {grades?.GP8} - {dataLengths?.P8}/{parameters?.P8}</p>
+          <p>Grade P9: {grades?.GP9} - {dataLengths?.P9}/{parameters?.P9}</p>
+          <p>Grade P10: {grades?.GP10} - {dataLengths?.P10}/{parameters?.P10}</p>
+          <p>Grade P11: {grades?.GP11} - {dataLengths?.P11}/{parameters?.P11}</p>
         </div>
       </div>
 
       <div className = 'formPage' style={{padding: '0 2rem',overflow: 'hidden'}}>
-        <Tabs activeKey={activeTab} onChange={handleTabChange} items={items} />
+        <MhsGradeContext.Provider value={grades}>
+          <Tabs activeKey={activeTab} onChange={handleTabChange} items={items} />
+        </MhsGradeContext.Provider>
       </div> 
 
       </>

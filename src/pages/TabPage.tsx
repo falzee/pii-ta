@@ -179,51 +179,51 @@ const MultiTabFormPage: React.FC = () => {
       label: 'I.6',
       children: <SixthTabForm />,
     },
-    // {
-    //   key: '7',
-    //   label: 'II.1',
-    //   children: <SeventhTabFrom />,
-    // },
-    // {
-    //   key: '8',
-    //   label: 'II.2',
-    //   children: <EighthTabFrom />,
-    // },
-    //     {
-    //   key: '9',
-    //   label: 'III',
-    //   children: <ThreeOneTabPage />,
-    // },
-    // {
-    //   key: '10',
-    //   label: 'IV',
-    //   children: <FourOneTabPage />,
-    // },
-    // {
-    //   key: '11',
-    //   label: 'V.1',
-    //   children: <FiveOneTabPage />,
-    // },
-    //     {
-    //   key: '12',
-    //   label: 'V.2',
-    //   children: <FiveTwoTabPage />,
-    // },
-    //     {
-    //   key: '13',
-    //   label: 'V.3',
-    //   children: <FiveThreeTabPage />,
-    // },
-    //     {
-    //   key: '14',
-    //   label: 'V.4',
-    //   children: <FiveFourTabPage />,
-    // },
-    // {
-    //   key: '15',
-    //   label: 'VI',
-    //   children: <SixthOneTabFrom />,
-    // },
+    {
+      key: '7',
+      label: 'II.1',
+      children: <SeventhTabFrom />,
+    },
+    {
+      key: '8',
+      label: 'II.2',
+      children: <EighthTabFrom />,
+    },
+        {
+      key: '9',
+      label: 'III',
+      children: <ThreeOneTabPage />,
+    },
+    {
+      key: '10',
+      label: 'IV',
+      children: <FourOneTabPage />,
+    },
+    {
+      key: '11',
+      label: 'V.1',
+      children: <FiveOneTabPage />,
+    },
+        {
+      key: '12',
+      label: 'V.2',
+      children: <FiveTwoTabPage />,
+    },
+        {
+      key: '13',
+      label: 'V.3',
+      children: <FiveThreeTabPage />,
+    },
+        {
+      key: '14',
+      label: 'V.4',
+      children: <FiveFourTabPage />,
+    },
+    {
+      key: '15',
+      label: 'VI',
+      children: <SixthOneTabFrom />,
+    },
       // {
       //   key: '16',
       //   label: 'VII',

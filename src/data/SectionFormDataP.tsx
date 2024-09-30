@@ -14,7 +14,7 @@ interface Section {
 
 export const dataPlima: Section[]= [
     {
-        label:'P.5.1. -  Mengembangkan program pendidikan dan/atau pelatihan keinsinyuranP.10.1. - Mengelola sumber-daya keinsinyuran',
+        label:'P.5.1. -  Mengembangkan program pendidikan dan/atau pelatihan keinsinyuran',
         value: 'P.5.1.',
         children: [
             { label: 'P.5.1.1. - Menemu-kenali kebutuhan pengajaran dan atau pelatihan.', value: 'P.5.1.1' },

@@ -44,7 +44,7 @@ interface TableRow {
   uraianSingkatAktifitas: string;
   
   klaimKompetensi: string[];
-  klaimKompetensiWSatu?: string[];
+  klaimKompetensiWsatu?: string[];
   klaimKompetensiWempat?: string[];
   klaimKompetensiPsepuluh?: string[];
   }

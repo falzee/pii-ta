@@ -28,7 +28,7 @@ export const dataWsatu: Section[]= [
       label:'W.1.2. - Menghayati serta mematuhi Kode Etik Insinyur Indonesia dan tatalaku profesi yang berlaku',
       value: 'W.1.2.',
       children: [
-          { label: 'W.1.2.1. -  Menempatkan tanggungjawab pada  kesejahteraan, kesehatan dan keselamatan masyarakat di atas tanggungjawabnya kepada profesi, kepada kepentingan golongan, atau kepada rekan sesama insinyur', value: 'W.1.2.1' },
+          { label: 'W.1.2.1. - Menempatkan tanggungjawab pada  kesejahteraan, kesehatan dan keselamatan masyarakat di atas tanggungjawabnya kepada profesi, kepada kepentingan golongan, atau kepada rekan sesama insinyur', value: 'W.1.2.1' },
           { label: 'W.1.2.2. - Bertindak dengan menjunjung tinggi kehormatan, martabat dan nilai luhur profesi.', value: 'W.1.2.2' },
           { label: 'W.1.2.3. - Melakukan pekerjaan, hanya dalam batasan kompetensinya.', value: 'W.1.2.3' },
           { label: 'W.1.2.4. - Mengembangkan nama baik berdasarkan prestasi dan tidak bersaing secara curang.', value: 'W.1.2.4' },
@@ -273,7 +273,7 @@ export const dataWempat: Section[]= [
     },
   
     {
-      label:'W.4.5. - Mengelola informasi keinsinyuran',
+      label:'W.4.5. -  Mengelola informasi keinsinyuran',
       value: 'W.4.5.',
       children: [
         { label: 'W.4.5.1. - Menyiapkan dan menyajikan ceramah (lectures) pada suatu tingkat profesional.', value: 'W.4.5.1' },
