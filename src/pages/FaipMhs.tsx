@@ -18,7 +18,8 @@ const Faip = ( ) => {
   const [lastUpdate,setLastUpdate] = useState('')
   const [lastEdit,setLastEdit] = useState('')
   const [status, setStatus] = useState('');// new,edit,submit,expired
-  
+  const [validateAssesor, setValidateAssesor] = useState('');  
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,10 +45,15 @@ const Faip = ( ) => {
         };
         // Make API request with user ID
         const response = await axios.get(`/form-penilaian/mhs?uid=${userId}&ft=info`,config);
-        // const response = await axios.get(`/form-penilaian/mhs`,config);
-        // console.log("response:"+response)
-        // if response no 
-
+        const responseAssesor = await axios.get(`/form-tools/faip-form/all-assesor/${userId}`,config);
+        console.log("[responseAssesor] = " + responseAssesor.data.data.dosen_penilai_faip)
+        if (responseAssesor.data.data.dosen_penilai_faip && responseAssesor.data.data.dosen_penilai_faip.length > 0){
+          setValidateAssesor("verified");
+          console.log("[validateAssesor] = " + validateAssesor)
+        } else if (responseAssesor.data.data.dosen_penilai_faip.length === 0){
+          setValidateAssesor("notVerified");
+          console.log('Condition not met, array is empty or undefined');
+        }
         const userData = response.data;
         
         setPid(userData.data.pid)
@@ -60,6 +66,10 @@ const Faip = ( ) => {
         } else if (userData.data.status === "111-2" || userData.data.status === "111-3"){
           setStatus("submit")
         } 
+
+        // if (responseAssesor.data.data.dosen_penilai_faip){
+        //   setValidateAssesor(true)
+        // }
         // console.log("userdata:"+ userData.data.pid)
         // setUserData(userData);
         // Update the items with fetched data
@@ -72,8 +82,45 @@ const Faip = ( ) => {
       setLastUpdate('')
       setLastEdit('')
       setStatus('new')
+      const token = localStorage.getItem('jwtToken');
+
+      if (token) {
+        // Decode the token to extract user ID
+        const decodedToken: any = jwtDecode(token);
+        const userId = decodedToken.nomerInduk;
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+
+        // const responseAssesor = await axios.get(`/form-tools/all-list/${userId}`, config);
+
+        // // Logging the response to verify the structure
+        // console.log(responseAssesor.data);
+
+        // if (responseAssesor.data.data.list_one && responseAssesor.data.data.list_one.length > 0) {
+        //   console.log('Condition met, setting state to true');
+        //   setValidateAssesor(true);
+        // } else {
+        //   console.log('Condition not met, array is empty or undefined');
+        // }
+        const responseAssesor = await axios.get(`/form-tools/faip-form/all-assesor/${userId}`,config);
+        console.log("[responseAssesor] = " + responseAssesor.data.data.dosen_penilai_faip)
+        if (responseAssesor.data.data.dosen_penilai_faip && responseAssesor.data.data.dosen_penilai_faip.length > 0){
+          setValidateAssesor("verified");
+          console.log("[validateAssesor] = " + validateAssesor)
+        } else if (responseAssesor.data.data.dosen_penilai_faip.length === 0){
+          setValidateAssesor("notVerified");
+          console.log('Condition not met, array is empty or undefined');
+        }
+
+      } else {
+        console.error('User not found');
+      }
     }
   };
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -133,6 +180,7 @@ const Faip = ( ) => {
     }
 
   };
+
   const newForm = async () => {
     try {
       const token = localStorage.getItem('jwtToken');
@@ -161,6 +209,7 @@ const Faip = ( ) => {
       console.error('Form can\'t be created');
     }
   };
+
   const submitForm = async () => {
     try{
       const token = localStorage.getItem('jwtToken');
@@ -202,54 +251,62 @@ const Faip = ( ) => {
       <p style={{ padding: '1rem 0 0' }}>note.</p>
       <p style={{ padding: '0' }}>- Jangan lupa untuk mengirim formulir di bagian <span style={{color:'blue'}}>SUBMIT</span> di halaman pengisian formulir FAIP setelah selesai</p>
       <p style={{ padding: '0' }}>- Formulir masih bisa diedit dan dirubah selama belum di submit </p>
-
-      <div style={{display: 'flex',justifyContent: 'center',alignItems:'center',margin:'1rem 0'}}>
-        { (status === 'new') ? 
-        // like edit, but button with post api to sever to create new form and make pid for dynamic pid
-        // <Link className='link-hover' style={{}} to={`/form/mahasiswa/faip/edit/${pid}`}>
-            <Button type="primary" size='large' onClick={newForm} style={{ borderRadius:'3px',margin:'0 0.5rem' }} >
-              + Baru
-            </Button> 
-          :(status === 'retry') ? 
+      {
+        (validateAssesor === "verified") ? 
+          <div style={{display: 'flex',justifyContent: 'center',alignItems:'center',margin:'1rem 0'}}>
+          { (status === 'new') ? 
           // like edit, but button with post api to sever to create new form and make pid for dynamic pid
           // <Link className='link-hover' style={{}} to={`/form/mahasiswa/faip/edit/${pid}`}>
+          <Button type="primary" size='large' onClick={newForm} style={{ borderRadius:'3px',margin:'0 0.5rem' }} >
+                + Baru
+              </Button> 
+            :(status === 'retry') ? 
+            // like edit, but button with post api to sever to create new form and make pid for dynamic pid
+            // <Link className='link-hover' style={{}} to={`/form/mahasiswa/faip/edit/${pid}`}>
             <Button type="primary" size='large' onClick={restartForm} style={{ borderRadius:'3px',margin:'0 0.5rem' }} >
-              + Buat Ulang
-            </Button> 
-            : (status === 'edit') ?
-            <>
-            {/* edit to> edit in dynamic page with pid > submit/ delete get popup> reload (delete no reload only submit)> 
-            if try change page get popup u sure? > only save if submit/delete so if sure just go away w/out save*/}
-            <Link className='link-hover' style={{margin:'0 0.5rem'}} to={`/form/m/faip/edit/${pid}`}>
-              <Button type="primary" size='large' style={{ borderRadius:'3px' }} >
-                <span style={{margin:'0 5px'}}><EditOutlined /></span> Edit
-              </Button>
-            </Link>
-            {/* delete to>popup > delete> backend delete &  state to new again & reload */}
-            <Button type="primary" danger size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={showModal}>
-              <span style={{margin:'0 5px'}}><DeleteOutlined /></span> Delete
-            </Button>
-            {/* 
-            <Button type="primary" size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={submitForm}>
-              <span style={{margin:'0 5px'}}><UploadOutlined /></span> Submit
-            </Button> */}
-          
-            <Modal title="Hapus Formulir?" open={isModalOpen} onOk={deleteForm} onCancel={handleCancel} okText={'Hapus'} okType='danger' centered>
-              <p>Apakah anda yakin untuk menghapus <span style={{color:'red'}}>SEMUA</span> data yang anda masukkan?</p>
-              <p style={{color:'red'}}>note. data yang dihapus tidak bisa dikembalikan</p>
-            </Modal>
-            </> 
-          : (status === 'submit') ?
+                + Buat Ulang
+              </Button> 
+              : (status === 'edit') ?
               <>
-                <p style={{color:"blue"}}>Data Sudah Berhasil Terkirim!</p>
-                {/* <Button type="primary" size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={deleteForm}>
-                  <span style={{margin:'0 5px'}}><UndoOutlined /></span> RESTART DEV
-                </Button> */}
-              </>
-          : null
+              {/* edit to> edit in dynamic page with pid > submit/ delete get popup> reload (delete no reload only submit)> 
+              if try change page get popup u sure? > only save if submit/delete so if sure just go away w/out save*/}
+              <Link className='link-hover' style={{margin:'0 0.5rem'}} to={`/form/m/faip/edit/${pid}`}>
+                <Button type="primary" size='large' style={{ borderRadius:'3px' }} >
+                  <span style={{margin:'0 5px'}}><EditOutlined /></span> Edit
+                </Button>
+              </Link>
+              {/* delete to>popup > delete> backend delete &  state to new again & reload */}
+              <Button type="primary" danger size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={showModal}>
+                <span style={{margin:'0 5px'}}><DeleteOutlined /></span> Delete
+              </Button>
+              {/* 
+              <Button type="primary" size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={submitForm}>
+              <span style={{margin:'0 5px'}}><UploadOutlined /></span> Submit
+              </Button> */}
+            
+              <Modal title="Hapus Formulir?" open={isModalOpen} onOk={deleteForm} onCancel={handleCancel} okText={'Hapus'} okType='danger' centered>
+                <p>Apakah anda yakin untuk menghapus <span style={{color:'red'}}>SEMUA</span> data yang anda masukkan?</p>
+                <p style={{color:'red'}}>note. data yang dihapus tidak bisa dikembalikan</p>
+              </Modal>
+              </> 
+            : (status === 'submit') ?
+                <>
+                  <p style={{color:"blue"}}>Data Sudah Berhasil Terkirim!</p>
+                  {/* <Button type="primary" size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={deleteForm}>
+                    <span style={{margin:'0 5px'}}><UndoOutlined /></span> RESTART DEV
+                  </Button> */}
+                </>
+            : null
+        }
+          
+        </div> 
+        : (validateAssesor === "notVerified") ?
+          <div style={{display: 'flex',justifyContent: 'center',alignItems:'center',margin:'1rem 0'}}>
+            <p style={{color:"red"}}>Form belum dapat dibuka,harap hubungi admin!</p>
+          </div>
+        : null
       }
-        
-      </div>
+      
     </div>
   </div>
   )

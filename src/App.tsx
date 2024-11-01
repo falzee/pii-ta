@@ -21,6 +21,9 @@ import FormMhs from './pages/FormMhs';
 import FaipDosen from './pages/FaipDosen';
 import FormDosen from './pages/FormDosen';
 import FaipDosenNilai from './pages/FaipDosenNilai';
+import FormAdmin from './pages/FormAdmin';
+import FaipAdminAddAssesor from './pages/FaipAdminAddAssesor';
+import FaipAdminAddFilter from './pages/FaipAdminAddFilter';
 
 function mainApp() {
 
@@ -39,6 +42,12 @@ function mainApp() {
             {/* <Route element={<TabPage/>} path="faip/formulir" /> */}
           {/* <Route element={<About/>} path="/about"/>
          */}
+        </Route>
+        <Route element={<ProtectedRoute allowedRoles={['admin']}><Layouting /></ProtectedRoute>} >
+            <Route element={<FormAdmin /> } path="form/a/"/>
+              <Route element={<UnderConstruct/>} path="form/a/regis-user" />
+              <Route element={<FaipAdminAddAssesor/>} path="form/a/faip/add-assesor" />
+              <Route element={<FaipAdminAddFilter/>} path="form/a/faip/add-filter" />
         </Route>
         <Route element={<ProtectedRoute allowedRoles={['mahasiswa']}><Layouting /></ProtectedRoute>} >
             <Route element={<FormMhs/> } path="form/m/"/>

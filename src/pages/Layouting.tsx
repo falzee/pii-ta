@@ -6,6 +6,7 @@ import {
   UnorderedListOutlined,
   UserOutlined,
   LogoutOutlined,
+  ToolOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme, Popover, MenuProps } from 'antd';
 import logoElektro from '../images/logo-elektro-300.png';
@@ -58,7 +59,7 @@ const Layouting: React.FC = () => {
       label: (<Link to='./user'>User</Link>), 
     },
     {
-      key: '/form',
+      key: '/form/m',
       icon: <UnorderedListOutlined />,
       label: (<Link to='./form/m'>Form - mahasiswa</Link>),
       
@@ -82,7 +83,7 @@ const Layouting: React.FC = () => {
       label: (<Link to='./user'>User</Link>), 
     },
     {
-      key: '/form',
+      key: '/form/d',
       icon: <UnorderedListOutlined />,
       label: (<Link to='./form/d'>Form - dosen</Link>),
       
@@ -104,6 +105,12 @@ const Layouting: React.FC = () => {
       key: '/user',
       icon: <UserOutlined />,
       label: (<Link to='./user'>User</Link>), 
+    },
+    {
+      key: '/form/a',
+      icon: <ToolOutlined />,
+      label: (<Link to='./form/a'>Form - admin tools</Link>),
+      
     },
     {
       key: '/login',
