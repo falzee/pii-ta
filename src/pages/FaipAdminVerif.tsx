@@ -83,35 +83,6 @@ const FaipDosen = ( ) => {
         key:'nama',
         dataIndex: 'nama',
         showSorterTooltip: true,
-        // filters: [
-        //   {
-        //     text: 'Joe',
-        //     value: 'Joe',
-        //   },
-        //   {
-        //     text: 'Jim',
-        //     value: 'Jim',
-        //   },
-        //   {
-        //     text: 'Submenu',
-        //     value: 'Submenu',
-        //     children: [
-        //       {
-        //         text: 'Green',
-        //         value: 'Green',
-        //       },
-        //       {
-        //         text: 'Black',
-        //         value: 'Black',
-        //       },
-        //     ],
-        //   },
-        // ],
-        // specify the condition of filtering result
-        // here is that finding the name started with `value`
-        // onFilter: (value, record) => record.nama.indexOf(value as string) === 0,
-        // sorter: (a, b) => a.nama.length - b.nama.length,
-        // sortDirections: ['descend'],
       },
       {
         title: 'NIM',
@@ -181,7 +152,7 @@ const FaipDosen = ( ) => {
                 </Button>  */}
               </>
             : (record.statusPenilaian === 'Sudah Dinilai') ? 
-              <p style={{color:'#808080',fontStyle:'italic'}}>terkirim*</p>
+              <p style={{color:'#808080',fontStyle:'italic'}}>expired**</p>
             : null
             }
           </div>
@@ -214,7 +185,8 @@ const FaipDosen = ( ) => {
         {/* <div>
 
         </div> */}
-        <p style={{color:'#808080',fontStyle:'italic'}}>Note. (*) nilai sudah masuk ke dalam sistem.</p>
+        <p style={{color:'#808080',fontStyle:'italic'}}>Note. (*) mahasiswa belum mengirim formulir.</p>
+        <p style={{color:'#808080',fontStyle:'italic'}}>(**) nilai sudah masuk ke dalam sistem.</p>
     </div>
   </div>
   )

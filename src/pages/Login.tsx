@@ -131,7 +131,7 @@ return (
             rules={[
               {
                 required: true,
-                message: '',
+                message: 'Isian ini harus diisi!',
                 
               },
               // {
@@ -148,6 +148,8 @@ return (
             rules={[
               {
                 required: true,
+                message: 'Isian ini harus diisi!',
+
               },
               // {
               //   validator: validateExampleField, // Custom validation rule

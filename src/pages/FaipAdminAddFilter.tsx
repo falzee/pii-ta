@@ -14,6 +14,12 @@ import { allData } from '../data/sectionFormDataAll';
 import { allSectionData } from '../data/sectionFormDataSectionAll';
 import UnderConstruct from './underConstruct';
 import FilterKodeEtik from '../components/Admin/FilterKodeEtik'
+import FilterProfesionalisme from '../components/Admin/FilterProfesionalisme';
+import FilterKtiga from '../components/Admin/FilterKtiga';
+import FilterSeminar from '../components/Admin/FilterSeminar';
+import FilterManajemenPraktek from '../components/Admin/FilterManajemenPraktek';
+import FilterPraktekInsinyur from '../components/Admin/FilterPraktekInsinyur';
+import FilterPenulisanProposal from '../components/Admin/FilterPenulisanProposal';
 
 
 const { TabPane } = Tabs;
@@ -94,32 +100,32 @@ const items: TabsProps['items'] = [
     {
         key: '2',
         label: 'Profesionalisme',
-        children: <UnderConstruct />,
+        children: <FilterProfesionalisme />,
     },
     {
         key: '3',
         label: 'K3',
-        children: <UnderConstruct />,
+        children: <FilterKtiga />,
     },
     {
         key: '4',
         label: 'Seminar & Workshop',
-        children: <UnderConstruct />,
+        children: <FilterSeminar />,
     },
     {
         key: '5',
         label: ' Manajemen Praktik Keinsinyuran',
-        children: <UnderConstruct />,
+        children: <FilterManajemenPraktek />,
     },
     {
         key: '6',
         label: 'Praktik Keinsinyuran',
-        children: <UnderConstruct />,
+        children: <FilterPraktekInsinyur />,
     },
     {
       key: '7',
-      label: 'Penulisan Proposal TA',
-      children: <UnderConstruct />,
+      label: 'Penulisan Proposal SK',
+      children: <FilterPenulisanProposal />,
     },
 ];
 
@@ -172,13 +178,14 @@ return (
         },
     }}
     >       
-    <div style={{ maxHeight: '1200px' }}>
+    <div style={{ maxHeight: '1500px' }}>
         <div className='form' style={{ padding: '1rem', }}>
             {/* header tambahin underline sama shadow(opsional) */}
             <h2 style={{ padding: '0 0 1rem', textAlign: 'left', width: '100%', borderBottom: '2px solid #D3D3D3' }}>Penambahan Filter Konversi FAIP</h2>
             <div style={{ margin:'1rem 0 0',padding:'1rem', borderRadius:'5px',backgroundColor:'#CCFFCC'}}>
                 
                 <h4><InfoCircleOutlined /> Informasi : </h4> 
+                <p>- <span style={{fontWeight:'bold'}}>PENTING :</span> Pengisian filter harap diisi sebelum proses penilaian diterapkan ke seluruh mahasiswa.</p>
                 <p>- Harap memilih filter untuk setiap CPMK dengan mengklik checkbox yang tersedia.</p>
                 <p>- Harap mengisi filter CPMK pada keseluruhan pilihan MK.</p>
                 <p>- Apabila sudah selesai jangan lupa untuk klik <span style={{fontWeight:'bold'}}>SAVE</span> di setiap pilihan MK.</p>

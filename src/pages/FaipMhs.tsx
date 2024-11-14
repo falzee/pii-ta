@@ -5,7 +5,7 @@ import { title } from 'process';
 import React, { useEffect, useState } from 'react'
 import useDocumentTitle from '../hooks/useDocumentTitle';
 import { Link, useNavigate } from 'react-router-dom';
-import { DeleteOutlined, EditOutlined, UndoOutlined, UploadOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, ExportOutlined, InfoCircleOutlined, UndoOutlined, UploadOutlined } from '@ant-design/icons';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 import { nanoid } from 'nanoid';
@@ -18,7 +18,8 @@ const Faip = ( ) => {
   const [lastUpdate,setLastUpdate] = useState('')
   const [lastEdit,setLastEdit] = useState('')
   const [status, setStatus] = useState('');// new,edit,submit,expired
-  const [validateAssesor, setValidateAssesor] = useState('');  
+  const [OtomatisasiFaip, setOtomatisasiFaip] = useState('');
+  // const [validateAssesor, setValidateAssesor] = useState('');  
 
   const navigate = useNavigate();
 
@@ -45,16 +46,16 @@ const Faip = ( ) => {
         };
         // Make API request with user ID
         const response = await axios.get(`/form-penilaian/mhs?uid=${userId}&ft=info`,config);
-        const responseAssesor = await axios.get(`/form-tools/faip-form/all-assesor/${userId}`,config);
-        console.log("[responseAssesor] = " + responseAssesor.data.data.dosen_penilai_faip)
-        if (responseAssesor.data.data.dosen_penilai_faip && responseAssesor.data.data.dosen_penilai_faip.length > 0){
-          setValidateAssesor("verified");
-          console.log("[validateAssesor] = " + validateAssesor)
-        } else if (responseAssesor.data.data.dosen_penilai_faip.length === 0){
-          setValidateAssesor("notVerified");
-          console.log('Condition not met, array is empty or undefined');
-        }
         const userData = response.data;
+        // const responseAssesor = await axios.get(`/form-tools/faip-form/all-assesor/${userId}`,config);
+        // console.log("[responseAssesor] = " + responseAssesor.data.data.dosen_penilai_faip)
+        // if (responseAssesor.data.data.dosen_penilai_faip && responseAssesor.data.data.dosen_penilai_faip.length > 0){
+        //   setValidateAssesor("verified");
+        //   console.log("[validateAssesor] = " + validateAssesor)
+        // } else if (responseAssesor.data.data.dosen_penilai_faip.length === 0){
+        //   setValidateAssesor("notVerified");
+        //   console.log('Condition not met, array is empty or undefined');
+        // }
         
         setPid(userData.data.pid)
         setLastUpdate(userData.data.last_updated.slice(0, 10))
@@ -63,8 +64,15 @@ const Faip = ( ) => {
           setStatus('edit')
         } else if (userData.data.status === "111-1"){
           setStatus("retry")
-        } else if (userData.data.status === "111-2" || userData.data.status === "111-3"){
+        } else if (userData.data.status === "111-2"){
           setStatus("submit")
+          setOtomatisasiFaip("baru")
+        } else if (userData.data.status === "111-3"){
+          setStatus("submit")
+          setOtomatisasiFaip("proses")
+        } else if (userData.data.status === "111-4"){
+          setStatus("submit")
+          setOtomatisasiFaip("done")
         } 
 
         // if (responseAssesor.data.data.dosen_penilai_faip){
@@ -82,42 +90,42 @@ const Faip = ( ) => {
       setLastUpdate('')
       setLastEdit('')
       setStatus('new')
-      const token = localStorage.getItem('jwtToken');
+      // const token = localStorage.getItem('jwtToken');
 
-      if (token) {
-        // Decode the token to extract user ID
-        const decodedToken: any = jwtDecode(token);
-        const userId = decodedToken.nomerInduk;
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        };
+      // if (token) {
+      //   // Decode the token to extract user ID
+      //   const decodedToken: any = jwtDecode(token);
+      //   const userId = decodedToken.nomerInduk;
+      //   const config = {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`
+      //     }
+      //   };
 
-        // const responseAssesor = await axios.get(`/form-tools/all-list/${userId}`, config);
+      //   // const responseAssesor = await axios.get(`/form-tools/all-list/${userId}`, config);
 
-        // // Logging the response to verify the structure
-        // console.log(responseAssesor.data);
+      //   // // Logging the response to verify the structure
+      //   // console.log(responseAssesor.data);
 
-        // if (responseAssesor.data.data.list_one && responseAssesor.data.data.list_one.length > 0) {
-        //   console.log('Condition met, setting state to true');
-        //   setValidateAssesor(true);
-        // } else {
-        //   console.log('Condition not met, array is empty or undefined');
-        // }
-        const responseAssesor = await axios.get(`/form-tools/faip-form/all-assesor/${userId}`,config);
-        console.log("[responseAssesor] = " + responseAssesor.data.data.dosen_penilai_faip)
-        if (responseAssesor.data.data.dosen_penilai_faip && responseAssesor.data.data.dosen_penilai_faip.length > 0){
-          setValidateAssesor("verified");
-          console.log("[validateAssesor] = " + validateAssesor)
-        } else if (responseAssesor.data.data.dosen_penilai_faip.length === 0){
-          setValidateAssesor("notVerified");
-          console.log('Condition not met, array is empty or undefined');
-        }
+      //   // if (responseAssesor.data.data.list_one && responseAssesor.data.data.list_one.length > 0) {
+      //   //   console.log('Condition met, setting state to true');
+      //   //   setValidateAssesor(true);
+      //   // } else {
+      //   //   console.log('Condition not met, array is empty or undefined');
+      //   // }
+      //   const responseAssesor = await axios.get(`/form-tools/faip-form/all-assesor/${userId}`,config);
+      //   console.log("[responseAssesor] = " + responseAssesor.data.data.dosen_penilai_faip)
+      //   if (responseAssesor.data.data.dosen_penilai_faip && responseAssesor.data.data.dosen_penilai_faip.length > 0){
+      //     setValidateAssesor("verified");
+      //     console.log("[validateAssesor] = " + validateAssesor)
+      //   } else if (responseAssesor.data.data.dosen_penilai_faip.length === 0){
+      //     setValidateAssesor("notVerified");
+      //     console.log('Condition not met, array is empty or undefined');
+      //   }
 
-      } else {
-        console.error('User not found');
-      }
+      // } else {
+      //   console.error('User not found');
+      // }
     }
   };
 
@@ -195,7 +203,7 @@ const Faip = ( ) => {
             'Content-Type': 'application/json', // Ensure the Content-Type header is set
           }
         };  
-        const response = await axios.post(`/form-penilaian/mhs?uid=${nim}&pid=${pid}`, {}, config);
+        const response = await axios.post(`/form-penilaian/mhs?uid=${nim}&pid=${pid}&nama=${nama}`, {}, config);
         // console.log("response create form:" + response);
   
         // const userData = response.data;
@@ -241,71 +249,92 @@ const Faip = ( ) => {
     <div className='form' style={{ padding: '1rem', width: '100%', maxWidth: '800px', backgroundColor: '' }}>
       {/* header tambahin underline sama shadow(opsional) */}
       <h2 style={{ padding: '0 0 1rem', textAlign: 'left', width: '100%', borderBottom: '2px solid #D3D3D3' }}>Formulir FAIP</h2>
-
+      <div style={{ margin:'1rem 0 0',padding:'1rem', borderRadius:'5px',backgroundColor:'#CCFFCC'}}>
+        <h4><InfoCircleOutlined /> Informasi : </h4> 
+        <p style={{ padding: '0' }}>- Formulir masih bisa diedit dan dirubah selama belum di submit </p>
+        <p style={{ padding: '0' }}>- Jangan lupa untuk mengirim formulir di bagian <span style={{color:'blue'}}>SUBMIT</span> di halaman pengisian formulir FAIP untuk mengakhiri proses pengisian.</p>
+        <p style={{ padding: '0' }}>- Proses ekspor ke situs UPD/PII hanya bisa dilakukan <span style={{color:'red'}}>SEKALI</span>.</p>
+      </div>
       {/* <h3 style={{ padding: '1rem 0 0' }}>Data Pribadi:</h3> */}
       <p style={{ padding: '1rem 0 0' }}>Nama : {nama}</p> 
       <p style={{ padding: '1rem 0 0' }}>Nim : {nim}</p>
-      <p style={{ padding: '1rem 0 0' }}>Last updated : {lastUpdate ? lastUpdate : "-"}</p>
-      <p style={{ padding: '1rem 0 0' }}>Last change : {lastEdit ? lastEdit : "-"}</p>
-      <p style={{ padding: '1rem 0 0' }}>Status : {(status === 'new') ? 'Baru' : (status === 'edit') ? 'Data Masuk' : (status === 'retry') ? 'Ulang' : (status === 'submit') ? 'Terkirim': '-'}</p>
-      <p style={{ padding: '1rem 0 0' }}>note.</p>
-      <p style={{ padding: '0' }}>- Jangan lupa untuk mengirim formulir di bagian <span style={{color:'blue'}}>SUBMIT</span> di halaman pengisian formulir FAIP setelah selesai</p>
-      <p style={{ padding: '0' }}>- Formulir masih bisa diedit dan dirubah selama belum di submit </p>
-      {
-        (validateAssesor === "verified") ? 
-          <div style={{display: 'flex',justifyContent: 'center',alignItems:'center',margin:'1rem 0'}}>
-          { (status === 'new') ? 
+      {/* <p style={{ padding: '1rem 0 0' }}>Last updated : {lastUpdate ? lastUpdate : "-"}</p>
+      <p style={{ padding: '1rem 0 0' }}>Last change : {lastEdit ? lastEdit : "-"}</p> */}
+      <p style={{ padding: '1rem 0 0' }}>Status : {(status === 'new') ? 'Formulir belum dibuat' : (status === 'edit') ? 'Formulir belum dibuat' : (status === 'retry') ? 'Formulir diulang' : (status === 'submit') ? 'Formulir terkirim': '-'}</p>
+      <div>
+        {
+          (OtomatisasiFaip === "baru") ?
+          <> 
+          <p style={{ padding: '1rem 0 0' }}>Ekspor ke PII : 
+
+          <Button type="primary" size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={showModal}>
+            <span style={{margin:'0 5px'}}><ExportOutlined /></span> Ekspor
+          </Button>
+          </p>
+          <Modal title="Ekspor ke situs PII?" open={isModalOpen} onCancel={handleCancel} okText={'Ekspor'} centered>
+            <p>Apakah anda yakin untuk mengekspor formulir ke situs PII?</p>
+            <p style={{color:'red'}}>note. Ekspor hanya bisa dilakukan sekali!</p>
+          </Modal>
+          </> 
+        : (OtomatisasiFaip === "proses") ? 
+          <>
+            <p style={{ padding: '1rem 0 0' }}>Ekspor ke PII : <span style={{color:"orange"}}>Data sedang diekspor, cek akun FAIP anda secara berkala!</span></p>
+          </>
+        : (OtomatisasiFaip === "done") ? 
+          <>
+            <p style={{ padding: '1rem 0 0' }}>Ekspor ke PII : <span style={{color:"blue"}}>Data sudah diekspor, cek akun FAIP anda!</span></p>
+          </>
+        : <p style={{ padding: '1rem 0 0' }}>Ekspor ke PII : <span style={{color:"orange"}}>Harap submit formulir terlebih dahulu</span></p>
+
+        }
+      </div>
+
+      <div style={{display: 'flex',justifyContent: 'center',alignItems:'center',margin:'1rem 0'}}>
+        { (status === 'new') ? 
+        // like edit, but button with post api to sever to create new form and make pid for dynamic pid
+        // <Link className='link-hover' style={{}} to={`/form/mahasiswa/faip/edit/${pid}`}>
+          <Button type="primary" size='large' onClick={newForm} style={{ borderRadius:'3px',margin:'0 0.5rem' }} >
+              + Baru
+          </Button> 
+          :(status === 'retry') ? 
           // like edit, but button with post api to sever to create new form and make pid for dynamic pid
           // <Link className='link-hover' style={{}} to={`/form/mahasiswa/faip/edit/${pid}`}>
-          <Button type="primary" size='large' onClick={newForm} style={{ borderRadius:'3px',margin:'0 0.5rem' }} >
-                + Baru
-              </Button> 
-            :(status === 'retry') ? 
-            // like edit, but button with post api to sever to create new form and make pid for dynamic pid
-            // <Link className='link-hover' style={{}} to={`/form/mahasiswa/faip/edit/${pid}`}>
-            <Button type="primary" size='large' onClick={restartForm} style={{ borderRadius:'3px',margin:'0 0.5rem' }} >
-                + Buat Ulang
-              </Button> 
-              : (status === 'edit') ?
-              <>
-              {/* edit to> edit in dynamic page with pid > submit/ delete get popup> reload (delete no reload only submit)> 
-              if try change page get popup u sure? > only save if submit/delete so if sure just go away w/out save*/}
-              <Link className='link-hover' style={{margin:'0 0.5rem'}} to={`/form/m/faip/edit/${pid}`}>
-                <Button type="primary" size='large' style={{ borderRadius:'3px' }} >
-                  <span style={{margin:'0 5px'}}><EditOutlined /></span> Edit
-                </Button>
-              </Link>
-              {/* delete to>popup > delete> backend delete &  state to new again & reload */}
-              <Button type="primary" danger size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={showModal}>
-                <span style={{margin:'0 5px'}}><DeleteOutlined /></span> Delete
+          <Button type="primary" size='large' onClick={restartForm} style={{ borderRadius:'3px',margin:'0 0.5rem' }} >
+              + Buat Ulang
+            </Button> 
+            : (status === 'edit') ?
+            <>
+            {/* edit to> edit in dynamic page with pid > submit/ delete get popup> reload (delete no reload only submit)> 
+            if try change page get popup u sure? > only save if submit/delete so if sure just go away w/out save*/}
+            <Link className='link-hover' style={{margin:'0 0.5rem'}} to={`/form/m/faip/edit/${pid}`}>
+              <Button type="primary" size='large' style={{ borderRadius:'3px' }} >
+                <span style={{margin:'0 5px'}}><EditOutlined /></span> Edit
               </Button>
-              {/* 
-              <Button type="primary" size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={submitForm}>
-              <span style={{margin:'0 5px'}}><UploadOutlined /></span> Submit
-              </Button> */}
-            
-              <Modal title="Hapus Formulir?" open={isModalOpen} onOk={deleteForm} onCancel={handleCancel} okText={'Hapus'} okType='danger' centered>
-                <p>Apakah anda yakin untuk menghapus <span style={{color:'red'}}>SEMUA</span> data yang anda masukkan?</p>
-                <p style={{color:'red'}}>note. data yang dihapus tidak bisa dikembalikan</p>
-              </Modal>
-              </> 
-            : (status === 'submit') ?
-                <>
-                  <p style={{color:"blue"}}>Data Sudah Berhasil Terkirim!</p>
-                  {/* <Button type="primary" size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={deleteForm}>
-                    <span style={{margin:'0 5px'}}><UndoOutlined /></span> RESTART DEV
-                  </Button> */}
-                </>
-            : null
-        }
+            </Link>
+            {/* delete to>popup > delete> backend delete &  state to new again & reload */}
+            <Button type="primary" danger size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={showModal}>
+              <span style={{margin:'0 5px'}}><DeleteOutlined /></span> Delete
+            </Button>
+            {/* 
+            <Button type="primary" size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={submitForm}>
+            <span style={{margin:'0 5px'}}><UploadOutlined /></span> Submit
+            </Button> */}
           
-        </div> 
-        : (validateAssesor === "notVerified") ?
-          <div style={{display: 'flex',justifyContent: 'center',alignItems:'center',margin:'1rem 0'}}>
-            <p style={{color:"red"}}>Form belum dapat dibuka,harap hubungi admin!</p>
-          </div>
-        : null
+            <Modal title="Hapus Formulir?" open={isModalOpen} onOk={deleteForm} onCancel={handleCancel} okText={'Hapus'} okType='danger' centered>
+              <p>Apakah anda yakin untuk menghapus <span style={{color:'red'}}>SEMUA</span> data yang anda masukkan?</p>
+              <p style={{color:'red'}}>note. data yang dihapus tidak bisa dikembalikan</p>
+            </Modal>
+            </> 
+          : (status === 'submit') ?
+              <>
+                <p style={{color:"blue"}}>Data Sudah Berhasil Terkirim!</p>
+                {/* <Button type="primary" size='large' style={{ borderRadius:'3px',margin:'0 0.5rem' }} onClick={deleteForm}>
+                  <span style={{margin:'0 5px'}}><UndoOutlined /></span> RESTART DEV
+                </Button> */}
+              </>
+          : null
       }
+      </div> 
       
     </div>
   </div>

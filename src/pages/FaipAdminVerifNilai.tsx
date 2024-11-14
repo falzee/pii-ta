@@ -12,12 +12,6 @@ import FormNilaiProfesionalisme from '../components/Dosen/FormNilaiProfesionalis
 import FormNilaiKtiga from '../components/Dosen/FormNilaiKtiga';
 import FormNilaiSeminar from '../components/Dosen/FormNilaiSeminar';
 import FormNilaiDosenSubmit from '../components/Dosen/FormNilaiDosenSubmit';
-import NewFormNilaiProfesionalisme from '../components/Dosen/NewFormNilaiProfesionalisme';
-import NewFormNilaiKtiga from '../components/Dosen/NewFormNilaiKtiga';
-import NewFormNilaiSeminar from '../components/Dosen/NewFormNilaiSeminar';
-import NewFormNilaiPenulisanProp from '../components/Dosen/NewFormNilaiPenulisanProp';
-import NewFormNilaiManajemenPrak from '../components/Dosen/NewFormNilaiManajemenPrak';
-import NewFormNilaiPraktikInsinyur from '../components/Dosen/NewFormNilaiPraktikInsinyur';
 
 const { TabPane } = Tabs;
 
@@ -247,33 +241,33 @@ const MultiTabFormPage: React.FC = () => {
     {
       key: '2',
       label: 'Profesionalisme',
-      children: <NewFormNilaiProfesionalisme />,
+      children: <FormNilaiProfesionalisme />,
     },
     {
       key: '3',
       label: 'K3',
-      children: <NewFormNilaiKtiga />,
+      children: <FormNilaiKtiga />,
     },
     {
       key: '4',
       label: 'Seminar & Workshop',
-      children: <NewFormNilaiSeminar />,
+      children: <FormNilaiSeminar />,
     },
-    {
-      key: '5',
-      label: 'Penulisan Proposal SK',
-      children: <NewFormNilaiPenulisanProp />,
-    },
-    {
-      key: '6',
-      label: 'Manajemen Praktik',
-      children: <NewFormNilaiManajemenPrak />,
-    },
-    {
-      key: '7',
-      label: 'Praktik Keinsinyuran',
-      children: <NewFormNilaiPraktikInsinyur />,
-    },
+    // {
+    //   key: '5',
+    //   label: 'Studi Kasus',
+    //   children: <UnderConstruct />,
+    // },
+    // {
+    //   key: '6',
+    //   label: 'Praktik Keinsinyuran',
+    //   children: <UnderConstruct />,
+    // },
+    // {
+    //   key: '7',
+    //   label: 'Submit',
+    //   children: <UnderConstruct />,
+    // },
     {
       key: '8',
       label: 'Submit',

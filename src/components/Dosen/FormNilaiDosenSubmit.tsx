@@ -20,10 +20,13 @@ const FormulirSeminar: React.FC = () => {
     const navigate = useNavigate();
 
     const [matkul, setMatkul] = useState<{ [key: string]: string }>({//jumlah_isian_per_kompetensi
-      kodeEtik: "TIDAK ADA",
-      profesionalisme: "TIDAK ADA",
-      ktiga: "TIDAK ADA",
-      seminar: "TIDAK ADA"
+      kodeEtik: "BELUM MASUK",
+      profesionalisme: "BELUM MASUK",
+      ktiga: "BELUM MASUK",
+      seminar: "BELUM MASUK",
+      penulisanProp: "BELUM MASUK",
+      manajemenPrak: "BELUM MASUK",
+      praktikInsinyur: "BELUM MASUK",
     });
 
     useEffect(() => {
@@ -48,31 +51,52 @@ const FormulirSeminar: React.FC = () => {
           const response = await axios.get(`/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=all`,config)
           // /form-penilaian/dsn/update-nilai?uid=1998200345678&pid=123456789&ft=seminar
           const userData = response.data;
-          if (userData.data.mk_kode_etik.nilai_akhir_kode_etik_huruf){
+          if (userData.data.mk_kode_etik.nilai_akhir_huruf){
             setMatkul((prevValues) => ({
               ...prevValues,
-              kodeEtik: `ADA (${userData.data.mk_kode_etik.nilai_akhir_kode_etik_huruf},${userData.data.mk_kode_etik.nilai_akhir_kode_etik_angka})`,
+              kodeEtik: `SUDAH MASUK (${userData.data.mk_kode_etik.nilai_akhir_huruf},${userData.data.mk_kode_etik.nilai_akhir_angka.toFixed(0)})`,
             }));
           }
 
-          if (userData.data.mk_profesionalisme.nilai_akhir_profesionalisme_huruf){
+          if (userData.data.mk_profesionalisme.nilai_akhir_huruf){
             setMatkul((prevValues) => ({
               ...prevValues,
-              profesionalisme: `ADA (${userData.data.mk_profesionalisme.nilai_akhir_profesionalisme_huruf},${userData.data.mk_profesionalisme.nilai_akhir_profesionalisme_angka})`,
+              profesionalisme: `SUDAH MASUK (${userData.data.mk_profesionalisme.nilai_akhir_huruf},${userData.data.mk_profesionalisme.nilai_akhir_angka.toFixed(0)})`,
             }));
           }
           
-          if (userData.data.mk_k3lh.nilai_akhir_k3lh_huruf){
+          if (userData.data.mk_k3lh.nilai_akhir_huruf){
             setMatkul((prevValues) => ({
               ...prevValues,
-              ["ktiga"]: `ADA (${userData.data.mk_k3lh.nilai_akhir_k3lh_huruf},${userData.data.mk_k3lh.nilai_akhir_k3lh_angka})`,
+              ["ktiga"]: `SUDAH MASUK (${userData.data.mk_k3lh.nilai_akhir_huruf},${userData.data.mk_k3lh.nilai_akhir_angka.toFixed(0)})`,
             }));          
           }
 
-          if (userData.data.mk_seminar.nilai_akhir_seminar_huruf){
+          if (userData.data.mk_seminar.nilai_akhir_huruf){
             setMatkul((prevValues) => ({
               ...prevValues,
-              ["seminar"]: `ADA (${userData.data.mk_seminar.nilai_akhir_seminar_huruf},${userData.data.mk_seminar.nilai_akhir_seminar_angka})`,
+              ["seminar"]: `SUDAH MASUK (${userData.data.mk_seminar.nilai_akhir_huruf},${userData.data.mk_seminar.nilai_akhir_angka.toFixed(0)})`,
+            }));          
+          }
+          
+          if (userData.data.mk_penulisan_proposal_studi_kasus.nilai_akhir_huruf){
+            setMatkul((prevValues) => ({
+              ...prevValues,
+              ["penulisanProp"]: `SUDAH MASUK (${userData.data.mk_penulisan_proposal_studi_kasus.nilai_akhir_huruf},${userData.data.mk_penulisan_proposal_studi_kasus.nilai_akhir_angka.toFixed(0)})`,
+            }));          
+          }
+
+          if (userData.data.mk_manajemen_praktik.nilai_akhir_huruf){
+            setMatkul((prevValues) => ({
+              ...prevValues,
+              ["manajemenPrak"]: `SUDAH MASUK (${userData.data.mk_manajemen_praktik.nilai_akhir_huruf},${userData.data.mk_manajemen_praktik.nilai_akhir_angka.toFixed(0)})`,
+            }));          
+          }
+
+          if (userData.data.mk_praktik_keinsinyuran.nilai_akhir_huruf){
+            setMatkul((prevValues) => ({
+              ...prevValues,
+              ["praktikInsinyur"]: `SUDAH MASUK (${userData.data.mk_praktik_keinsinyuran.nilai_akhir_huruf},${userData.data.mk_praktik_keinsinyuran.nilai_akhir_angka.toFixed(0)})`,
             }));          
           }
 
@@ -83,103 +107,6 @@ const FormulirSeminar: React.FC = () => {
         console.error('Error fetching data'); 
       }
     };
-    // const onFinish = async () => { //fungsi submit form //NEED API POST
-    //   try{
-    //     const token = localStorage.getItem('jwtToken');
-    //     if (token) {
-    //       const decodedToken: any = jwtDecode(token);
-    //       const userId = decodedToken.nomerInduk;
-
-    //       const formData = {dataNilai:{  
-    //         jumlah_isian_per_kompetensi:inputValue,
-    //         nilai_per_kompetensi:gradeValue,
-    //         nilai_persen_per_kompetensi:percentValue
-    //     },nilaiAngka:finalValue,nilaiHuruf:finalLetterValue}
-    //       // Now you can send formData to your backend for processing
-    //       console.log('Form Data:', formData);
-    //       const config = {
-    //         headers: {
-    //           Authorization: `Bearer ${token}`
-    //         }
-    //       };
-
-    //       await axios.patch(`/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=seminar`,formData,config);
-    //       // console.log("response add form:"+response)
-
-    //       // const userData = response.data;
-    //       // setStatus("new")
-    //     } else {
-    //       console.error('User not found');
-    //     }
-    //   }catch(error){
-    //     console.error('Error sending form');
-    //   }
-    //   window.location.reload();
-      
-    //   // ... your form submission logic ...
-    // };
-
-    // const handleNumberChange = (key: keyof typeof inputValue, value: number | null) => {
-    //   if (value !== null) {
-    //     setInputValues((prevValues) => {
-    //       const updatedValues = {
-    //         ...prevValues,
-    //         [key]: value,
-    //       };
-    //       const newPercentGrade = calculateExample(key, value);
-    //       const newGrade = calculateGrade(value);
-          
-    //       setInputPercentValue((prevPercentValues) => ({
-    //         ...prevPercentValues,
-    //         [`P${key}`]: newPercentGrade,
-    //       }));
-
-    //       setInputGradeValue((prevGradeValues) => ({
-    //         ...prevGradeValues,
-    //         [`G${key}`]: newGrade,
-    //       }));
-
-    //       return updatedValues;
-    //     });
-    //   }
-    // };
-
-    // const calculateExample = (key: keyof typeof inputValue, value: number) => {
-    //   const result = (value / 60) * 100;
-    //   return parseFloat(result.toFixed(2));
-    // };
-
-    // const calculateGrade = (value: number) => {
-    //   return value >= 2 ? 85 : 75;
-    // };
-
-    // const calculateAverageGrade = (grades: typeof gradeValue) => {
-    //   const total = Object.values(grades).reduce((acc, grade) => acc + grade, 0);
-    //   return (total / Object.values(grades).length).toFixed(2);
-    // };
-
-    // const averageGrade = calculateAverageGrade(gradeValue);
-
-    // const calculateFinalGrade = (value: number | null) => {
-    //   setFinalValue(value)
-    //   if (value !== null) {
-    //     if (value >= 85) {
-    //       setFinalLetterValue("A");
-    //     } else if (value >= 75) {
-    //       setFinalLetterValue("B");
-    //     } else if (value >= 65) {
-    //       setFinalLetterValue("C");
-    //     } else if (value >= 55) {
-    //       setFinalLetterValue("D");
-    //     } else {
-    //       setFinalLetterValue("E");
-    //     }
-    //   }
-
-    // };
-    // console.log("nilai akhir ANGKA = " + finalValue)
-    // console.log("nilai akhir HHURUF = " + finalLetterValue)
-
     const submitForm = async () => {
       try{
         const token = localStorage.getItem('jwtToken');
@@ -237,23 +164,35 @@ const FormulirSeminar: React.FC = () => {
             Submit Form Nilai
           </h3>
           <h4>Informasi Penilaian</h4>
-          <p>- Kode Etik : { matkul.kodeEtik === 'TIDAK ADA' ? <span style={{color:'red'}}>{matkul.kodeEtik}</span> 
+          <p>- Kode Etik : { matkul.kodeEtik === 'BELUM MASUK' ? <span style={{color:'red'}}>{matkul.kodeEtik}</span> 
             : <span style={{color:'blue'}}>{matkul.kodeEtik}</span> 
             }
           </p>
-          <p>- Profesionalisme : { matkul.profesionalisme === 'TIDAK ADA' ? <span style={{color:'red'}}>{matkul.profesionalisme}</span> 
+          <p>- Profesionalisme : { matkul.profesionalisme === 'BELUM MASUK' ? <span style={{color:'red'}}>{matkul.profesionalisme}</span> 
             : <span style={{color:'blue'}}>{matkul.profesionalisme}</span> 
             }
           </p>
-          <p>- K3LH : { matkul.ktiga === 'TIDAK ADA' ? <span style={{color:'red'}}>{matkul.ktiga}</span> 
+          <p>- K3LH : { matkul.ktiga === 'BELUM MASUK' ? <span style={{color:'red'}}>{matkul.ktiga}</span> 
             : <span style={{color:'blue'}}>{matkul.ktiga}</span> 
             }
           </p>
-          <p>- Seminar : { matkul.seminar === 'TIDAK ADA' ? <span style={{color:'red'}}>{matkul.seminar}</span> 
+          <p>- Seminar : { matkul.seminar === 'BELUM MASUK' ? <span style={{color:'red'}}>{matkul.seminar}</span> 
             : <span style={{color:'blue'}}>{matkul.seminar}</span> 
             }
           </p>
-          <p>Note. Pastikan nilai sudah dalam keadaan <span style={{color:'blue'}}>ADA</span> semua sebelum menyelesaikan penilaian!</p>
+          <p>- Penulisan Proposal Studi Kasus : { matkul.penulisanProp === 'BELUM MASUK' ? <span style={{color:'red'}}>{matkul.penulisanProp}</span> 
+            : <span style={{color:'blue'}}>{matkul.penulisanProp}</span> 
+            }
+          </p>
+          <p>- Manajemen Praktik : { matkul.manajemenPrak === 'BELUM MASUK' ? <span style={{color:'red'}}>{matkul.manajemenPrak}</span> 
+            : <span style={{color:'blue'}}>{matkul.manajemenPrak}</span> 
+            }
+          </p>
+          <p>- Praktik Keinsinyuran : { matkul.praktikInsinyur === 'BELUM MASUK' ? <span style={{color:'red'}}>{matkul.praktikInsinyur}</span> 
+            : <span style={{color:'blue'}}>{matkul.praktikInsinyur}</span> 
+            }
+          </p>
+          <p>Note. Pastikan nilai sudah dalam keadaan <span style={{color:'blue'}}>SUDAH MASUK</span> semua sebelum menyelesaikan penilaian!</p>
           {/* {(record.statusPenilaian === 'Data Belum Masuk') ? <p style={{color:'orange'}}>{text}</p> 
             : (record.statusPenilaian === 'Belum Dinilai') ? <p style={{color:'red'}}>{text}</p> 
             : (record.statusPenilaian === 'Proses Penilaian') ? <p style={{color:'orange'}}>{text}</p> 

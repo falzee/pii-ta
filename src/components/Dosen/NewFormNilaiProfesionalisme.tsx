@@ -20,7 +20,7 @@ interface AverageResults {
   [key: string]: number; // each filter key will map to its average score
 }
 
-const FormulirDua: React.FC = () => {
+const NewFormNilaiProfesionalisme: React.FC = () => {
 //kumpulan state
     const { formIdD } = useParams<{ formIdD: string | undefined }>();
     const nimMhs = useContext<string | undefined>(MhsInfoContext);
@@ -34,6 +34,12 @@ const FormulirDua: React.FC = () => {
         cpmk_1: 0,
         cpmk_2: 0,
         cpmk_3: 0,
+        cpmk_4: 0,
+        cpmk_5: 0,
+        cpmk_6: 0,
+        cpmk_7: 0,
+        cpmk_8: 0,
+        cpmk_9: 0,
       });
     const [allMhsClaim, setAllMhsClaim] = useState<AllMhsClaim>([]);
     const [allFilter, setAllFilter] = useState<AllFilter>({});
@@ -68,16 +74,16 @@ const FormulirDua: React.FC = () => {
             const mhsClaim = responseMhsClaim.data.data;
             setAllMhsClaim(mhsClaim);
             
-            const responseFormFilter = await axios.get(`/form-penilaian/dsn/form-filter?uid=${userId}&ft=kode-etik`,config);
+            const responseFormFilter = await axios.get(`/form-penilaian/dsn/form-filter?uid=${userId}&ft=profesionalisme`,config);
             
-            const formFilter = responseFormFilter.data.data.mk_kode_etik;
+            const formFilter = responseFormFilter.data.data.mk_profesionalisme;
             setAllFilter(formFilter);
             
-            const responseMhsGrading = await axios.get(`/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=kode-etik`,config);
+            const responseMhsGrading = await axios.get(`/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=profesionalisme`,config);
             const mhsGrading = responseMhsGrading.data.data
 
-            if (mhsGrading && mhsGrading.mk_kode_etik.nilai_cpmk){
-              setValues(mhsGrading.mk_kode_etik.nilai_cpmk);
+            if (mhsGrading && mhsGrading.mk_profesionalisme.nilai_cpmk){
+              setValues(mhsGrading.mk_profesionalisme.nilai_cpmk);
             }
         } else {
             console.error('User not found');
@@ -133,7 +139,7 @@ const FormulirDua: React.FC = () => {
             }
           };
 
-          await axios.patch(`/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=kode-etik`,formData,config);
+          await axios.patch(`/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=profesionalisme`,formData,config);
           // console.log("response add form:"+response)
 
           // const userData = response.data;
@@ -188,8 +194,8 @@ return (
     >
     <div style={{marginBottom:'2rem'}}>
         <h3 className='headerform' style={{marginBottom:'10px'}}>
-        MK - Kode Etik 
-        {/* <span style={{color:'#6b7aa1'}}>(W.1.2.1-8)</span> */}
+          MK - Profesionalisme     
+             {/* <span style={{color:'#6b7aa1'}}>(W.1.2.1-8)</span> */}
         </h3>
 
         <div style={{display:'flex',flexDirection:'row'}}>
@@ -197,7 +203,7 @@ return (
         </div>
 
         {/* CPMK 1 */}
-        <h4>CPMK 1. Mahasiswa mampu menjelaskan etika dan kode etik, profesionalisme, tata laku dan ciri khas dalam bidang profesi keinsinyuran sesuai kaidah etika profesi </h4>
+        <h4>CPMK 1. Mahasiswa mampu menjelaskan tentang pengertian, definisi  dan penjabaran tentang Profesionalisme Insinyur.</h4>
         <p style={{margin:'5px 0'}}>Rekomendasi Nilai : <span style={{color:'blue'}}>{averageResults['cpmk_1'] || 0}</span></p>
         <div style={{display:'flex',flexDirection:'row'}}>
             <p style={{margin:'5px 0'}}>Nilai CPMK 1 :</p>
@@ -211,7 +217,7 @@ return (
         <Divider style={{margin:'10px 0'}} />
 
         {/* CPMK 2 */}
-        <h4>CPMK 2. Mahasiswa mampu menerapkan etika dan kode etik, profesionalisme, tata laku dan ciri khas dalam bidang profesi keinsinyuran sesuai kaidah etika profesi </h4>
+        <h4>CPMK 2. Mahasiswa mampu menjelaskan tentang kode etik dan peraturan perundangan tentang Keinsinyuran Indonesia.</h4>
         <p style={{margin:'5px 0'}}>Rekomendasi Nilai : <span style={{color:'blue'}}>{averageResults['cpmk_2'] || 0}</span></p>
         <div style={{display:'flex',flexDirection:'row'}}>
             <p style={{margin:'5px 0'}}>Nilai CPMK 2 :</p>
@@ -225,7 +231,7 @@ return (
         <Divider style={{margin:'10px 0'}} />
 
         {/* CPMK 3 */}
-        <h4>CPMK 3. Mahasiswa mampu menyelesaiakan masalah berperilaku sesuai dengan etika profesi keinsinyuran dengan mengemukakan pendapat baik lisan maupun tulisan</h4>
+        <h4>CPMK 3. Mahasiswa mampu menjelaskan tentang standar dan karakteristik profesionalisme insinyur Indonesia. </h4>
         <p style={{margin:'5px 0'}}>Rekomendasi Nilai : <span style={{color:'blue'}}>{averageResults['cpmk_3'] || 0}</span></p>
         <div style={{display:'flex',flexDirection:'row'}}>
             <p style={{margin:'5px 0'}}>Nilai CPMK 3 :</p>
@@ -234,6 +240,90 @@ return (
                 max={100}  
                 value={values["cpmk_3"]}
                 onChange={(value) => handleInputChange("cpmk_3", value)}/>            
+            <p style={{margin:'5px 0',fontStyle:'italic',color:'gray'}}>* Masukkan nilai dari 1-100</p>
+        </div>
+        <Divider style={{margin:'10px 0'}} />
+
+        {/* CPMK 4 */}
+        <h4>CPMK 4. Mahasiswa mampu memahami tanggung jawab Profesi Keinsinyuran dan pengembangan keprofesian berkelanjutan.</h4>
+        <p style={{margin:'5px 0'}}>Rekomendasi Nilai : <span style={{color:'blue'}}>{averageResults['cpmk_4'] || 0}</span></p>
+        <div style={{display:'flex',flexDirection:'row'}}>
+            <p style={{margin:'5px 0'}}>Nilai CPMK 4 :</p>
+                <InputNumber style={{width:'75px',margin:'0 5px'}} 
+                min={0} 
+                max={100}  
+                value={values["cpmk_4"]}
+                onChange={(value) => handleInputChange("cpmk_4", value)}/>
+            <p style={{margin:'5px 0',fontStyle:'italic',color:'gray'}}>* Masukkan nilai dari 1-100</p>
+        </div>
+        <Divider style={{margin:'10px 0'}} />
+
+        {/* CPMK 5 */}
+        <h4>CPMK 5. Mahasiswa mampu memahami pengaruh faktor non teknik dan penerapan etika profesi dalam pelaksanaan pekerjaan.</h4>
+        <p style={{margin:'5px 0'}}>Rekomendasi Nilai : <span style={{color:'blue'}}>{averageResults['cpmk_5'] || 0}</span></p>
+        <div style={{display:'flex',flexDirection:'row'}}>
+            <p style={{margin:'5px 0'}}>Nilai CPMK 5 :</p>
+            <InputNumber style={{width:'75px',margin:'0 5px'}} 
+                min={0} 
+                max={100}  
+                value={values["cpmk_5"]}
+                onChange={(value) => handleInputChange("cpmk_5", value)}/>
+            <p style={{margin:'5px 0',fontStyle:'italic',color:'gray'}}>* Masukkan nilai dari 1-100</p>
+        </div>
+        <Divider style={{margin:'10px 0'}} />
+
+        {/* CPMK 6 */}
+        <h4>CPMK 6. Mahasiswa mampu memahami cara melakukan analisa dan evaluasi data.</h4>
+        <p style={{margin:'5px 0'}}>Rekomendasi Nilai : <span style={{color:'blue'}}>{averageResults['cpmk_6'] || 0}</span></p>
+        <div style={{display:'flex',flexDirection:'row'}}>
+            <p style={{margin:'5px 0'}}>Nilai CPMK 6 :</p>
+            <InputNumber style={{width:'75px',margin:'0 5px'}} 
+                min={0} 
+                max={100}  
+                value={values["cpmk_6"]}
+                onChange={(value) => handleInputChange("cpmk_6", value)}/>            
+            <p style={{margin:'5px 0',fontStyle:'italic',color:'gray'}}>* Masukkan nilai dari 1-100</p>
+        </div>
+        <Divider style={{margin:'10px 0'}} />
+
+        {/* CPMK 7 */}
+        <h4>CPMK 7. Mahasiswa mampu menemu kenali kemampuan, kelemahan dan kekuatan tempat kerja.</h4>
+        <p style={{margin:'5px 0'}}>Rekomendasi Nilai : <span style={{color:'blue'}}>{averageResults['cpmk_7'] || 0}</span></p>
+        <div style={{display:'flex',flexDirection:'row'}}>
+            <p style={{margin:'5px 0'}}>Nilai CPMK 6 :</p>
+            <InputNumber style={{width:'75px',margin:'0 5px'}} 
+                min={0} 
+                max={100}  
+                value={values["cpmk_7"]}
+                onChange={(value) => handleInputChange("cpmk_7", value)}/>            
+            <p style={{margin:'5px 0',fontStyle:'italic',color:'gray'}}>* Masukkan nilai dari 1-100</p>
+        </div>
+        <Divider style={{margin:'10px 0'}} />
+
+        {/* CPMK 8 */}
+        <h4>CPMK 8. Mahasiswa mampu bekerja sama dalam tim pada perioda waktu yang terbatas.</h4>
+        <p style={{margin:'5px 0'}}>Rekomendasi Nilai : <span style={{color:'blue'}}>{averageResults['cpmk_8'] || 0}</span></p>
+        <div style={{display:'flex',flexDirection:'row'}}>
+            <p style={{margin:'5px 0'}}>Nilai CPMK 8 :</p>
+            <InputNumber style={{width:'75px',margin:'0 5px'}} 
+                min={0} 
+                max={100}  
+                value={values["cpmk_8"]}
+                onChange={(value) => handleInputChange("cpmk_8", value)}/>            
+            <p style={{margin:'5px 0',fontStyle:'italic',color:'gray'}}>* Masukkan nilai dari 1-100</p>
+        </div>
+        <Divider style={{margin:'10px 0'}} />
+
+        {/* CPMK 9 */}
+        <h4>CPMK 9. Mahasiswa memahami mekanisme serah terima pekerjaan</h4>
+        <p style={{margin:'5px 0'}}>Rekomendasi Nilai : <span style={{color:'blue'}}>{averageResults['cpmk_9'] || 0}</span></p>
+        <div style={{display:'flex',flexDirection:'row'}}>
+            <p style={{margin:'5px 0'}}>Nilai CPMK 9 :</p>
+            <InputNumber style={{width:'75px',margin:'0 5px'}} 
+                min={0} 
+                max={100}  
+                value={values["cpmk_9"]}
+                onChange={(value) => handleInputChange("cpmk_9", value)}/>            
             <p style={{margin:'5px 0',fontStyle:'italic',color:'gray'}}>* Masukkan nilai dari 1-100</p>
         </div>
         <Divider style={{margin:'10px 0'}} />
@@ -248,4 +338,4 @@ return (
 );
 };
 
-export default FormulirDua;
+export default NewFormNilaiProfesionalisme;

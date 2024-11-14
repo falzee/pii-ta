@@ -35,20 +35,6 @@ return (
 
     <h3 style={{ padding: '1rem 0 0' }}>Silakan pilih pengaturan dari pilihan yang tersedia!</h3>
 
-    <Link
-        to='/form/a/regis-user'
-        style={{ textDecoration: 'none', display: 'block', width: '100%', margin: '1rem 0' }}
-    >
-        <Button style={{ borderRadius: '3px', width: '100%', textAlign: 'left', height: 'auto', padding: '10px' }}>
-        <h2 style={{ margin: 0, whiteSpace: 'normal', wordWrap: 'break-word', overflowWrap: 'break-word' }}>
-            <FormOutlined /> UMUM - Register Pengguna
-        </h2>
-        <Divider style={{ margin: '5px 0', borderColor: '#7e90be', borderWidth: '1px' }} plain />
-        <p style={{ margin: 0, whiteSpace: 'normal', wordWrap: 'break-word', overflowWrap: 'break-word' }}>
-            Menambah Pengguna
-        </p>
-        </Button>
-    </Link>
 
     <Link
         to='/form/a/faip/add-filter'
@@ -75,11 +61,25 @@ return (
         </h2>
         <Divider style={{ margin: '5px 0', borderColor: '#7e90be', borderWidth: '1px' }} plain />
         <p style={{ margin: 0, whiteSpace: 'normal', wordWrap: 'break-word', overflowWrap: 'break-word' }}>
-            Mengatur dosen yang dtugaskan untuk menilai FAIP
+            Mengatur pemilihan dosen penilaian FAIP untuk setiap mahasiswa
         </p>
         </Button>
     </Link>
 
+    <Link
+        to='/form/a/verif-nilai'
+        style={{ textDecoration: 'none', display: 'block', width: '100%', margin: '1rem 0' }}
+    >
+        <Button style={{ borderRadius: '3px', width: '100%', textAlign: 'left', height: 'auto', padding: '10px' }}>
+        <h2 style={{ margin: 0, whiteSpace: 'normal', wordWrap: 'break-word', overflowWrap: 'break-word' }}>
+            <FormOutlined /> FAIP - Verifikasi Nilai Mahasiswa
+        </h2>
+        <Divider style={{ margin: '5px 0', borderColor: '#7e90be', borderWidth: '1px' }} plain />
+        <p style={{ margin: 0, whiteSpace: 'normal', wordWrap: 'break-word', overflowWrap: 'break-word' }}>
+            Memberi nilai final dari penilaian dosen penilai FAIP.
+        </p>
+        </Button>
+    </Link>
 
 
     </div>

@@ -12,12 +12,19 @@ import { allSectionData } from '../../data/sectionFormDataSectionAll';
 
 
 
-const FilterKodeEtik: React.FC = () => {
+const FilterManajemenPraktek: React.FC = () => {
     const formRef = React.createRef<FormInstance>();//
 
-    const [selectedChoicesOne, setSelectedChoicesOne] = useState<string[] >([]);   
-    const [selectedChoicesTwo, setSelectedChoicesTwo] = useState<string[] >([]);   
-    const [selectedChoicesThree, setSelectedChoicesThree] = useState<string[] >([]);   
+    const [selectedChoicesOne, setSelectedChoicesOne] = useState<string[]>([]);
+    const [selectedChoicesTwo, setSelectedChoicesTwo] = useState<string[]>([]);
+    const [selectedChoicesThree, setSelectedChoicesThree] = useState<string[]>([]);
+    const [selectedChoicesFour, setSelectedChoicesFour] = useState<string[]>([]);
+    const [selectedChoicesFive, setSelectedChoicesFive] = useState<string[]>([]);
+    const [selectedChoicesSix, setSelectedChoicesSix] = useState<string[]>([]);
+    const [selectedChoicesSeven, setSelectedChoicesSeven] = useState<string[]>([]);
+    const [selectedChoicesEight, setSelectedChoicesEight] = useState<string[]>([]);
+    const [selectedChoicesNine, setSelectedChoicesNine] = useState<string[]>([]);
+
 
     useEffect(() => {
         // Retrieve JWT token from localStorage
@@ -39,13 +46,19 @@ const FilterKodeEtik: React.FC = () => {
             }
             };
             // Make API request with user ID
-            const responseFilter = await axios.get(`/form-tools/faip-form/form-rule?uid=${userId}&ft=kode-etik`,config);
+            const responseFilter = await axios.get(`/form-tools/faip-form/form-rule?uid=${userId}&ft=manajemen-praktik`,config);
             // Validate selected values against allOptions
-            const filterData = responseFilter.data.data.mk_kode_etik
+            const filterData = responseFilter.data.data.mk_manajemen_praktik
     
             setSelectedChoicesOne(filterData.cpmk_1);
             setSelectedChoicesTwo(filterData.cpmk_2);
             setSelectedChoicesThree(filterData.cpmk_3);
+            setSelectedChoicesFour(filterData.cpmk_4);
+            setSelectedChoicesFive(filterData.cpmk_5);
+            setSelectedChoicesSix(filterData.cpmk_6);
+            setSelectedChoicesSeven(filterData.cpmk_7);
+            setSelectedChoicesEight(filterData.cpmk_8);
+            setSelectedChoicesNine(filterData.cpmk_9);
 
         } else {
             console.error('User not found');
@@ -55,36 +68,62 @@ const FilterKodeEtik: React.FC = () => {
         }
     };
 
-    const handleChoiceChangeOne = (choiceValue: string, checked: boolean) => { //fungsi yg berhubungan dgn checbox klaim kompetensi
-        const currentChoices = selectedChoicesOne || [];
-        // console.log(currentRowChoices);
-        if (checked) {
-            setSelectedChoicesOne([...currentChoices, choiceValue]);
-        } else if (!checked) {
-            const updatedRowChoices = currentChoices.filter(choice => choice !== choiceValue);
-            setSelectedChoicesOne([...updatedRowChoices]);
+    const handleChoiceChange = (
+        choiceValue: string, 
+        checked: boolean, 
+        choiceIndex: number
+      ) => {
+        let currentChoices;
+        let setSelectedChoices;
+      
+        switch (choiceIndex) {
+          case 1:
+            currentChoices = selectedChoicesOne || [];
+            setSelectedChoices = setSelectedChoicesOne;
+            break;
+          case 2:
+            currentChoices = selectedChoicesTwo || [];
+            setSelectedChoices = setSelectedChoicesTwo;
+            break;
+          case 3:
+            currentChoices = selectedChoicesThree || [];
+            setSelectedChoices = setSelectedChoicesThree;
+            break;
+          case 4:
+            currentChoices = selectedChoicesFour || [];
+            setSelectedChoices = setSelectedChoicesFour;
+            break;
+          case 5:
+            currentChoices = selectedChoicesFive || [];
+            setSelectedChoices = setSelectedChoicesFive;
+            break;
+          case 6:
+            currentChoices = selectedChoicesSix || [];
+            setSelectedChoices = setSelectedChoicesSix;
+            break;
+          case 7:
+            currentChoices = selectedChoicesSeven || [];
+            setSelectedChoices = setSelectedChoicesSeven;
+            break;
+          case 8:
+            currentChoices = selectedChoicesEight || [];
+            setSelectedChoices = setSelectedChoicesEight;
+            break;
+          case 9:
+            currentChoices = selectedChoicesNine || [];
+            setSelectedChoices = setSelectedChoicesNine;
+            break;
+          default:
+            return; // If index is out of range, do nothing
         }
-    };
-    const handleChoiceChangeTwo = (choiceValue: string, checked: boolean) => { //fungsi yg berhubungan dgn checbox klaim kompetensi
-        const currentChoices = selectedChoicesTwo || [];
-        // console.log(currentRowChoices);
+      
         if (checked) {
-            setSelectedChoicesTwo([...currentChoices, choiceValue]);
-        } else if (!checked) {
-            const updatedRowChoices = currentChoices.filter(choice => choice !== choiceValue);
-            setSelectedChoicesTwo([...updatedRowChoices]);
+          setSelectedChoices([...currentChoices, choiceValue]);
+        } else {
+          const updatedChoices = currentChoices.filter(choice => choice !== choiceValue);
+          setSelectedChoices([...updatedChoices]);
         }
-    };
-    const handleChoiceChangeThree = (choiceValue: string, checked: boolean) => { //fungsi yg berhubungan dgn checbox klaim kompetensi
-        const currentChoices = selectedChoicesThree || [];
-        // console.log(currentRowChoices);
-        if (checked) {
-            setSelectedChoicesThree([...currentChoices, choiceValue]);
-        } else if (!checked) {
-            const updatedRowChoices = currentChoices.filter(choice => choice !== choiceValue);
-            setSelectedChoicesThree([...updatedRowChoices]);
-        }
-    };
+      };
     
     console.log("selectedChoicesOne:"+ selectedChoicesOne)
     // console.log("selectedChoicesTwo:"+ selectedChoicesTwo)
@@ -101,6 +140,7 @@ const FilterKodeEtik: React.FC = () => {
                 cpmk_1: selectedChoicesOne,
                 cpmk_2: selectedChoicesTwo,
                 cpmk_3: selectedChoicesThree,
+                cpmk_4: selectedChoicesFour,
             }
             // Now you can send formData to your backend for processing
             console.log('Form Data:', formData);
@@ -110,7 +150,7 @@ const FilterKodeEtik: React.FC = () => {
                 }
             };
     
-            await axios.patch(`/form-tools/faip-form/filtering?uid=${userId}&ft=kode-etik`,formData,config);
+            await axios.patch(`/form-tools/faip-form/filtering?uid=${userId}&ft=manajemen-praktik`,formData,config);
         } else {
             console.error('User not found');
         }
@@ -125,7 +165,7 @@ const FilterKodeEtik: React.FC = () => {
 return (
 <div>
     <Form ref={formRef} onFinish={onFinish}>
-    <h4 style={{margin:"0 0 10px"}}>CPMK 1. Mahasiswa mampu menjelaskan etika dan kode etik, profesionalisme, tata laku dan ciri khas dalam bidang profesi keinsinyuran sesuai kaidah etika profesi </h4>
+    <h4 style={{margin:"0 0 10px"}}>CPMK 1. Mahasiswa mampu menjelaskan teori dan konsep tata Kelola proyek.</h4>
     <p>Tampilan Pilihan: <span style={{color:"blue",fontWeight:"bold"}}>{selectedChoicesOne}</span></p>
         <Form.Item name="checkboxs" >
         <div style={{ maxHeight:'250px',overflowY:'scroll',borderColor:"#6b7aa1",borderStyle:'solid',borderWidth:'1px',padding:'5px'}}>
@@ -137,7 +177,7 @@ return (
                             <Checkbox
                                 value={subSection.value}
                                 checked={(selectedChoicesOne || []).includes(subSection.value)}
-                                onChange={(e: any) => handleChoiceChangeOne(subSection.value, e.target.checked)}
+                                onChange={(e: any) => handleChoiceChange(subSection.value, e.target.checked,1)}
                             >
                             {subSection.label}
                             </Checkbox>
@@ -148,7 +188,7 @@ return (
         </div>
         </Form.Item>
     
-        <h4 style={{margin:"10px 0"}}>CPMK 2. Mahasiswa mampu menerapkan etika dan kode etik, profesionalisme, tata laku dan ciri khas dalam bidang profesi keinsinyuran sesuai kaidah etika profesi</h4>
+        <h4 style={{margin:"10px 0"}}>CPMK 2. Mahasiswa mampu menerapkan etika profesi dan kode etik keinsinyuran.</h4>
         <p>Tampilan Pilihan: <span style={{color:"blue",fontWeight:"bold"}}>{selectedChoicesTwo}</span></p>
         <Form.Item name="checkboxs" >
         <div style={{ maxHeight:'250px',overflowY:'scroll',borderColor:"#6b7aa1",borderStyle:'solid',borderWidth:'1px',padding:'5px'}}>
@@ -160,7 +200,7 @@ return (
                             <Checkbox
                                 value={subSection.value}
                                 checked={(selectedChoicesTwo || []).includes(subSection.value)}
-                                onChange={(e: any) => handleChoiceChangeTwo(subSection.value, e.target.checked)}
+                                onChange={(e: any) => handleChoiceChange(subSection.value, e.target.checked,2)}
                             >
                             {subSection.label}
                             </Checkbox>
@@ -171,7 +211,7 @@ return (
         </div>
         </Form.Item>
 
-        <h4 style={{margin:"10px 0"}}>CPMK 3. Mahasiswa mampu menyelesaiakan masalah berperilaku sesuai dengan etika profesi keinsinyuran dengan mengemukakan pendapat baik lisan maupun tulisan</h4>
+        <h4 style={{margin:"10px 0"}}>CPMK 3. Mahasiswa mampu menerapkan ketrampilan berorganisasi dan berkomunikasi.</h4>
         <p>Tampilan Pilihan: <span style={{color:"blue",fontWeight:"bold"}}>{selectedChoicesThree}</span></p>
         <Form.Item name="checkboxs" >
         <div style={{ maxHeight:'250px',overflowY:'scroll',borderColor:"#6b7aa1",borderStyle:'solid',borderWidth:'1px',padding:'5px'}}>
@@ -183,7 +223,30 @@ return (
                             <Checkbox
                                 value={subSection.value}
                                 checked={(selectedChoicesThree || []).includes(subSection.value)}
-                                onChange={(e: any) => handleChoiceChangeThree(subSection.value, e.target.checked)}
+                                onChange={(e: any) => handleChoiceChange(subSection.value, e.target.checked,3)}
+                            >
+                            {subSection.label}
+                            </Checkbox>
+                        </div>
+                        ))}
+                    </div>
+                ))}
+        </div>
+        </Form.Item>
+
+        <h4 style={{margin:"10px 0"}}>CPMK 4. Mahasiswa mampu menerapkan teknologi informasi yang dinamis dalam menjalankan praktik keinsinyuran. </h4>
+        <p>Tampilan Pilihan: <span style={{color:"blue",fontWeight:"bold"}}>{selectedChoicesFour}</span></p>
+        <Form.Item name="checkboxs" >
+        <div style={{ maxHeight:'250px',overflowY:'scroll',borderColor:"#6b7aa1",borderStyle:'solid',borderWidth:'1px',padding:'5px'}}>
+                {allSectionData.map(section => (
+                    <div key={section.value}>
+                        <span style={{ fontWeight: 'bold' }}>{section.label}</span>
+                        {section.children.map((subSection) => (
+                        <div key={subSection.value} style={{ borderBottom: '1px solid #dddddd', borderTop: '1px solid #dddddd' }}>
+                            <Checkbox
+                                value={subSection.value}
+                                checked={(selectedChoicesFour || []).includes(subSection.value)}
+                                onChange={(e: any) => handleChoiceChange(subSection.value, e.target.checked,4)}
                             >
                             {subSection.label}
                             </Checkbox>
@@ -204,4 +267,4 @@ return (
 );
 };
 
-export default FilterKodeEtik;
+export default FilterManajemenPraktek;
