@@ -1,4 +1,4 @@
-import { Button, Space, Tag, theme } from 'antd';
+import { Button, ConfigProvider, Space, Tag, theme } from 'antd';
 import { Header } from 'antd/es/layout/layout'
 import { title } from 'process';
 import React, { useEffect, useState } from 'react'
@@ -195,7 +195,23 @@ const FaipDosen = ( ) => {
     // console.log('params', pagination, filters, sorter, extra);
   };
   return (
-    
+    <ConfigProvider
+    theme={{
+        components: {
+        Table: {
+            headerBorderRadius: 4,
+        },
+        Checkbox: {
+            colorPrimary: '#6b7aa1',
+            colorPrimaryHover: '#7e90be',
+        },
+        Input: {
+            activeBorderColor:'#7e90be',
+            hoverBorderColor:'#7e90be',
+        },
+        }
+    }}
+    >
   <div style={{ display: 'flex', justifyContent: 'center' }}>
     <div className='form' style={{ padding: '1rem', width: '100%', maxWidth: '1000px', backgroundColor: '' }}>
       {/* header tambahin underline sama shadow(opsional) */}
@@ -217,6 +233,8 @@ const FaipDosen = ( ) => {
         <p style={{color:'#808080',fontStyle:'italic'}}>Note. (*) nilai sudah masuk ke dalam sistem.</p>
     </div>
   </div>
+  </ConfigProvider>
+
   )
 }
 export default FaipDosen

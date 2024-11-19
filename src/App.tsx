@@ -25,6 +25,8 @@ import FormAdmin from './pages/FormAdmin';
 import FaipAdminAddAssesor from './pages/FaipAdminAddAssesor';
 import FaipAdminAddFilter from './pages/FaipAdminAddFilter';
 import FaipAdminVerif from './pages/FaipAdminVerif';
+import FaipAdminVerifNilai from './pages/FaipAdminVerifNilai';
+import VerifSubmitted from './components/Admin/VerifSubmitted';
 
 function mainApp() {
 
@@ -47,7 +49,8 @@ function mainApp() {
         <Route element={<ProtectedRoute allowedRoles={['admin']}><Layouting /></ProtectedRoute>} >
             <Route element={<FormAdmin /> } path="form/a/"/>
               <Route element={<FaipAdminVerif/>} path="form/a/verif-nilai" />
-              <Route element={<FaipAdminVerif/>} path="form/a/verif-nilai/:idMhs" />
+              <Route element={<FaipAdminVerifNilai/>} path="form/a/verif-nilai/edit/:formIdA" />
+              <Route element={<VerifSubmitted/>} path="form/a/verif-nilai/:formIdA" />
               <Route element={<FaipAdminAddAssesor/>} path="form/a/faip/add-assesor" />
               <Route element={<FaipAdminAddFilter/>} path="form/a/faip/add-filter" />
         </Route>

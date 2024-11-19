@@ -61,26 +61,26 @@ const FaipAdminAddAssesor = ( ) => {
     const [mainSelectedStatus, setMainSelectedStatus] = useState<string | undefined>(undefined);
 
     const handleMainSelectChange = (value: string) => {
-    setMainSelectValue(value);
-    // if value === id ? 
-    // setSelectedValues & setstatus : nothing
-    const selectedOption = mhsOptions.find(option => option.student_id === value);
-    if (selectedOption) {
-        setMainSelectedStatus(selectedOption.status_assesor);
-        setSelectedValues(selectedOption.dosen_penilai_faip || null);
-        form.setFieldsValue({
-            first: selectedOption.dosen_penilai_faip[0],
-            second: selectedOption.dosen_penilai_faip[1],
-            third: selectedOption.dosen_penilai_faip[2],
-        });  
-    }else if (!value){
-        setMainSelectedStatus("113-1");
-    }
+        setMainSelectValue(value);
+        // if value === id ? 
+        // setSelectedValues & setstatus : nothing
+        const selectedOption = mhsOptions.find(option => option.student_id === value);
+        if (selectedOption) {
+            setMainSelectedStatus(selectedOption.status_assesor);
+            setSelectedValues(selectedOption.dosen_penilai_faip || null);
+            form.setFieldsValue({
+                first: selectedOption.dosen_penilai_faip[0],
+                second: selectedOption.dosen_penilai_faip[1],
+                third: selectedOption.dosen_penilai_faip[2],
+            });  
+        }else if (!value){
+            setMainSelectedStatus("113-1");
+        }
         
     };
-    useEffect(() => {
-        // console.log("Updated selectedValues:", selectedValues);
-      }, [selectedValues]); // Log whenever selectedValues changes
+    // useEffect(() => {
+    //     // console.log("Updated selectedValues:", selectedValues);
+    //   }, [selectedValues]); // Log whenever selectedValues changes
 
 
     useEffect(() => {
@@ -129,7 +129,7 @@ const FaipAdminAddAssesor = ( ) => {
         }
     };
 
-    // console.log(selectedValues)
+    console.log("[SELECTED VALUES]"+selectedValues)
 
     // Handle selection change for each select
     const handleSelectChange = (index: number, value: string | null) => {

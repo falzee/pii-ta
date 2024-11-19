@@ -189,6 +189,29 @@ const Faip = ( ) => {
 
   };
 
+  const exportForm = async () => {
+    try{
+      const token = localStorage.getItem('jwtToken');
+
+      if (token) {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+        const response = await axios.patch(`/form-penilaian/mhs/export-form?uid=${nim}&pid=${pid}`,{},config);
+
+        window.location.reload();
+
+      } else {
+        console.error('User not found');
+      }
+    }catch(error){
+      console.error('Error deleting form');
+    }
+
+  };
+
   const newForm = async () => {
     try {
       const token = localStorage.getItem('jwtToken');
@@ -271,7 +294,7 @@ const Faip = ( ) => {
             <span style={{margin:'0 5px'}}><ExportOutlined /></span> Ekspor
           </Button>
           </p>
-          <Modal title="Ekspor ke situs PII?" open={isModalOpen} onCancel={handleCancel} okText={'Ekspor'} centered>
+          <Modal title="Ekspor ke situs PII?" open={isModalOpen} onOk={exportForm} onCancel={handleCancel} okText={'Ekspor'} centered>
             <p>Apakah anda yakin untuk mengekspor formulir ke situs PII?</p>
             <p style={{color:'red'}}>note. Ekspor hanya bisa dilakukan sekali!</p>
           </Modal>

@@ -300,7 +300,7 @@ const MultiTabFormPage: React.FC = () => {
         },
       }}
     >
-    <div className="faip-mhs-container" style={{ maxHeight: '1200px'}}>
+    <div className="faip-mhs-container" style={{ }}>
       {redirecting ? null :
       <>
 

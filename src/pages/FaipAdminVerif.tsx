@@ -1,4 +1,4 @@
-import { Button, Space, Tag, theme } from 'antd';
+import { Button, ConfigProvider, Space, Tag, theme } from 'antd';
 import { Header } from 'antd/es/layout/layout'
 import { title } from 'process';
 import React, { useEffect, useState } from 'react'
@@ -6,7 +6,7 @@ import useDocumentTitle from '../hooks/useDocumentTitle';
 import { Link, useNavigate } from 'react-router-dom';
 import { Table } from 'antd';
 import type { TableColumnsType, TableProps } from 'antd';
-import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons';
 import Search, { SearchProps } from 'antd/es/input/Search';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
@@ -20,14 +20,12 @@ interface DataType {
 
 const getStatusPenilaian = (status:string) => {
   switch(status) {
-    case "112-0":
-      return "Data Belum Masuk";
-    case "112-1":
-      return "Belum Dinilai";
-    case "112-2":
-      return "Proses Penilaian";
-    case "112-3":
-      return "Sudah Dinilai";
+    case "114-0":
+      return "Belum Diverifikasi";
+    case "114-1":
+      return "Proses Verifikasi";
+    case "114-2":
+      return "Sudah Diverifikasi";
     default:
       return "Status Tidak Diketahui";
   }
@@ -58,7 +56,7 @@ const FaipDosen = ( ) => {
             }
           };
           // Make API request with user ID
-          const response = await axios.get(`/form-penilaian/dsn?uid=${userId}`,config);
+          const response = await axios.get(`/form-tools/verif-grade/list?uid=${userId}`,config);
           const userData = response.data.data;
           const transformedData = userData.map((item:any) => ({
             key: item.pid, // antd Table requires a unique key for each row
@@ -101,28 +99,23 @@ const FaipDosen = ( ) => {
         dataIndex: 'statusPenilaian',
         filters: [
           {
-            text: 'Data Belum Masuk',
-            value: 'Data Belum Masuk',
+            text: 'Belum Diverifikasi',
+            value: 'Belum Diverifikasi',
           },
           {
-            text: 'Belum Dinilai',
-            value: 'Belum Dinilai',
+            text: 'Proses Verifikasi',
+            value: 'Proses Verifikasi',
           },
           {
-            text: 'Proses Penilaian',
-            value: 'Proses Penilaian',
-          },
-          {
-            text: 'Sudah Dinilai',
-            value: 'Sudah Dinilai',
+            text: 'Sudah Diverifikasi',
+            value: 'Sudah Diverifikasi',
           },
         ],
         render: (text: string, record: DataType) => (
           <div>
-            {(record.statusPenilaian === 'Data Belum Masuk') ? <p style={{color:'orange'}}>{text}</p> 
-            : (record.statusPenilaian === 'Belum Dinilai') ? <p style={{color:'red'}}>{text}</p> 
-            : (record.statusPenilaian === 'Proses Penilaian') ? <p style={{color:'orange'}}>{text}</p> 
-            : (record.statusPenilaian === 'Sudah Dinilai') ? <p style={{color:'green'}}>{text}</p> 
+            {(record.statusPenilaian === 'Belum Diverifikasi') ? <p style={{color:'red'}}>{text}</p> 
+            : (record.statusPenilaian === 'Proses Verifikasi') ? <p style={{color:'orange'}}>{text}</p> 
+            : (record.statusPenilaian === 'Sudah Diverifikasi') ? <p style={{color:'green'}}>{text}</p> 
             : null }
           </div>
         ),
@@ -137,23 +130,24 @@ const FaipDosen = ( ) => {
           <div>
             {(record.statusPenilaian === 'Data Belum Masuk') ? 
               <p style={{color:'#808080',fontStyle:'italic'}}>menunggu mahasiswa*</p>     
-            :(record.statusPenilaian === 'Belum Dinilai') ? 
-              <Button onClick={() => navigate(`/form/d/faip/edit/${record.key}`)} type='primary'>
+            :(record.statusPenilaian === 'Belum Diverifikasi') ? 
+              <Button onClick={() => navigate(`/form/a/verif-nilai/edit/${record.key}`)} type='primary'>
                 Baru <PlusOutlined />
               </Button>     
-            : (record.statusPenilaian === 'Proses Penilaian') ?
+            : (record.statusPenilaian === 'Proses Verifikasi') ?
               <>
-                <Button onClick={() => navigate(`/form/d/faip/edit/${record.key}`)} style={{margin:'0 5px'}} type='primary'>
+                <Button onClick={() => navigate(`/form/a/verif-nilai/edit/${record.key}`)} style={{margin:'0 5px'}} type='primary'>
                   Edit <EditOutlined />
                   {/* EDIT = setSTATUS TO 112-4 via PATCH API */}
                 </Button> 
-                {/* <Button style={{margin:'0 5px'}} type='primary' danger>
-                  <DeleteOutlined />
-                </Button>  */}
               </>
-            : (record.statusPenilaian === 'Sudah Dinilai') ? 
-              <p style={{color:'#808080',fontStyle:'italic'}}>expired**</p>
-            : null
+            : (record.statusPenilaian === 'Sudah Diverifikasi') ? 
+            <>
+            <Button onClick={() => navigate(`/form/a/verif-nilai/${record.key}`)} style={{margin:'0 5px'}} type='primary'>
+              Lihat <EyeOutlined />
+              {/* EDIT = setSTATUS TO 112-4 via PATCH API */}
+            </Button> 
+          </>            : null
             }
           </div>
         ),
@@ -166,7 +160,23 @@ const FaipDosen = ( ) => {
     // console.log('params', pagination, filters, sorter, extra);
   };
   return (
-    
+    <ConfigProvider
+    theme={{
+        components: {
+        Table: {
+            headerBorderRadius: 4,
+        },
+        Checkbox: {
+            colorPrimary: '#6b7aa1',
+            colorPrimaryHover: '#7e90be',
+        },
+        Input: {
+            activeBorderColor:'#7e90be',
+            hoverBorderColor:'#7e90be',
+        },
+        }
+    }}
+    >
   <div style={{ display: 'flex', justifyContent: 'center' }}>
     <div className='form' style={{ padding: '1rem', width: '100%', maxWidth: '1000px', backgroundColor: '' }}>
       {/* header tambahin underline sama shadow(opsional) */}
@@ -176,6 +186,7 @@ const FaipDosen = ( ) => {
         {/* <Search className='header-faip-dosen-search' placeholder="Cari mahasiswa?" onSearch={onSearch} style={{ width: 200 }} /> */}
       </div>
         <Table
+          className="custom-table"
           columns={columns}
           dataSource={dataSource}
           onChange={onChange}
@@ -185,10 +196,12 @@ const FaipDosen = ( ) => {
         {/* <div>
 
         </div> */}
-        <p style={{color:'#808080',fontStyle:'italic'}}>Note. (*) mahasiswa belum mengirim formulir.</p>
-        <p style={{color:'#808080',fontStyle:'italic'}}>(**) nilai sudah masuk ke dalam sistem.</p>
+        {/* <p style={{color:'#808080',fontStyle:'italic'}}>Note. (*) mahasiswa belum mengirim formulir.</p>
+        <p style={{color:'#808080',fontStyle:'italic'}}>(**) nilai sudah masuk ke dalam sistem.</p> */}
     </div>
   </div>
+  </ConfigProvider>
+
   )
 }
 export default FaipDosen

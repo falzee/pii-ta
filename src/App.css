@@ -135,6 +135,15 @@ body {
   border-radius: 0 !important;
 
 }
+.custom-table .ant-table-filter-trigger-active, /* Filter icon when active */
+.custom-table .ant-table-column-sorter-up.active, /* Ascending sorter when active */
+.custom-table .ant-table-column-sorter-down.active { /* Descending sorter when active */
+  color: #11324d; /* Your hover color */
+}
+/* .custom-table .ant-table-filter-trigger:hover,
+.custom-table .ant-table-column-sorter .anticon:hover {
+  color: #7e90be; 
+} */
 /* .link-hover :hover{
   background-color: #7e90be !important;
 } */

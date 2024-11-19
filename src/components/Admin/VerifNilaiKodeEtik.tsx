@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Table, Form,Input, Button, Select, Upload, Checkbox, Divider, Space, ConfigProvider, Modal, InputNumber, InputNumberProps } from 'antd';
 import { FormInstance } from 'antd/lib/form';
-import { MhsInfoContext } from '../../pages/FaipDosenNilai'; // Import the context
-import { DeleteOutlined, MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
+import { MhsInfoContext } from '../../pages/FaipAdminVerifNilai'; // Import the context
+import { CopyOutlined, DeleteOutlined, MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import TextArea from 'antd/es/input/TextArea';
 import { nanoid } from 'nanoid';
 import { ColumnsType } from 'antd/es/table';
@@ -10,23 +10,37 @@ import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import { useParams } from 'react-router';
 
-type AllMhsClaim = string[];
+interface SubObject {
+  cpmk_1?: number;
+  cpmk_2?: number;
+  cpmk_3?: number;
+} 
 
-interface AllFilter {
-  [key: string]: string[]; // each filter has an array of prefixes
+interface SomeObject {
+  nilai_akhir_angka?: number; // Optional field
+  nilai_akhir_huruf?: string; // Optional field
+  nilai_cpmk: SubObject;
+  nilai_rek_cpmk?: SubObject;
+
 }
+
+interface ListItem {
+  id_dosen: string;
+  dosen_name: string;
+  mk_kode_etik: SomeObject; // Nested object
+}
+
+
+type ListSome = ListItem[]; // Array of items
 
 interface AverageResults {
   [key: string]: number; // each filter key will map to its average score
 }
 
-const FormulirDua: React.FC = () => {
+const VerifNilaiKodeEtik: React.FC = () => {
 //kumpulan state
-    const { formIdD } = useParams<{ formIdD: string | undefined }>();
-    const nimMhs = useContext<string | undefined>(MhsInfoContext);
-
-    // const [namaMhs,setNamaMhs] = useState('');
-    // const [nimMhs,setNimMhs] = useState('');
+  const { formIdA } = useParams<{ formIdA: string | undefined }>();
+  const nimMhs = useContext<string | undefined>(MhsInfoContext);
 
     const [finalValue, setFinalValue] = useState<number | null>(0);//nilai_akhir_angka
     const [finalLetterValue, setFinalLetterValue] = useState("E");//nilai_akhir_huruf
@@ -35,83 +49,50 @@ const FormulirDua: React.FC = () => {
         cpmk_2: 0,
         cpmk_3: 0,
       });
-    const [allMhsClaim, setAllMhsClaim] = useState<AllMhsClaim>([]);
-    const [allFilter, setAllFilter] = useState<AllFilter>({});
     const [averageResults, setAverageResults] = useState<AverageResults>({});
+    const [dsnData, setdsnData] = useState<ListSome>([]);
     
     useEffect(() => {
-        // Retrieve JWT token from localStorage
-        fetchFaipData();
-      }, []);
-      
-      const fetchFaipData = async () => {
-        try {
-          const token = localStorage.getItem('jwtToken');
-      
-          if (token) {
-            // Decode the token to extract user ID
-            const decodedToken: any = jwtDecode(token);
-            const userId = decodedToken.nomerInduk;
-            const config = {
-              headers: {
-                Authorization: `Bearer ${token}`
-              }
-            };
-            // Make API request with user ID
-            // const responseMhs = await axios.get(`/form-penilaian/dsn/student-info?uid=${userId}&pid=${formIdD}`,config);
-            // const userData = responseMhs.data.data;
-            // setNamaMhs(userData.info_mhs.nama);
-            // setNimMhs(userData.info_mhs.nomer_induk);
-
-            const responseMhsClaim = await axios.get(`/form-penilaian/dsn/claim-mhs?sid=${nimMhs}&uid=${userId}`,config);
-            // /form-penilaian/dsn/update-nilai?uid=1998200345678&pid=123456789&ft=kode-etik
-            const mhsClaim = responseMhsClaim.data.data;
-            setAllMhsClaim(mhsClaim);
-            
-            const responseFormFilter = await axios.get(`/form-penilaian/dsn/form-filter?uid=${userId}&ft=kode-etik`,config);
-            
-            const formFilter = responseFormFilter.data.data.mk_kode_etik;
-            setAllFilter(formFilter);
-            
-            const responseMhsGrading = await axios.get(`/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=kode-etik`,config);
-            const mhsGrading = responseMhsGrading.data.data
-
-            if (mhsGrading && mhsGrading.mk_kode_etik.nilai_cpmk){
-              setValues(mhsGrading.mk_kode_etik.nilai_cpmk);
+      // Retrieve JWT token from localStorage
+      fetchFaipData();
+    }, []);
+    
+    const fetchFaipData = async () => {
+      try {
+        const token = localStorage.getItem('jwtToken');
+    
+        if (token) {
+          // Decode the token to extract user ID
+          const decodedToken: any = jwtDecode(token);
+          const userId = decodedToken.nomerInduk;
+          const config = {
+            headers: {
+              Authorization: `Bearer ${token}`
             }
-        } else {
-            console.error('User not found');
-        }
-        } catch (error) {
-          console.error('Error fetching data'); 
-        }
-      };
-      console.log("[VALUES] = " + values)
-      
-    useEffect(() => {
-        if (allMhsClaim.length && Object.keys(allFilter).length) {
-          const calculateAveragePerFilter = () => {
-            const results: AverageResults = {};
-    
-            Object.keys(allFilter).forEach(filterKey => {
-              const prefixes = allFilter[filterKey];
-    
-              // Evaluate each prefix, 100 if matched, 0 otherwise
-              const scores = prefixes.map(prefix =>
-                allMhsClaim.some(item => item.startsWith(prefix)) ? 100 : 0
-              );
-    
-              // Calculate average by summing scores and dividing by the number of prefixes
-              const average = Math.round(scores.reduce((sum: number, value: number) => sum + value, 0) / scores.length);
-              results[filterKey] = average;
-            });
-    
-            setAverageResults(results);
           };
-    
-          calculateAveragePerFilter();
-        }
-      }, [allMhsClaim, allFilter]);
+
+          
+          const responseGrading = await axios.get(`/form-tools/verif-grade/grading-info?uid=${userId}&pid=${formIdA}&sid=${nimMhs}&ft=kode-etik`,config);
+          const adminGrading = responseGrading.data.data.existingVerifGrading;
+          const dsnGrading = responseGrading.data.data.existingLectureGrading;
+
+          if (adminGrading && adminGrading.nilai_Verif_kode_etik.nilai_cpmk){
+            setValues(adminGrading.nilai_Verif_kode_etik.nilai_cpmk);
+          }
+          const validGrading = dsnGrading.filter(
+            (item: any) => Object.keys(item.mk_kode_etik).length > 0
+          );
+      
+          if (validGrading.length > 0) {
+            setdsnData(validGrading);
+          }
+      } else {
+          console.error('User not found');
+      }
+      } catch (error) {
+        console.error('Error fetching data'); 
+      }
+    };
 
     const onFinish = async () => { //fungsi submit form //NEED API POST
       try{
@@ -121,7 +102,7 @@ const FormulirDua: React.FC = () => {
           const userId = decodedToken.nomerInduk;
 
           const formData = {
-          nilaiRekomendasiCpmk:averageResults,
+          // nilaiRataCpmk:averageResults,
           nilaiCpmk:values,
           nilaiAngka:finalValue,
           nilaiHuruf:finalLetterValue
@@ -134,7 +115,8 @@ const FormulirDua: React.FC = () => {
             }
           };
 
-          await axios.patch(`/form-penilaian/dsn/update-nilai?uid=${userId}&pid=${formIdD}&ft=kode-etik`,formData,config);
+          await axios.patch(`/form-tools/verif-grade/grading-info?uid=${userId}&pid=${formIdA}&ft=kode-etik`,formData,config);
+
           // console.log("response add form:"+response)
 
           // const userData = response.data;
@@ -165,6 +147,18 @@ const FormulirDua: React.FC = () => {
         }));
       };
     
+      const calculateAverage = (key: keyof SubObject) => {
+        const total = dsnData.reduce(
+          (sum, item) => sum + (item.mk_kode_etik.nilai_cpmk[key] || 0),
+          0
+        );
+        return dsnData.length > 0 ? total / dsnData.length : 0;
+      };
+  
+    const handleCopyAverage = (key: keyof SubObject) => {
+      const average = Math.round(calculateAverage(key));
+      setValues((prev) => ({ ...prev, [key]: average }));
+    };
 
 // console.log("nilai akhir ANGKA = " + finalValue)
 // console.log("nilai akhir HHURUF = " + finalLetterValue)
@@ -199,9 +193,14 @@ return (
 
         {/* CPMK 1 */}
         <h4>CPMK 1. Mahasiswa mampu menjelaskan etika dan kode etik, profesionalisme, tata laku dan ciri khas dalam bidang profesi keinsinyuran sesuai kaidah etika profesi </h4>
-        <p style={{margin:'5px 0'}}>Rekomendasi Nilai : <span style={{color:'blue'}}>{averageResults['cpmk_1'] || 0}</span></p>
+        {dsnData.map((item) => (
+            <div key={item.id_dosen}>
+              <p> - Nilai dari {item.dosen_name} : {item.mk_kode_etik.nilai_cpmk.cpmk_1 ?? 0} </p>
+            </div>
+        ))}
+        <p>Rata-rata nilai CPMK 1 : <span style={{color:'blue'}}>{Math.round(calculateAverage("cpmk_1"))}</span></p>
         <div style={{display:'flex',flexDirection:'row'}}>
-            <p style={{margin:'5px 0'}}>Nilai CPMK 1 :</p>
+            <p style={{margin:'5px 0'}}>Verifikasi nilai CPMK 1 :</p>
                 <InputNumber style={{width:'75px',margin:'0 5px'}} 
                 min={0} 
                 max={100}  
@@ -209,34 +208,48 @@ return (
                 onChange={(value) => handleInputChange("cpmk_1", value)}/>
             <p style={{margin:'5px 0',fontStyle:'italic',color:'gray'}}>* Masukkan nilai dari 1-100</p>
         </div>
+        <Button type="primary" onClick={() => handleCopyAverage("cpmk_1")}><CopyOutlined /> Kopi nilai CPMK 1</Button>
+
         <Divider style={{margin:'10px 0'}} />
 
         {/* CPMK 2 */}
         <h4>CPMK 2. Mahasiswa mampu menerapkan etika dan kode etik, profesionalisme, tata laku dan ciri khas dalam bidang profesi keinsinyuran sesuai kaidah etika profesi </h4>
-        <p style={{margin:'5px 0'}}>Rekomendasi Nilai : <span style={{color:'blue'}}>{averageResults['cpmk_2'] || 0}</span></p>
+        {dsnData.map((item) => (
+            <div key={item.id_dosen}>
+              <p> - Nilai dari {item.dosen_name} : {item.mk_kode_etik.nilai_cpmk.cpmk_2 ?? 0} </p>
+            </div>
+        ))}
+        <p>Rata-rata nilai CPMK 2 : <span style={{color:'blue'}}>{Math.round(calculateAverage("cpmk_2"))}</span></p>
         <div style={{display:'flex',flexDirection:'row'}}>
-            <p style={{margin:'5px 0'}}>Nilai CPMK 2 :</p>
-            <InputNumber style={{width:'75px',margin:'0 5px'}} 
+            <p style={{margin:'5px 0'}}>Verifikasi nilai CPMK 2 :</p>
+                <InputNumber style={{width:'75px',margin:'0 5px'}} 
                 min={0} 
                 max={100}  
                 value={values["cpmk_2"]}
                 onChange={(value) => handleInputChange("cpmk_2", value)}/>
             <p style={{margin:'5px 0',fontStyle:'italic',color:'gray'}}>* Masukkan nilai dari 1-100</p>
         </div>
+        <Button type="primary" onClick={() => handleCopyAverage("cpmk_2")}><CopyOutlined /> Kopi nilai CPMK 2</Button>
         <Divider style={{margin:'10px 0'}} />
 
         {/* CPMK 3 */}
         <h4>CPMK 3. Mahasiswa mampu menyelesaiakan masalah berperilaku sesuai dengan etika profesi keinsinyuran dengan mengemukakan pendapat baik lisan maupun tulisan</h4>
-        <p style={{margin:'5px 0'}}>Rekomendasi Nilai : <span style={{color:'blue'}}>{averageResults['cpmk_3'] || 0}</span></p>
+        {dsnData.map((item) => (
+            <div key={item.id_dosen}>
+              <p> - Nilai dari {item.dosen_name} : {item.mk_kode_etik.nilai_cpmk.cpmk_3 ?? 0} </p>
+            </div>
+        ))}
+        <p>Rata-rata nilai CPMK 3 : <span style={{color:'blue'}}>{Math.round(calculateAverage("cpmk_3"))}</span></p>
         <div style={{display:'flex',flexDirection:'row'}}>
-            <p style={{margin:'5px 0'}}>Nilai CPMK 3 :</p>
-            <InputNumber style={{width:'75px',margin:'0 5px'}} 
+            <p style={{margin:'5px 0'}}>Verifikasi nilai CPMK 3 :</p>
+                <InputNumber style={{width:'75px',margin:'0 5px'}} 
                 min={0} 
                 max={100}  
                 value={values["cpmk_3"]}
-                onChange={(value) => handleInputChange("cpmk_3", value)}/>            
+                onChange={(value) => handleInputChange("cpmk_3", value)}/>
             <p style={{margin:'5px 0',fontStyle:'italic',color:'gray'}}>* Masukkan nilai dari 1-100</p>
         </div>
+        <Button type="primary" onClick={() => handleCopyAverage("cpmk_3")}><CopyOutlined /> Kopi nilai CPMK 3</Button>
         <Divider style={{margin:'10px 0'}} />
 
         <p style={{margin:'5px 0'}}>Nilai Akhir dalam Angka : <span style={{color:'blue'}}>{finalValue?.toFixed(0)}</span></p>
@@ -249,4 +262,4 @@ return (
 );
 };
 
-export default FormulirDua;
+export default VerifNilaiKodeEtik;
