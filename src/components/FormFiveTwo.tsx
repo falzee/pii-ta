@@ -23,7 +23,7 @@ import { useParams } from 'react-router';
     key: any;
     judulMakalah: string;
     namaSeminar: string;
-    peyelenggara: string;
+    penyelenggara: string;
     kota: string;
     provinsi: string;
     negara : string;
@@ -93,7 +93,7 @@ const FormFiveTwo: React.FC = () => {
           key: nanoid(),//gk perlu //gk jadi deng ternyata perlu
           judulMakalah: '',
           namaSeminar: '',
-          peyelenggara: '',
+          penyelenggara: '',
           kota: '',
           provinsi: '',
           negara: '',
@@ -128,7 +128,7 @@ const FormFiveTwo: React.FC = () => {
             ...row,
             judulMakalah : values[`judulMakalah${row.key}`],
             namaSeminar: values[`namaSeminar${row.key}`],
-            peyelenggara: values[`peyelenggara${row.key}`],
+            penyelenggara: values[`penyelenggara${row.key}`],
             kota: values[`kota${row.key}`],
             provinsi: values[`provinsi${row.key}`],
             negara: values[`negara${row.key}`],
@@ -263,6 +263,16 @@ const FormFiveTwo: React.FC = () => {
           ),
         },
         {
+          title: 'Penyelenggara',
+          dataIndex: 'penyelenggara',
+          key: 'penyelenggara',
+          render: (text: string, record: TableRow) => (
+            <Form.Item name={`penyelenggara${record.key}`} initialValue={text} style={{width:'200px'}}>
+              <TextArea rows={4} />
+            </Form.Item>
+          ),
+        },
+        {
           title: 'Kota/Kabupaten',
           dataIndex: 'kota',
           key: 'kota',
@@ -302,7 +312,7 @@ const FormFiveTwo: React.FC = () => {
                     <Form.Item className='form-item-row' name={`bulanPenyelenggaraSeminar${record.key}`} initialValue={record.bulanPenyelenggaraSeminar || undefined}>
                       <Select placeholder="--Bulan--" style={{ width: 150 }}>
                         <Select.Option value="Januari">Januari</Select.Option>
-                        <Select.Option value="Februari">Februari</Select.Option>
+                        <Select.Option value="Pebruari">Februari</Select.Option>
                         <Select.Option value="Maret">Maret</Select.Option>
                         <Select.Option value="April">April</Select.Option>
                         <Select.Option value="Mei">Mei</Select.Option>
@@ -311,7 +321,7 @@ const FormFiveTwo: React.FC = () => {
                         <Select.Option value="Agustus">Agustus</Select.Option>
                         <Select.Option value="September">September</Select.Option>
                         <Select.Option value="Oktober">Oktober</Select.Option>
-                        <Select.Option value="November">November</Select.Option>
+                        <Select.Option value="Nopember">November</Select.Option>
                         <Select.Option value="Desember">Desember</Select.Option>
                       </Select>
                     </Form.Item>
@@ -328,9 +338,9 @@ const FormFiveTwo: React.FC = () => {
             render: (text: string, record: TableRow, index: number) => (
                 <Form.Item name={`tingkatSeminar${record.key}`} initialValue={record.tingkatSeminar  || undefined}>
                 <Select placeholder="--Choose--" style={{ width: 280 }}>
-                  <Select.Option value="lokal">Pada Seminar Lokal</Select.Option>
-                  <Select.Option value="nasional">Pada Seminar Nasional</Select.Option>
-                  <Select.Option value="internasional">Pada Seminar Internasional</Select.Option>
+                  <Select.Option value="Pada Seminar Lokal">Pada Seminar Lokal</Select.Option>
+                  <Select.Option value="Pada Seminar Nasional">Pada Seminar Nasional</Select.Option>
+                  <Select.Option value="Pada Seminar Internasional">Pada Seminar Internasional</Select.Option>
                 </Select>
               </Form.Item>
             ),
@@ -352,10 +362,10 @@ const FormFiveTwo: React.FC = () => {
             render: (text: string, record: TableRow, index: number) => (
                 <Form.Item name={`tingkatKesulitan${record.key}`} initialValue={record.tingkatKesulitan  || undefined}>
                 <Select placeholder="--Choose--" style={{ width: 780 }}>
-                  <Select.Option value="rendah">Komplikasi masalah, kreatifitas & inovasi rendah, nilai manfaat dan dampak nilai teknologi rendah</Select.Option>
-                  <Select.Option value="sedang">Komplikasi masalah, kreatifitas & inovasi sedang, nilai manfaat dan dampak nilai teknologi sedang</Select.Option>
-                  <Select.Option value="luas">Komplikasi masalah, kreatifitas & inovasi tinggi, nilai manfaat dan dampak nilai teknologi luas</Select.Option>
-                  <Select.Option value="sangatluas">Komplikasi masalah, kreatifitas & inovasi sangat tinggi, nilai manfaat dan dampak nilai teknologi sangat luas</Select.Option>
+                  <Select.Option value="Komplikasi masalah, kreatifitas & inovasi rendah, nilai manfaat dan dampak nilai teknologi rendah">Komplikasi masalah, kreatifitas & inovasi rendah, nilai manfaat dan dampak nilai teknologi rendah</Select.Option>
+                  <Select.Option value="Komplikasi masalah, kreatifitas & inovasi sedang, nilai manfaat dan dampak nilai teknologi sedang">Komplikasi masalah, kreatifitas & inovasi sedang, nilai manfaat dan dampak nilai teknologi sedang</Select.Option>
+                  <Select.Option value="Komplikasi masalah, kreatifitas & inovasi tinggi, nilai manfaat dan dampak nilai teknologi luas">Komplikasi masalah, kreatifitas & inovasi tinggi, nilai manfaat dan dampak nilai teknologi luas</Select.Option>
+                  <Select.Option value="Komplikasi masalah, kreatifitas & inovasi sangat tinggi, nilai manfaat dan dampak nilai teknologi sangat luas">Komplikasi masalah, kreatifitas & inovasi sangat tinggi, nilai manfaat dan dampak nilai teknologi sangat luas</Select.Option>
                 </Select>
               </Form.Item>
             ),

@@ -26,6 +26,7 @@ import { useParams } from 'react-router';
     tahun: string;
     mediaPublikasi: string;
     tingkatMediaPublikasi: string;
+    tingkatPublikasi: string;
 	uraianSingkatInovasi: string;
 	tingkatKesulitanInovasi: string;
     klaimKompetensi: string[];
@@ -91,6 +92,7 @@ const FormFiveFour: React.FC = () => {
           bulan: '',
           tahun: '',
           mediaPublikasi: '',
+          tingkatPublikasi:'',
           tingkatMediaPublikasi: '',
           uraianSingkatInovasi: '',
           tingkatKesulitanInovasi: '',
@@ -121,6 +123,7 @@ const FormFiveFour: React.FC = () => {
             namaInovasi : values[`namaInovasi${row.key}`],
             bulan: values[`bulan${row.key}`],
             tahun: values[`tahun${row.key}`],
+            tingkatPublikasi: values[`tingkatPublikasi${row.key}`],
             mediaPublikasi: values[`mediaPublikasi${row.key}`],
             tingkatMediaPublikasi: values[`tingkatMediaPublikasi${row.key}`],
             uraianSingkatInovasi: values[`uraianSingkatInovasi${row.key}`],
@@ -204,7 +207,7 @@ const FormFiveFour: React.FC = () => {
                     <Form.Item className='form-item-row' name={`bulan${record.key}`} initialValue={record.bulan || undefined}>
                       <Select placeholder="--Bulan--" style={{ width: 150 }}>
                         <Select.Option value="Januari">Januari</Select.Option>
-                        <Select.Option value="Februari">Februari</Select.Option>
+                        <Select.Option value="Pebruari">Februari</Select.Option>
                         <Select.Option value="Maret">Maret</Select.Option>
                         <Select.Option value="April">April</Select.Option>
                         <Select.Option value="Mei">Mei</Select.Option>
@@ -213,7 +216,7 @@ const FormFiveFour: React.FC = () => {
                         <Select.Option value="Agustus">Agustus</Select.Option>
                         <Select.Option value="September">September</Select.Option>
                         <Select.Option value="Oktober">Oktober</Select.Option>
-                        <Select.Option value="November">November</Select.Option>
+                        <Select.Option value="Nopember">November</Select.Option>
                         <Select.Option value="Desember">Desember</Select.Option>
                       </Select>
                     </Form.Item>
@@ -234,6 +237,20 @@ const FormFiveFour: React.FC = () => {
             ),
           },
           {
+            title: 'Media Publikasi tingkat',
+            dataIndex: 'tingkatPublikasi',
+            key: 'tingkatPublikasi',
+            render: (text: string, record: TableRow, index: number) => (
+                <Form.Item name={`tingkatPublikasi${record.key}`} initialValue={record.tingkatPublikasi  || undefined}>
+                <Select placeholder="--Choose--" style={{ width: 200 }}>
+                  <Select.Option value="Dipublikasikan di Media Lokal">Dipublikasikan di Media Lokal</Select.Option>
+                  <Select.Option value="Dipublikasikan di Media Nasional">Dipublikasikan di Media Nasional</Select.Option>
+                  <Select.Option value="Dipublikasikan di Media Internasional">Dipublikasikan di Media Internasional</Select.Option>
+                </Select>
+              </Form.Item>
+            ),
+          },
+          {
             title: 'Uraian Singkat Karya Temuan/Inovasi/Paten dan Implementasi Teknologi Baru',
             dataIndex: 'uraianSingkatInovasi',
             key: 'uraianSingkatInovasi',
@@ -250,10 +267,10 @@ const FormFiveFour: React.FC = () => {
             render: (text: string, record: TableRow, index: number) => (
                 <Form.Item name={`tingkatKesulitanInovasi${record.key}`} initialValue={record.tingkatKesulitanInovasi  || undefined}>
                 <Select placeholder="--Choose--" style={{ width: 780 }}>
-                  <Select.Option value="rendah">Komplikasi masalah, kreatifitas & inovasi rendah, nilai manfaat dan dampak nilai teknologi rendah</Select.Option>
-                  <Select.Option value="sedang">Komplikasi masalah, kreatifitas & inovasi sedang, nilai manfaat dan dampak nilai teknologi sedang</Select.Option>
-                  <Select.Option value="luas">Komplikasi masalah, kreatifitas & inovasi tinggi, nilai manfaat dan dampak nilai teknologi luas</Select.Option>
-                  <Select.Option value="sangatluas">Komplikasi masalah, kreatifitas & inovasi sangat tinggi, nilai manfaat dan dampak nilai teknologi sangat luas</Select.Option>
+                  <Select.Option value="Komplikasi masalah, kreatifitas & inovasi rendah, nilai manfaat dan dampak nilai teknologi rendah">Komplikasi masalah, kreatifitas & inovasi rendah, nilai manfaat dan dampak nilai teknologi rendah</Select.Option>
+                  <Select.Option value="Komplikasi masalah, kreatifitas & inovasi sedang, nilai manfaat dan dampak nilai teknologi sedang">Komplikasi masalah, kreatifitas & inovasi sedang, nilai manfaat dan dampak nilai teknologi sedang</Select.Option>
+                  <Select.Option value="Komplikasi masalah, kreatifitas & inovasi tinggi, nilai manfaat dan dampak nilai teknologi luas">Komplikasi masalah, kreatifitas & inovasi tinggi, nilai manfaat dan dampak nilai teknologi luas</Select.Option>
+                  <Select.Option value="Komplikasi masalah, kreatifitas & inovasi sangat tinggi, nilai manfaat dan dampak nilai teknologi sangat luas">Komplikasi masalah, kreatifitas & inovasi sangat tinggi, nilai manfaat dan dampak nilai teknologi sangat luas</Select.Option>
                 </Select>
               </Form.Item>
             ),

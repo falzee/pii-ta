@@ -240,10 +240,10 @@ const FormulirDuaSatu: React.FC = () => {
                 <div>
                   <Form.Item name={`hubungan${record.key}`} initialValue={record.hubungan || undefined}>
                     <Select placeholder="--Choose--" style={{ width: 280 }}>
-                      <Select.Option value="atasan">Atasan</Select.Option>
-                      <Select.Option value="rekanKerja">Rekan kerja</Select.Option>
-                      <Select.Option value="rekanSeprofesi">Rekan Seprofesi</Select.Option>
-                      <Select.Option value="lainLain">Lain-lain</Select.Option>
+                      <Select.Option value="Atasan">Atasan</Select.Option>
+                      <Select.Option value="Rekan kerja">Rekan kerja</Select.Option>
+                      <Select.Option value="Rekan Seprofesi">Rekan Seprofesi</Select.Option>
+                      <Select.Option value="Lain-lain">Lain-lain</Select.Option>
                     </Select>
                   </Form.Item>
                 </div>

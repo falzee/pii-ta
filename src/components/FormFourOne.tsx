@@ -238,10 +238,10 @@ const FormFourOne: React.FC = () => {
                 <div>
                   <Form.Item name={`perioda${record.key}`} initialValue={record.perioda || undefined}>
                     <Select placeholder="--Choose--" style={{ width: 280 }}>
-                      <Select.Option value="kurang9tahun">1 - 9 Tahun</Select.Option>
-                      <Select.Option value="kurang14tahun">10 - 14 Tahun</Select.Option>
-                      <Select.Option value="kurang19tahun">15 - 19 Tahun</Select.Option>
-                      <Select.Option value="lebih20tahun">&gt; 20 Tahun</Select.Option>
+                      <Select.Option value="1 - 9 Tahun">1 - 9 Tahun</Select.Option>
+                      <Select.Option value="10 - 14 Tahun">10 - 14 Tahun</Select.Option>
+                      <Select.Option value="15 - 19 Tahun">15 - 19 Tahun</Select.Option>
+                      <Select.Option value="&gt; 20 Tahun">&gt; 20 Tahun</Select.Option>
                     </Select>
                   </Form.Item>
                 </div>
@@ -254,8 +254,8 @@ const FormFourOne: React.FC = () => {
             render: (text: string, record: TableRow, index: number) => (
               <Form.Item name={`jabatandiPerguruan${record.key}`} initialValue={record.jabatandiPerguruan || undefined} >
                 <Select placeholder="--Choose--" style={{ width: 280 }}>
-                  <Select.Option value="staff">Staff Pengajar</Select.Option>
-                  <Select.Option value="pimpinan">Pimpinan</Select.Option>
+                  <Select.Option value="Staff Pengajar">Staff Pengajar</Select.Option>
+                  <Select.Option value="Pimpinan">Pimpinan</Select.Option>
                 </Select>
               </Form.Item>
             ),
@@ -267,9 +267,9 @@ const FormFourOne: React.FC = () => {
             render: (text: string, record: TableRow, index: number) => (
               <Form.Item name={`jumlahWaktu${record.key}`} initialValue={record.jumlahWaktu || undefined} >
                 <Select placeholder="--Choose--" style={{ width: 280 }}>
-                  <Select.Option value="1sks">1 SKS / 15 Jam</Select.Option>
-                  <Select.Option value="2sampai3sks">2-3 SKS / 45 Jam</Select.Option>
-                  <Select.Option value="4sks">4 SKS / 60 Jam</Select.Option>
+                  <Select.Option value="1 SKS / 15 Jam">1 SKS / 15 Jam</Select.Option>
+                  <Select.Option value="2-3 SKS / 45 Jam">2-3 SKS / 45 Jam</Select.Option>
+                  <Select.Option value="4 SKS / 60 Jam">4 SKS / 60 Jam</Select.Option>
                 </Select>
               </Form.Item>
             ),

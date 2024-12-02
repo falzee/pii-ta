@@ -193,9 +193,9 @@ const FormSixOne: React.FC = () => {
           render: (text: string, record: TableRow) => (
             <Form.Item name={`jenisBahasa${record.key}`} initialValue={record.jenisBahasa || undefined} >
               <Select placeholder="--Choose--" style={{ width: 280 }} >
-                <Select.Option value="daerah">Bahasa Daerah</Select.Option>
-                <Select.Option value="nasional">Bahasa Nasional</Select.Option>
-                <Select.Option value="asing">Bahasa Asing / Internasional</Select.Option>
+                <Select.Option value="Bahasa Daerah">Bahasa Daerah</Select.Option>
+                <Select.Option value="Bahasa Nasional">Bahasa Nasional</Select.Option>
+                <Select.Option value="Bahasa Asing / Internasional">Bahasa Asing / Internasional</Select.Option>
               </Select>
             </Form.Item>
           ),
@@ -207,8 +207,8 @@ const FormSixOne: React.FC = () => {
           render: (text: string, record: TableRow) => (
             <Form.Item name={`kemampuanVerbalBahasa${record.key}`} initialValue={record.kemampuanVerbalBahasa || undefined} >
               <Select placeholder="--Choose--" style={{ width: 280 }} >
-                <Select.Option value="pasif">Pasif (Tertulis)</Select.Option>
-                <Select.Option value="aktif">Aktif (Tertulis/lisan)</Select.Option>
+                <Select.Option value="Pasif (Tertulis)">Pasif (Tertulis)</Select.Option>
+                <Select.Option value="Aktif (Tertulis/lisan)">Aktif (Tertulis/lisan)</Select.Option>
               </Select>
             </Form.Item>
           ),
@@ -220,9 +220,9 @@ const FormSixOne: React.FC = () => {
             render: (text: string, record: TableRow) => (
                 <Form.Item name={`jenisTulisan${record.key}`} initialValue={record.jenisTulisan || undefined} >
                   <Select placeholder="--Choose--" style={{ width: 280 }} >
-                    <Select.Option value="makalah">Makalah</Select.Option>
-                    <Select.Option value="jurnal">Jurnal</Select.Option>
-                    <Select.Option value="laporan">Laporan</Select.Option>
+                    <Select.Option value="Makalah">Makalah</Select.Option>
+                    <Select.Option value="Jurnal">Jurnal</Select.Option>
+                    <Select.Option value="Laporan">Laporan</Select.Option>
                   </Select>
                 </Form.Item>
             ),

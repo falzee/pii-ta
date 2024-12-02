@@ -35,6 +35,35 @@ const FormulirDua: React.FC = () => {
         cpmk_2: 0,
         cpmk_3: 0,
       });
+    // const [allMhsClaim, setAllMhsClaim] = useState<AllMhsClaim>(["W.1.1.1","W.1.1.2","W.1.3.3","W.1.1.1",
+    //   "W.1.1.3","W.1.1.5","W.1.2.7","W.1.2.4","W.1.3.5","W.1.1.3","W.1.2.3","W.1.3.2","W.1.3.1","W.1.2.7",
+    //   "W.1.2.8","W.4.5.1","W.4.5.3","W.4.4.6","W.4.4.2","W.4.4.5","P.10.6.2","P.10.6.1","P.10.3.2","P.10.3.3",
+    //   "P.10.4.2","W.2.1.2","W.2.1.4","W.2.2.3","W.2.2.2","W.2.3.5","W.4.2.1","W.4.2.3","W.4.3.2","W.4.3.4","W.4.5.4",
+    //   "P.10.2.3","P.10.4.3","P.10.4.1","P.10.3.6","P.10.3.5","W.2.1.6","W.2.2.3","W.2.3.1","W.2.4.1","W.2.6.1",
+    //   "W.2.1.4","W.2.3.4","W.2.6.4","W.2.6.3","W.2.5.3","W.3.1.2","W.3.2.1","W.3.3.3","W.3.5.2","W.3.6.4","W.3.4.2",
+    //   "W.4.1.1","W.4.1.5","W.4.3.6","W.4.5.2","P.6.1.3","P.6.1.4","P.6.3.3","P.6.4.3","P.6.5.4","P.6.4.1","P.7.1.1",
+    //   "P.7.1.6","P.7.2.3","P.7.2.4","P.7.3.5","P.7.5.2","P.7.4.4","P.7.4.1","P.8.1.1","P.8.2.1","P.8.2.4","P.8.3.6",
+    //   "P.8.4.3","P.8.5.3","P.8.3.3","P.8.3.2","P.9.1.1","P.9.3.1","P.9.4.2","P.9.4.1","P.9.5.4","P.9.4.6","P.10.1.1",
+    //   "P.10.2.1","P.10.3.1","P.10.3.5","P.10.4.4","P.10.6.1","W.2.1.3","W.2.1.4","W.2.3.2","W.4.1.3","W.4.1.5","W.4.3.6",
+    //   "W.4.5.9","W.4.1.3","W.4.1.5","W.4.3.4","W.4.4.4","W.4.1.1","W.4.1.5","W.4.3.1","W.4.1.1","W.4.3.4","W.4.5.9",
+    //   "W.4.1.2","W.4.4.5","W.4.5.9","P.5.2.9","P.5.2.7","P.5.2.1","P.5.1.3","P.5.1.1","P.5.2.2","P.6.1.1","P.6.4.1",
+    //   "P.6.3.3","P.6.4.4","P.6.5.1","P.6.5.4"]);
+    // const [allFilter, setAllFilter] = useState<AllFilter>({
+    //       "cpmk_1": [
+    //           "W.1.1.",
+    //           "W.1.2."
+    //       ],
+    //       "cpmk_2": [
+    //           "W.1.2.",
+    //           "W.1.4.",
+    //           "P.5.2."
+    //       ],
+    //       "cpmk_3": [
+    //           "W.1.2.",
+    //           "W.1.4."
+    //       ]
+    //   }
+    // );
     const [allMhsClaim, setAllMhsClaim] = useState<AllMhsClaim>([]);
     const [allFilter, setAllFilter] = useState<AllFilter>({});
     const [averageResults, setAverageResults] = useState<AverageResults>({});
@@ -57,11 +86,6 @@ const FormulirDua: React.FC = () => {
                 Authorization: `Bearer ${token}`
               }
             };
-            // Make API request with user ID
-            // const responseMhs = await axios.get(`/form-penilaian/dsn/student-info?uid=${userId}&pid=${formIdD}`,config);
-            // const userData = responseMhs.data.data;
-            // setNamaMhs(userData.info_mhs.nama);
-            // setNimMhs(userData.info_mhs.nomer_induk);
 
             const responseMhsClaim = await axios.get(`/form-penilaian/dsn/claim-mhs?sid=${nimMhs}&uid=${userId}`,config);
             // /form-penilaian/dsn/update-nilai?uid=1998200345678&pid=123456789&ft=kode-etik
@@ -86,7 +110,7 @@ const FormulirDua: React.FC = () => {
           console.error('Error fetching data'); 
         }
       };
-      console.log("[VALUES] = " + values)
+      // console.log("[VALUES] = " + values)
       
     useEffect(() => {
         if (allMhsClaim.length && Object.keys(allFilter).length) {
@@ -127,7 +151,7 @@ const FormulirDua: React.FC = () => {
           nilaiHuruf:finalLetterValue
         }
           // Now you can send formData to your backend for processing
-          console.log('Form Data:', formData);
+          // console.log('Form Data:', formData);
           const config = {
             headers: {
               Authorization: `Bearer ${token}`
@@ -164,6 +188,19 @@ const FormulirDua: React.FC = () => {
           [key]: value || 0,
         }));
       };
+
+    //   const calculateAverage = (key: keyof SubObject) => {
+    //     const total = dsnData.reduce(
+    //       (sum, item) => sum + (item.mk_kode_etik.nilai_cpmk[key] || 0),
+    //       0
+    //     );
+    //     return dsnData.length > 0 ? total / dsnData.length : 0;
+    //   };
+  
+    // const handleCopyAverage = (key: keyof SubObject) => {
+    //   const average = Math.round(calculateAverage(key));
+    //   setValues((prev) => ({ ...prev, [key]: average }));
+    // };
     
 
 // console.log("nilai akhir ANGKA = " + finalValue)

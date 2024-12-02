@@ -299,7 +299,7 @@ const FormFiveOne: React.FC = () => {
                     <Form.Item className='form-item-row' name={`bulanTerbit${record.key}`} initialValue={record.bulanTerbit || undefined}>
                       <Select placeholder="--Bulan--" style={{ width: 150 }}>
                         <Select.Option value="Januari">Januari</Select.Option>
-                        <Select.Option value="Februari">Februari</Select.Option>
+                        <Select.Option value="Pebruari">Februari</Select.Option>
                         <Select.Option value="Maret">Maret</Select.Option>
                         <Select.Option value="April">April</Select.Option>
                         <Select.Option value="Mei">Mei</Select.Option>
@@ -308,7 +308,7 @@ const FormFiveOne: React.FC = () => {
                         <Select.Option value="Agustus">Agustus</Select.Option>
                         <Select.Option value="September">September</Select.Option>
                         <Select.Option value="Oktober">Oktober</Select.Option>
-                        <Select.Option value="November">November</Select.Option>
+                        <Select.Option value="Nopember">November</Select.Option>
                         <Select.Option value="Desember">Desember</Select.Option>
                       </Select>
                     </Form.Item>
@@ -325,9 +325,9 @@ const FormFiveOne: React.FC = () => {
             render: (text: string, record: TableRow, index: number) => (
                 <Form.Item name={`tingkatMediaPublikasi${record.key}`} initialValue={record.tingkatMediaPublikasi  || undefined}>
                 <Select placeholder="--Choose--" style={{ width: 280 }}>
-                  <Select.Option value="lokal">Dimuat di Media Lokal</Select.Option>
-                  <Select.Option value="nasional">Dimuat di Media Nasional</Select.Option>
-                  <Select.Option value="internasional">Dimuat di Media Internasional</Select.Option>
+                  <Select.Option value="Dimuat di Media Lokal">Dimuat di Media Lokal</Select.Option>
+                  <Select.Option value="Dimuat di Media Nasional">Dimuat di Media Nasional</Select.Option>
+                  <Select.Option value="Dimuat di Media Internasional">Dimuat di Media Internasional</Select.Option>
                 </Select>
               </Form.Item>
             ),
@@ -349,10 +349,10 @@ const FormFiveOne: React.FC = () => {
             render: (text: string, record: TableRow, index: number) => (
                 <Form.Item name={`tingkatKesulitanPublikasi${record.key}`} initialValue={record.tingkatKesulitanPublikasi  || undefined}>
                 <Select placeholder="--Choose--" style={{ width: 780 }}>
-                  <Select.Option value="rendah">Komplikasi masalah, kreatifitas & inovasi rendah, nilai manfaat dan dampak nilai teknologi rendah</Select.Option>
-                  <Select.Option value="sedang">Komplikasi masalah, kreatifitas & inovasi sedang, nilai manfaat dan dampak nilai teknologi sedang</Select.Option>
-                  <Select.Option value="luas">Komplikasi masalah, kreatifitas & inovasi tinggi, nilai manfaat dan dampak nilai teknologi luas</Select.Option>
-                  <Select.Option value="sangatluas">Komplikasi masalah, kreatifitas & inovasi sangat tinggi, nilai manfaat dan dampak nilai teknologi sangat luas</Select.Option>
+                  <Select.Option value="Komplikasi masalah, kreatifitas & inovasi rendah, nilai manfaat dan dampak nilai teknologi rendah">Komplikasi masalah, kreatifitas & inovasi rendah, nilai manfaat dan dampak nilai teknologi rendah</Select.Option>
+                  <Select.Option value="Komplikasi masalah, kreatifitas & inovasi sedang, nilai manfaat dan dampak nilai teknologi sedang">Komplikasi masalah, kreatifitas & inovasi sedang, nilai manfaat dan dampak nilai teknologi sedang</Select.Option>
+                  <Select.Option value="Komplikasi masalah, kreatifitas & inovasi tinggi, nilai manfaat dan dampak nilai teknologi luas">Komplikasi masalah, kreatifitas & inovasi tinggi, nilai manfaat dan dampak nilai teknologi luas</Select.Option>
+                  <Select.Option value="Komplikasi masalah, kreatifitas & inovasi sangat tinggi, nilai manfaat dan dampak nilai teknologi sangat luas">Komplikasi masalah, kreatifitas & inovasi sangat tinggi, nilai manfaat dan dampak nilai teknologi sangat luas</Select.Option>
                 </Select>
               </Form.Item>
             ),

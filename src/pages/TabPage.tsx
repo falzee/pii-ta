@@ -114,7 +114,16 @@ const MultiTabFormPage: React.FC = () => {
         } else if (userData.data.status === "111-2"){
           // setRedirecting(true); 
           navigate("/unauthorized", { replace: true });        
-        } else{
+        } else if (userData.data.status === "111-3"){
+          // setRedirecting(true); 
+          navigate("/unauthorized", { replace: true });        
+        }else if (userData.data.status === "111-4"){
+          // setRedirecting(true); 
+          navigate("/unauthorized", { replace: true });        
+        }else if (userData.data.status === "111-5"){
+          // setRedirecting(true); 
+          navigate("/unauthorized", { replace: true });        
+        }else{
           setRedirecting(false); 
         }
         

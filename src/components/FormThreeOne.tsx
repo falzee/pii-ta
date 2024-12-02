@@ -492,7 +492,7 @@ const FormThreeOne: React.FC = () => {
               <Form.Item className='form-item-row' name={`bulanMulai${record.key}`} initialValue={record.bulanMulai || undefined}>
                 <Select placeholder="--Bulan Mulai--" style={{ width: 150 }}>
                   <Select.Option value="Januari">Januari</Select.Option>
-                  <Select.Option value="Februari">Februari</Select.Option>
+                  <Select.Option value="Pebruari">Februari</Select.Option>
                   <Select.Option value="Maret">Maret</Select.Option>
                   <Select.Option value="April">April</Select.Option>
                   <Select.Option value="Mei">Mei</Select.Option>
@@ -501,7 +501,7 @@ const FormThreeOne: React.FC = () => {
                   <Select.Option value="Agustus">Agustus</Select.Option>
                   <Select.Option value="September">September</Select.Option>
                   <Select.Option value="Oktober">Oktober</Select.Option>
-                  <Select.Option value="November">November</Select.Option>
+                  <Select.Option value="Nopember">November</Select.Option>
                   <Select.Option value="Desember">Desember</Select.Option>
                 </Select>
               </Form.Item>
@@ -512,7 +512,7 @@ const FormThreeOne: React.FC = () => {
               <Form.Item className='form-item-row' name={`bulanMulai${record.key}`} initialValue={record.bulanMulai || undefined}>
                 <Select placeholder="--Bulan Mulai--" style={{ width: 150 }}>
                 <Select.Option value="Januari">Januari</Select.Option>
-                  <Select.Option value="Februari">Februari</Select.Option>
+                  <Select.Option value="Pebruari">Februari</Select.Option>
                   <Select.Option value="Maret">Maret</Select.Option>
                   <Select.Option value="April">April</Select.Option>
                   <Select.Option value="Mei">Mei</Select.Option>
@@ -521,7 +521,7 @@ const FormThreeOne: React.FC = () => {
                   <Select.Option value="Agustus">Agustus</Select.Option>
                   <Select.Option value="September">September</Select.Option>
                   <Select.Option value="Oktober">Oktober</Select.Option>
-                  <Select.Option value="November">November</Select.Option>
+                  <Select.Option value="Nopember">November</Select.Option>
                   <Select.Option value="Desember">Desember</Select.Option>
                 </Select>
               </Form.Item>
@@ -532,7 +532,7 @@ const FormThreeOne: React.FC = () => {
               <Form.Item className='form-item-row' name={`bulanBerakhir${record.key}`} initialValue={record.bulanBerakhir || undefined}>
                 <Select placeholder="--Bulan--" style={{ width: 150 }}>
                 <Select.Option value="Januari">Januari</Select.Option>
-                  <Select.Option value="Februari">Februari</Select.Option>
+                  <Select.Option value="Pebruari">Februari</Select.Option>
                   <Select.Option value="Maret">Maret</Select.Option>
                   <Select.Option value="April">April</Select.Option>
                   <Select.Option value="Mei">Mei</Select.Option>
@@ -541,7 +541,7 @@ const FormThreeOne: React.FC = () => {
                   <Select.Option value="Agustus">Agustus</Select.Option>
                   <Select.Option value="September">September</Select.Option>
                   <Select.Option value="Oktober">Oktober</Select.Option>
-                  <Select.Option value="November">November</Select.Option>
+                  <Select.Option value="Nopember">November</Select.Option>
                   <Select.Option value="Desember">Desember</Select.Option>
                 </Select>
               </Form.Item>
@@ -621,10 +621,10 @@ const FormThreeOne: React.FC = () => {
                 <div>
                   <Form.Item name={`durasi${record.key}`} initialValue={record.durasi || undefined}>
                     <Select placeholder="--Choose--" style={{ width: 280 }}>
-                      <Select.Option value="kurang3tahun">1 - 3 Tahun</Select.Option>
-                      <Select.Option value="kurang7tahun">4 - 7 Tahun</Select.Option>
-                      <Select.Option value="kurang10tahun">8 - 10 Tahun</Select.Option>
-                      <Select.Option value="lebih10tahun">&#62; 10 Tahun</Select.Option>
+                      <Select.Option value="1 - 3 Tahun">1 - 3 Tahun</Select.Option>
+                      <Select.Option value="4 - 7 Tahun">4 - 7 Tahun</Select.Option>
+                      <Select.Option value="8 - 10 Tahun">8 - 10 Tahun</Select.Option>
+                      <Select.Option value="&#62; 10 Tahun">&#62; 10 Tahun</Select.Option>
                     </Select>
                   </Form.Item>
                 </div>
@@ -637,10 +637,10 @@ const FormThreeOne: React.FC = () => {
             render: (text: string, record: TableRow, index: number) => (
               <Form.Item name={`jabatan${record.key}`} initialValue={record.jabatan || undefined} >
               <Select placeholder="--Choose--" style={{ width: 280 }}>
-                <Select.Option value="setaraanggota">Anggota / Staff / Dosen</Select.Option>
-                <Select.Option value="setarasupervisor">Supervisor / Site Engineer/Site Manager / KaLab /Sekretaris Jurusan / Ketua Jurusan / PD</Select.Option>
-                <Select.Option value="setaradirektur">Direktur / Ketua Tim / Dekan / PR / Rektor</Select.Option>
-                <Select.Option value="setaraahli">Pengarah / Adviser / Nara Sumber Ahli</Select.Option>
+                <Select.Option value="Anggota / Staff / Dosen">Anggota / Staff / Dosen</Select.Option>
+                <Select.Option value="Supervisor / Site Engineer/Site Manager / KaLab /Sekretaris Jurusan / Ketua Jurusan / PD">Supervisor / Site Engineer/Site Manager / KaLab /Sekretaris Jurusan / Ketua Jurusan / PD</Select.Option>
+                <Select.Option value="Direktur / Ketua Tim / Dekan / PR / Rektor">Direktur / Ketua Tim / Dekan / PR / Rektor</Select.Option>
+                <Select.Option value="Pengarah / Adviser / Nara Sumber Ahli">Pengarah / Adviser / Nara Sumber Ahli</Select.Option>
               </Select>
             </Form.Item>
             ),
@@ -672,10 +672,10 @@ const FormThreeOne: React.FC = () => {
             render: (text: string, record: TableRow, index: number) => (
               <Form.Item name={`sdmyangTerlibat${record.key}`} initialValue={record.sdmyangTerlibat || undefined} >
               <Select placeholder="--Choose--" style={{ width: 280 }}>
-                <Select.Option value="sedikit">Sedikit</Select.Option>
-                <Select.Option value="sedang">Sedang</Select.Option>
-                <Select.Option value="banyak">Banyak</Select.Option>
-                <Select.Option value="sangatbanyak">Sangat Banyak</Select.Option>
+                <Select.Option value="Sedikit">Sedikit</Select.Option>
+                <Select.Option value="Sedang">Sedang</Select.Option>
+                <Select.Option value="Banyak">Banyak</Select.Option>
+                <Select.Option value="Sangat Banyak">Sangat Banyak</Select.Option>
               </Select>
             </Form.Item>
             ),
@@ -687,10 +687,10 @@ const FormThreeOne: React.FC = () => {
             render: (text: string, record: TableRow, index: number) => (
               <Form.Item name={`tingkatKesulitan${record.key}`} initialValue={record.tingkatKesulitan || undefined} >
               <Select placeholder="--Choose--" style={{ width: 280 }}>
-                <Select.Option value="rendah">Rendah</Select.Option>
-                <Select.Option value="sedang">Sedang</Select.Option>
-                <Select.Option value="tinggi">Tinggi</Select.Option>
-                <Select.Option value="sangattinggi">Sangat Tinggi</Select.Option>
+                <Select.Option value="Rendah">Rendah</Select.Option>
+                <Select.Option value="Sedang">Sedang</Select.Option>
+                <Select.Option value="Tinggi">Tinggi</Select.Option>
+                <Select.Option value="Sangat Tinggi">Sangat Tinggi</Select.Option>
               </Select>
             </Form.Item>
             ),
@@ -702,10 +702,10 @@ const FormThreeOne: React.FC = () => {
             render: (text: string, record: TableRow, index: number) => (
               <Form.Item name={`skalaProyek${record.key}`} initialValue={record.skalaProyek || undefined} >
               <Select placeholder="--Choose--" style={{ width: 280 }}>
-                <Select.Option value="rendah">Rendah</Select.Option>
-                <Select.Option value="sedang">Sedang</Select.Option>
-                <Select.Option value="tinggi">Tinggi</Select.Option>
-                <Select.Option value="sangattinggi">Sangat Tinggi</Select.Option>
+                <Select.Option value="Rendah">Rendah</Select.Option>
+                <Select.Option value="Sedang">Sedang</Select.Option>
+                <Select.Option value="Tinggi">Tinggi</Select.Option>
+                <Select.Option value="Sangat Tinggi">Sangat Tinggi</Select.Option>
               </Select>
             </Form.Item>
             ),

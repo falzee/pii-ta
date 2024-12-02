@@ -72,6 +72,9 @@ const Faip = ( ) => {
           setOtomatisasiFaip("proses")
         } else if (userData.data.status === "111-4"){
           setStatus("submit")
+          setOtomatisasiFaip("done failed")
+        } else if (userData.data.status === "111-5"){
+          setStatus("submit")
           setOtomatisasiFaip("done")
         } 
 
@@ -303,10 +306,14 @@ const Faip = ( ) => {
           <>
             <p style={{ padding: '1rem 0 0' }}>Ekspor ke PII : <span style={{color:"orange"}}>Data sedang diekspor, cek akun FAIP anda secara berkala!</span></p>
           </>
-        : (OtomatisasiFaip === "done") ? 
+        : (OtomatisasiFaip === "done failed") ? 
           <>
-            <p style={{ padding: '1rem 0 0' }}>Ekspor ke PII : <span style={{color:"blue"}}>Data sudah diekspor, cek akun FAIP anda!</span></p>
+            <p style={{ padding: '1rem 0 0' }}>Ekspor ke PII : <span style={{color:"red"}}>Data gagal diekspor, proses ekspor sedang diulang!</span></p>
           </>
+        : (OtomatisasiFaip === "done") ? 
+        <>
+          <p style={{ padding: '1rem 0 0' }}>Ekspor ke PII : <span style={{color:"blue"}}>Data sudah diekspor, cek akun FAIP anda!</span></p>
+        </>
         : <p style={{ padding: '1rem 0 0' }}>Ekspor ke PII : <span style={{color:"orange"}}>Harap submit formulir terlebih dahulu</span></p>
 
         }
